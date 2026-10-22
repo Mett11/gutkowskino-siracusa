@@ -1,8 +1,11 @@
 /**
  * GUTKOWSKINO — Refined Sicilian Hospitality Showcase
- * - Screen 1: Sartorial unboxed dish list with hairline dividers
- * - Screen 2: Unified Azure Section (Terrazza + Sala + Piatti) with category filters
- * - Screen 3: Inscriptional Marcellus & Lora typography
+ * High-Performance, Butter-Smooth Motion, Hardware-Accelerated
+ *
+ * - Sartorial lookbook carousel with dynamic sliding indicator
+ * - Azure Gallery with morphing sliding pill filter & stagger motion
+ * - Interactive reviews carousel with animated dot indicators
+ * - Jitter-free hardware-accelerated parallax (requestAnimationFrame)
  */
 
 (function () {
@@ -10,6 +13,8 @@
 
   const ICONS = {
     arrowUpRight: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>`,
+    arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>`,
+    arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`,
     phone: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`
   };
 
@@ -31,7 +36,7 @@
       const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Rome' }));
       const day = now.getDay();
       const hour = now.getHours() + now.getMinutes() / 60;
-      if (day === 3) return { open: false, text: 'Mercoledì chiuso' };
+      if (day === 3) return { open: false, text: 'Mercoledì riposo' };
       if (hour >= 19 && hour <= 22.5) return { open: true, text: 'Aperto ora · 19:00–22:30' };
       return { open: true, text: 'Cena · 19:00–22:30' };
     } catch {
@@ -44,7 +49,7 @@
     const raw = [];
 
     (data.spaces?.items || []).forEach(s => {
-      const isTerrace = /Terrazza|Mare|Calici|Tramonto/i.test(s.title + ' ' + s.tag);
+      const isTerrace = /Terrazza|Mare|Calici|Tramonto|Scogli/i.test(s.title + ' ' + s.tag);
       raw.push({
         url: s.image,
         title: s.title,
@@ -56,7 +61,7 @@
     (data.gallery?.photos || []).forEach(p => {
       let filterCat = 'piatti';
       if (p.category === 'ambiente') {
-        filterCat = /Terrazza|Mare|Calici|Lungomare/i.test(p.title) ? 'terrazza' : 'sala';
+        filterCat = /Terrazza|Mare|Calici|Lungomare|Scogliera/i.test(p.title) ? 'terrazza' : 'sala';
       }
       raw.push({
         url: p.image,
@@ -103,17 +108,15 @@
     app.appendChild(buildFooter(data));
     app.appendChild(buildLightbox());
 
+    // Inizializzazione motion ad alte prestazioni
     initNavScroll();
     initMobileNav();
     initRevealObserver();
-    initHeroParallax();
-    initDishLookbook();
-    initAzureGalleryFilters();
+    initOptimizedParallax();
+    initDishLookbookCarousel();
+    initAzureFilterPill();
+    initReviewsCarousel();
     initLightbox();
-
-    requestAnimationFrame(() => {
-      document.querySelector('.postcard-hero')?.classList.add('loaded');
-    });
   }
 
   // ───── Navbar ─────
@@ -210,10 +213,10 @@
 
           <div class="philosophy-visuals reveal-up delay-1">
             <div class="philo-img-main" data-lightbox="${d.mainImage}">
-              <img src="${d.mainImage}" alt="Sala interna Gutkowskino" loading="lazy" referrerpolicy="no-referrer">
+              <img src="${d.mainImage}" alt="Sala interna Gutkowskino" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             </div>
             <div class="philo-img-secondary" data-lightbox="${d.secondaryImage}">
-              <img src="${d.secondaryImage}" alt="Dettaglio tavola e luci" loading="lazy" referrerpolicy="no-referrer">
+              <img src="${d.secondaryImage}" alt="Dettaglio tavola e luci" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             </div>
           </div>
         </div>
@@ -225,18 +228,21 @@
     return section;
   }
 
-  // ───── SCREEN 1 FIX: La Cucina (Sartoriale, Senza Box Arrotondati o Pillole) ─────
+  // ───── La Cucina: Lookbook & Carosello Piatti con Sliding Track ─────
   function buildKitchenLookbook(data) {
     const d = data.kitchen;
     const section = el('section', { className: 'section-kitchen section-pad', id: 'cucina' });
 
+    const totalDishes = d.dishes.length;
+
     const items = d.dishes.map((dish, i) => `
       <article class="dish-item ${i === 0 ? 'active' : ''}"
+               data-dish-index="${i}"
                data-dish-img="${dish.image}"
                data-dish-name="${dish.name}"
                data-dish-course="${dish.course}">
         <div class="dish-thumb">
-          <img src="${dish.image}" alt="${dish.name}" loading="lazy" referrerpolicy="no-referrer">
+          <img src="${dish.image}" alt="${dish.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
         </div>
         <div class="dish-info">
           <span class="dish-course-label">${dish.course}</span>
@@ -257,14 +263,33 @@
           <p class="kitchen-header-desc">${d.note}</p>
         </div>
 
+        <div class="kitchen-controls-bar reveal-up">
+          <div class="dish-counter-badge">
+            <span>Portata</span>
+            <strong id="dishCounterCurrent">01</strong>
+            <span>/</span>
+            <span>0${totalDishes}</span>
+          </div>
+
+          <div class="dish-nav-arrows">
+            <button class="dish-arrow-btn" id="dishPrevBtn" aria-label="Portata precedente" title="Precedente">
+              ${ICONS.arrowLeft}
+            </button>
+            <button class="dish-arrow-btn" id="dishNextBtn" aria-label="Portata successiva" title="Successiva">
+              ${ICONS.arrowRight}
+            </button>
+          </div>
+        </div>
+
         <div class="kitchen-showcase">
           <div class="dish-list" id="dishList">
+            <div class="dish-active-indicator" id="dishActiveIndicator"></div>
             ${items}
           </div>
 
           <div class="dish-preview-card reveal-up delay-1">
             <div class="dish-preview-photo" id="dishPreviewPhoto" data-lightbox="${first.image || ''}">
-              <img id="dishPreviewImg" src="${first.image || ''}" alt="${first.name || ''}" referrerpolicy="no-referrer">
+              <img id="dishPreviewImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
             </div>
             <div class="dish-preview-caption">
               <h4 id="dishPreviewTitle">${first.name || ''}</h4>
@@ -290,7 +315,7 @@
     return section;
   }
 
-  // ───── SCREEN 2 FIX: Unica Sezione Azzurro Levante (Terrazza + Sala + Piatti con Filtri) ─────
+  // ───── Galleria Azzurra con Morphing Sliding Pill ─────
   function buildUnifiedAzureGallery(data, unifiedPhotos) {
     const d = data.spaces;
     const section = el('section', { className: 'section-azure-gallery section-pad', id: 'galleria-azzurra' });
@@ -300,7 +325,7 @@
               data-filter-cat="${item.filterCat}"
               data-lightbox="${item.url}">
         <div class="azure-img-frame">
-          <img src="${item.url}" alt="${item.title}" loading="lazy" referrerpolicy="no-referrer">
+          <img src="${item.url}" alt="${item.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
         </div>
         <figcaption class="azure-caption">
           <h3>${item.title}</h3>
@@ -318,6 +343,7 @@
           </div>
 
           <div class="azure-filter-bar" id="azureFilters">
+            <div class="azure-filter-pill" id="azureFilterPill"></div>
             <button class="azure-filter-btn active" data-filter="all">Tutti gli scatti</button>
             <button class="azure-filter-btn" data-filter="terrazza">Terrazza & Mare</button>
             <button class="azure-filter-btn" data-filter="piatti">I Piatti</button>
@@ -332,19 +358,23 @@
     return section;
   }
 
-  // ───── Recensioni ─────
+  // ───── Recensioni: Carosello Interattivo ─────
   function buildReviewsSection(data) {
     const d = data.reviews;
     const section = el('section', { className: 'section-reviews section-pad', id: 'recensioni' });
 
     const cards = d.featured.map((r, i) => `
-      <article class="review-card reveal-up delay-${(i % 2) + 1}">
+      <article class="review-card reveal-up delay-${(i % 3) + 1}" data-review-index="${i}">
         <blockquote class="review-quote">“${r.text}”</blockquote>
         <div class="review-author-row">
           <strong>${r.author}</strong>
           <span>★ 5.0 · ${r.source}</span>
         </div>
       </article>`).join('');
+
+    const dots = d.featured.map((_, i) => `
+      <button class="review-dot-btn ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Recensione ${i + 1}"></button>
+    `).join('');
 
     section.innerHTML = `
       <div class="container">
@@ -362,14 +392,20 @@
           </div>
         </div>
 
-        <div class="reviews-cards">
-          ${cards}
+        <div class="reviews-carousel-stage">
+          <div class="reviews-cards" id="reviewsCards">
+            ${cards}
+          </div>
+        </div>
+
+        <div class="reviews-carousel-nav" id="reviewsDots">
+          ${dots}
         </div>
       </div>`;
     return section;
   }
 
-  // ───── SCREEN 3 FIX: Contatti & Indirizzo con Tipografia Marcellus + Lora ─────
+  // ───── Contatti & Info ─────
   function buildInfoSection(data) {
     const d = data.info;
     const section = el('section', { className: 'section-info section-pad', id: 'contatti' });
@@ -394,8 +430,8 @@
                 <span class="info-row-label">Orari della Cena</span>
                 <div class="info-row-value">
                   <div class="hours-list">
-                    <span>Giovedì – Martedì</span>
-                    <span>19:00 – 22:30</span>
+                    <span>Giovedì — Martedì</span>
+                    <span>19:00 — 22:30</span>
                     <span style="color:var(--blue-levante);">Mercoledì</span>
                     <span style="color:var(--blue-levante);">Riposo settimanale</span>
                   </div>
@@ -427,7 +463,7 @@
           <div class="map-container reveal-up delay-1">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3156.8!2d15.2961667!3d37.0641278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313cd154c13a651%3A0x1213d6291007b46f!2sGutkowskino!5e0!3m2!1sit!2sit!4v1"
-              allowfullscreen="" loading="lazy"
+              allowfullscreen="" loading="lazy" decoding="async"
               referrerpolicy="no-referrer-when-downgrade"
               title="Mappa Gutkowskino Lungomare di Levante Ortigia"></iframe>
           </div>
@@ -464,7 +500,7 @@
         <button class="lb-btn" id="lbClose">Chiudi ✕</button>
       </div>
       <div class="lightbox-stage" id="lbStage">
-        <img id="lbImage" src="" alt="Vista ingrandita" referrerpolicy="no-referrer">
+        <img id="lbImage" src="" alt="Vista ingrandita" decoding="async" referrerpolicy="no-referrer">
       </div>
       <div class="lightbox-bottom">
         <span id="lbCaption" style="font-family:var(--font-display);font-size:1.6rem;font-style:italic;text-transform:none;letter-spacing:0;"></span>
@@ -476,13 +512,31 @@
     return lb;
   }
 
+  /* ==========================================================================
+     BEHAVIOURS & MOTION LOGIC (Zero Jitter, Smooth Hardware-Accelerated)
+     ========================================================================== */
+
+  // 1. Navbar Scroll con throttle a singolo flag
   function initNavScroll() {
     const navbar = document.getElementById('navbar');
-    const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 20);
+    if (!navbar) return;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          navbar.classList.toggle('scrolled', window.scrollY > 24);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    navbar.classList.toggle('scrolled', window.scrollY > 24);
   }
 
+  // 2. Mobile Nav Toggle
   function initMobileNav() {
     const toggle = document.getElementById('navToggle');
     const links = document.getElementById('navLinks');
@@ -491,6 +545,7 @@
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('active')));
   }
 
+  // 3. Scroll Reveal Observer su GPU
   function initRevealObserver() {
     const observer = new IntersectionObserver(
       entries => {
@@ -501,76 +556,221 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -25px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
     document.querySelectorAll('.reveal-up').forEach(node => observer.observe(node));
   }
 
-  function initHeroParallax() {
+  // 4. Parallasse Ottimizzato (Zero conflitti CSS-JS, 120fps fluido)
+  function initOptimizedParallax() {
     const heroBg = document.getElementById('heroBg');
     if (!heroBg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let ticking = false;
+    const heroHeight = window.innerHeight;
+
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      if (scrollY <= heroHeight) {
+        // Movimento sub-pixel fluido senza lag di transizione
+        const offset = scrollY * 0.16;
+        heroBg.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0) scale(1.05)`;
+      }
+      ticking = false;
+    }
+
     window.addEventListener('scroll', () => {
-      if (window.scrollY < window.innerHeight) {
-        requestAnimationFrame(() => {
-          heroBg.style.setProperty('--hero-parallax', `${window.scrollY * 0.12}px`);
-        });
+      if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
       }
     }, { passive: true });
   }
 
-  function initDishLookbook() {
-    const items = document.querySelectorAll('.dish-item');
+  // 5. Lookbook & Carosello dei Piatti con Sliding Track & Navigazione
+  function initDishLookbookCarousel() {
+    const items = Array.from(document.querySelectorAll('.dish-item'));
     const previewImg = document.getElementById('dishPreviewImg');
     const previewPhoto = document.getElementById('dishPreviewPhoto');
     const previewTitle = document.getElementById('dishPreviewTitle');
     const previewCourse = document.getElementById('dishPreviewCourse');
+    const counterCurrent = document.getElementById('dishCounterCurrent');
+    const indicator = document.getElementById('dishActiveIndicator');
+    const prevBtn = document.getElementById('dishPrevBtn');
+    const nextBtn = document.getElementById('dishNextBtn');
+    const dishList = document.getElementById('dishList');
+
     if (!items.length || !previewImg) return;
 
-    items.forEach(item => {
-      const activate = () => {
-        items.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        const newSrc = item.dataset.dishImg;
-        if (newSrc && previewImg.getAttribute('src') !== newSrc) {
-          previewImg.classList.add('switching');
-          setTimeout(() => {
-            previewImg.src = newSrc;
-            previewPhoto.dataset.lightbox = newSrc;
-            previewTitle.textContent = item.dataset.dishName;
-            previewCourse.textContent = item.dataset.dishCourse;
-            previewImg.classList.remove('switching');
-          }, 140);
-        }
-      };
-      item.addEventListener('mouseenter', activate);
-      item.addEventListener('click', activate);
+    let currentIndex = 0;
+
+    function updateSlidingIndicator(activeItem) {
+      if (!indicator || !activeItem || !dishList) return;
+      const listRect = dishList.getBoundingClientRect();
+      const itemRect = activeItem.getBoundingClientRect();
+      const topOffset = itemRect.top - listRect.top;
+      indicator.style.top = `${topOffset}px`;
+      indicator.style.height = `${itemRect.height}px`;
+      indicator.style.opacity = '1';
+    }
+
+    function selectDish(index) {
+      currentIndex = (index + items.length) % items.length;
+      const targetItem = items[currentIndex];
+
+      items.forEach(i => i.classList.remove('active'));
+      targetItem.classList.add('active');
+
+      updateSlidingIndicator(targetItem);
+
+      if (counterCurrent) {
+        counterCurrent.textContent = `0${currentIndex + 1}`;
+      }
+
+      const newSrc = targetItem.dataset.dishImg;
+      const newName = targetItem.dataset.dishName;
+      const newCourse = targetItem.dataset.dishCourse;
+
+      if (newSrc && previewImg.getAttribute('src') !== newSrc) {
+        previewImg.classList.add('switching');
+        previewTitle?.classList.add('fading');
+
+        setTimeout(() => {
+          previewImg.src = newSrc;
+          if (previewPhoto) previewPhoto.dataset.lightbox = newSrc;
+          if (previewTitle) previewTitle.textContent = newName;
+          if (previewCourse) previewCourse.textContent = newCourse;
+
+          previewImg.classList.remove('switching');
+          previewTitle?.classList.remove('fading');
+        }, 160);
+      }
+    }
+
+    // Eventi di click e hover sugli elementi della lista
+    items.forEach((item, idx) => {
+      item.addEventListener('click', () => selectDish(idx));
+      item.addEventListener('mouseenter', () => {
+        if (currentIndex !== idx) selectDish(idx);
+      });
+    });
+
+    // Frecce carosello
+    prevBtn?.addEventListener('click', () => selectDish(currentIndex - 1));
+    nextBtn?.addEventListener('click', () => selectDish(currentIndex + 1));
+
+    // Posizionamento iniziale della sliding pill
+    requestAnimationFrame(() => {
+      const firstActive = items[0];
+      if (firstActive) updateSlidingIndicator(firstActive);
+    });
+
+    window.addEventListener('resize', () => {
+      const currentActive = items[currentIndex];
+      if (currentActive) updateSlidingIndicator(currentActive);
     });
   }
 
-  function initAzureGalleryFilters() {
-    const btns = document.querySelectorAll('#azureFilters .azure-filter-btn');
-    const items = document.querySelectorAll('#azurePhotoGrid .azure-photo-item');
-    if (!btns.length) return;
+  // 6. Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
+  function initAzureFilterPill() {
+    const filterBar = document.getElementById('azureFilters');
+    const pill = document.getElementById('azureFilterPill');
+    const btns = Array.from(document.querySelectorAll('#azureFilters .azure-filter-btn'));
+    const items = Array.from(document.querySelectorAll('#azurePhotoGrid .azure-photo-item'));
+
+    if (!filterBar || !pill || !btns.length) return;
+
+    function movePillTo(button) {
+      if (!button) return;
+      const barRect = filterBar.getBoundingClientRect();
+      const btnRect = button.getBoundingClientRect();
+      const x = btnRect.left - barRect.left;
+      pill.style.transform = `translateX(${x}px)`;
+      pill.style.width = `${btnRect.width}px`;
+    }
+
+    function applyFilter(filter) {
+      let visibleIdx = 0;
+      items.forEach((item) => {
+        const match = filter === 'all' || item.dataset.filterCat === filter;
+
+        if (match) {
+          item.classList.remove('filter-hidden');
+          item.style.transitionDelay = `${visibleIdx * 35}ms`;
+          visibleIdx++;
+        } else {
+          item.classList.add('filter-hidden');
+          item.style.transitionDelay = '0ms';
+        }
+      });
+    }
 
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
         btns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const filter = btn.dataset.filter;
-
-        items.forEach((item, idx) => {
-          const match = filter === 'all' || item.dataset.filterCat === filter;
-          item.style.display = match ? 'flex' : 'none';
-          if (filter === 'all' && idx === 0) {
-            item.classList.add('featured-wide');
-          } else {
-            item.classList.remove('featured-wide');
-          }
-        });
+        movePillTo(btn);
+        applyFilter(btn.dataset.filter);
       });
+    });
+
+    // Inizializza pillola sul bottone attivo
+    requestAnimationFrame(() => {
+      const activeBtn = filterBar.querySelector('.azure-filter-btn.active') || btns[0];
+      if (activeBtn) movePillTo(activeBtn);
+    });
+
+    window.addEventListener('resize', () => {
+      const activeBtn = filterBar.querySelector('.azure-filter-btn.active');
+      if (activeBtn) movePillTo(activeBtn);
     });
   }
 
+  // 7. Carosello Interattivo delle Recensioni con Dots Animati
+  function initReviewsCarousel() {
+    const dots = Array.from(document.querySelectorAll('#reviewsDots .review-dot-btn'));
+    const cards = Array.from(document.querySelectorAll('.reviews-cards .review-card'));
+    const stage = document.getElementById('reviewsCards');
+    if (!dots.length || !cards.length || !stage) return;
+
+    let activeReview = 0;
+
+    function activateReview(idx) {
+      activeReview = (idx + cards.length) % cards.length;
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === activeReview));
+
+      // Su schermi ridotti o per visualizzare la card selezionata
+      if (window.innerWidth <= 1080) {
+        cards.forEach((card, i) => {
+          card.style.display = i === activeReview ? 'flex' : 'none';
+        });
+      } else {
+        cards.forEach((card, i) => {
+          card.style.opacity = i === activeReview ? '1' : '0.65';
+          card.style.transform = i === activeReview ? 'translateY(-4px)' : 'translateY(0)';
+        });
+      }
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => activateReview(idx));
+    });
+
+    // Auto-rotazione leggera recensioni con stop all'hover
+    let timer = setInterval(() => {
+      activateReview((activeReview + 1) % dots.length);
+    }, 6000);
+
+    stage.addEventListener('mouseenter', () => clearInterval(timer));
+    stage.addEventListener('mouseleave', () => {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        activateReview((activeReview + 1) % dots.length);
+      }, 6000);
+    });
+  }
+
+  // 8. Lightbox con Animazioni Fluide
   function initLightbox() {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImage');

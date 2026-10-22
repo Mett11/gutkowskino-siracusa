@@ -1,6 +1,7 @@
 /* ==========================================================================
    GUTKOWSKINO — Refined Sicilian Hospitality Design System
-   Fonts: Instrument Serif + Marcellus + Lora (Zero Standard/System Sans)
+   High-Performance, Butter-Smooth Motion, Hardware-Accelerated
+   Fonts: Instrument Serif + Marcellus + Lora
    Palette: Bianco Panna, Marrone Legno, Verde Botanico, Azzurro Levante
    ========================================================================== */
 
@@ -29,7 +30,7 @@
 
   /* Testi Chiari */
   --text-light:       #F7F4EC;
-  --text-light-dim:   rgba(247, 244, 236, 0.72);
+  --text-light-dim:   rgba(247, 244, 236, 0.74);
 
   /* Filetti Eleganti */
   --line-soft:        rgba(34, 25, 19, 0.12);
@@ -37,18 +38,21 @@
   --line-blue:        rgba(33, 85, 115, 0.18);
   --line-light:       rgba(247, 244, 236, 0.14);
 
-  /* Triade Tipografica Ricercata (Addio Sans-Serif Standard) */
+  /* Tipografia */
   --font-display:     'Instrument Serif', Georgia, serif;
   --font-ui:          'Marcellus', Georgia, serif;
   --font-body:        'Lora', Georgia, serif;
 
-  /* Angoli Eleganti e Compatti (2px-4px invece di blocchi bombati) */
+  /* Angoli Sartoriali */
   --radius-sharp:     2px;
   --radius-subtle:    4px;
+  --radius-pill:      999px;
 
-  /* Motion Curves */
-  --ease-fluid:       cubic-bezier(0.22, 1, 0.36, 1);
+  /* Curve di Motion Ultra-Fluide (Zero scatti) */
+  --ease-elastic:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:      cubic-bezier(0.25, 1, 0.5, 1);
   --ease-smooth:      cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-quad:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* Layout */
   --frame-pad:        16px;
@@ -58,6 +62,7 @@
   --pad-y:            clamp(4.75rem, 8.5vw, 7.5rem);
 }
 
+/* ── Reset & Performance Baseline ── */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -79,12 +84,14 @@ body {
   color: var(--brown-deep);
   line-height: 1.7;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
 }
 
 img {
   display: block;
   width: 100%;
   height: auto;
+  backface-visibility: hidden;
 }
 
 a {
@@ -112,6 +119,16 @@ button {
   padding-bottom: var(--pad-y);
 }
 
+/* Ottimizzazione rendering per sezioni sotto la piega */
+.section-philosophy,
+.section-kitchen,
+.section-azure-gallery,
+.section-reviews,
+.section-info {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}
+
 /* ----- Gerarchia Tipografica ----- */
 .section-kicker {
   display: inline-block;
@@ -121,6 +138,11 @@ button {
   text-transform: uppercase;
   color: var(--green-botanic);
   margin-bottom: 0.75rem;
+  transition: transform 300ms var(--ease-elastic);
+}
+
+.section-kicker:hover {
+  transform: translateX(3px);
 }
 
 .section-kicker.azure {
@@ -143,10 +165,17 @@ button {
 .heading-display em {
   font-style: italic;
   color: var(--blue-levante);
+  display: inline-block;
+  transition: transform 400ms var(--ease-elastic);
 }
 
-/* ----- Bottoni Sartoriali (Angoli 2px, Font Marcellus) ----- */
+.heading-display:hover em {
+  transform: skewX(-2deg);
+}
+
+/* ----- Bottoni Sartoriali con Motion Tattile ----- */
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -159,30 +188,53 @@ button {
   text-transform: uppercase;
   border-radius: var(--radius-sharp);
   white-space: nowrap;
+  overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
   transition:
-    background-color 220ms var(--ease-smooth),
-    color 220ms var(--ease-smooth),
-    border-color 220ms var(--ease-smooth),
-    transform 160ms var(--ease-fluid);
+    background-color 260ms var(--ease-smooth),
+    color 260ms var(--ease-smooth),
+    border-color 260ms var(--ease-smooth),
+    transform 220ms var(--ease-elastic),
+    box-shadow 260ms var(--ease-smooth);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 300ms ease, transform 300ms var(--ease-elastic);
+  pointer-events: none;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(34, 25, 19, 0.08);
+}
+
+.btn:hover::after {
+  opacity: 1;
+  transform: scale(1.2);
 }
 
 .btn:active {
-  transform: scale(0.98);
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 6px rgba(34, 25, 19, 0.05);
 }
 
 .btn svg {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  transition: transform 220ms var(--ease-fluid);
+  will-change: transform;
+  transition: transform 260ms var(--ease-elastic);
 }
 
 .btn:hover svg {
-  transform: translate(2px, -2px);
+  transform: translate(3px, -3px);
 }
 
 .btn-botanic {
@@ -231,23 +283,27 @@ button {
   border-color: var(--brown-deep);
 }
 
-/* ----- Reveal Motion ----- */
+/* ----- Reveal Motion su GPU ----- */
 .reveal-up {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 650ms var(--ease-fluid), transform 650ms var(--ease-fluid);
+  transform: translate3d(0, 24px, 0);
+  will-change: opacity, transform;
+  transition:
+    opacity 700ms var(--ease-elastic),
+    transform 700ms var(--ease-elastic);
 }
 
 .reveal-up.in-view {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
-.delay-1 { transition-delay: 80ms; }
-.delay-2 { transition-delay: 160ms; }
+.delay-1 { transition-delay: 90ms; }
+.delay-2 { transition-delay: 180ms; }
+.delay-3 { transition-delay: 270ms; }
 
 /* ==========================================================================
-   NAVBAR — Inscriptional Elegance (Marcellus + Instrument Serif)
+   NAVBAR — Inscriptional Elegance (Hardware Accelerated)
    ========================================================================== */
 .navbar {
   position: sticky;
@@ -256,12 +312,19 @@ button {
   height: var(--nav-h);
   background-color: var(--bg-cream);
   border-bottom: 1px solid var(--line-soft);
-  transition: background-color 300ms var(--ease-smooth);
+  transform: translateZ(0);
+  will-change: background-color, border-color, box-shadow;
+  transition:
+    background-color 260ms var(--ease-smooth),
+    border-color 260ms var(--ease-smooth),
+    box-shadow 260ms var(--ease-smooth);
 }
 
 .navbar.scrolled {
-  background-color: rgba(247, 244, 236, 0.95);
-  backdrop-filter: blur(12px);
+  background-color: rgba(247, 244, 236, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(34, 25, 19, 0.04);
 }
 
 .navbar-inner {
@@ -286,6 +349,12 @@ button {
   font-weight: 400;
   color: var(--brown-deep);
   line-height: 1;
+  transition: transform 300ms var(--ease-elastic), color 240ms ease;
+}
+
+.nav-brand:hover {
+  transform: translateY(-1px);
+  color: var(--green-botanic);
 }
 
 .nav-place {
@@ -314,30 +383,29 @@ button {
   text-transform: uppercase;
   color: var(--brown-muted);
   white-space: nowrap;
-  padding: 0.25rem 0;
-  transition: color 200ms ease;
+  padding: 0.3rem 0;
+  transition: color 240ms var(--ease-smooth), transform 240ms var(--ease-elastic);
 }
 
 .nav-center a::after {
   content: '';
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: -2px;
-  width: 100%;
+  width: 0;
   height: 1px;
   background-color: var(--blue-levante);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 280ms var(--ease-fluid);
+  transform: translateX(-50%);
+  transition: width 280ms var(--ease-elastic);
 }
 
 .nav-center a:hover {
   color: var(--brown-deep);
+  transform: translateY(-1px);
 }
 
 .nav-center a:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+  width: 100%;
 }
 
 .nav-right {
@@ -355,7 +423,7 @@ button {
   color: var(--brown-muted);
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   white-space: nowrap;
 }
 
@@ -364,10 +432,25 @@ button {
   height: 6px;
   border-radius: 50%;
   background-color: var(--green-botanic);
+  box-shadow: 0 0 0 0 rgba(45, 84, 61, 0.4);
+  animation: pulse-dot 2.4s infinite;
 }
 
 .status-dot.closed {
   background-color: var(--brown-muted);
+  animation: none;
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(45, 84, 61, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(45, 84, 61, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(45, 84, 61, 0);
+  }
 }
 
 .nav-cta {
@@ -384,16 +467,27 @@ button {
   align-items: center;
   gap: 0.45rem;
   white-space: nowrap;
-  transition: background-color 200ms ease;
+  will-change: transform;
+  transition:
+    background-color 220ms ease,
+    transform 200ms var(--ease-elastic),
+    box-shadow 220ms ease;
 }
 
 .nav-cta:hover {
   background-color: var(--blue-levante);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(33, 85, 115, 0.25);
 }
 
 .nav-cta svg {
   width: 12px;
   height: 12px;
+  transition: transform 220ms var(--ease-elastic);
+}
+
+.nav-cta:hover svg {
+  transform: translate(2px, -2px);
 }
 
 .nav-toggle {
@@ -407,10 +501,11 @@ button {
   height: 1.5px;
   background: var(--brown-deep);
   margin: 5px 0;
+  transition: transform 240ms ease;
 }
 
 /* ==========================================================================
-   HERO A CARTOLINA (Costa di Levante di Ortigia)
+   HERO A CARTOLINA (Parallasse Fluido & Zero Lag)
    ========================================================================== */
 .postcard-stage {
   padding: var(--frame-pad);
@@ -426,19 +521,18 @@ button {
   justify-content: space-between;
   padding: clamp(2rem, 4.5vw, 3.75rem);
   background-color: var(--blue-deep);
+  transform: translateZ(0);
 }
 
+/* Zero conflitti tra scroll JS e transition CSS */
 .postcard-bg {
   position: absolute;
-  inset: -4% 0;
+  inset: -8% 0;
   background-size: cover;
   background-position: center 45%;
-  transform: scale(1.05) translate3d(0, 0, 0);
-  transition: transform 1.8s var(--ease-fluid);
-}
-
-.postcard-hero.loaded .postcard-bg {
-  transform: scale(1) translate3d(0, var(--hero-parallax, 0px), 0);
+  transform: translate3d(0, 0, 0) scale(1.05);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .postcard-scrim {
@@ -446,10 +540,11 @@ button {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(22, 61, 84, 0.34) 0%,
-    rgba(22, 61, 84, 0.1) 42%,
-    rgba(28, 20, 15, 0.85) 100%
+    rgba(22, 61, 84, 0.32) 0%,
+    rgba(22, 61, 84, 0.12) 42%,
+    rgba(28, 20, 15, 0.86) 100%
   );
+  pointer-events: none;
 }
 
 .postcard-top {
@@ -470,10 +565,16 @@ button {
 }
 
 .postcard-location-badge {
-  background-color: rgba(33, 85, 115, 0.72);
+  background-color: rgba(33, 85, 115, 0.75);
   padding: 0.38rem 0.9rem;
   border-radius: var(--radius-sharp);
   border: 1px solid rgba(163, 204, 224, 0.42);
+  transition: background-color 240ms ease, transform 240ms var(--ease-elastic);
+}
+
+.postcard-location-badge:hover {
+  background-color: var(--blue-levante);
+  transform: translateY(-1px);
 }
 
 .postcard-bottom {
@@ -571,12 +672,15 @@ button {
   border-radius: var(--radius-subtle);
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 12px 36px rgba(34, 25, 19, 0.08);
+  transform: translateZ(0);
 }
 
 .philo-img-main img {
   aspect-ratio: 4 / 4.6;
   object-fit: cover;
-  transition: transform 600ms var(--ease-fluid);
+  transition: transform 650ms var(--ease-elastic);
+  will-change: transform;
 }
 
 .philo-img-secondary {
@@ -588,17 +692,20 @@ button {
   overflow: hidden;
   border: 6px solid var(--bg-cream);
   cursor: pointer;
+  box-shadow: 0 16px 40px rgba(34, 25, 19, 0.12);
+  transform: translateZ(0);
 }
 
 .philo-img-secondary img {
   aspect-ratio: 4 / 3.2;
   object-fit: cover;
-  transition: transform 600ms var(--ease-fluid);
+  transition: transform 650ms var(--ease-elastic);
+  will-change: transform;
 }
 
 .philo-img-main:hover img,
 .philo-img-secondary:hover img {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .philosophy-values {
@@ -613,6 +720,11 @@ button {
 .value-col {
   padding-right: 1.5rem;
   border-right: 1px solid var(--line-soft);
+  transition: transform 320ms var(--ease-elastic);
+}
+
+.value-col:hover {
+  transform: translateY(-3px);
 }
 
 .value-col:last-child {
@@ -636,11 +748,12 @@ button {
 }
 
 /* ==========================================================================
-   SCREEN 1 FIX: LA CUCINA — Sartoriale, Meno Arrotondata, Zero Box/Pillole
+   LA CUCINA — LOOKBOOK & CAROSELLO PIATTI INTERATTIVO CON MOTION FLUIDA
    ========================================================================== */
 .section-kitchen {
   background-color: var(--brown-deep);
   color: var(--text-light);
+  position: relative;
 }
 
 .section-kitchen .heading-display {
@@ -674,9 +787,83 @@ button {
   align-items: start;
 }
 
-/* Lista Piatti Sartoriale: Filetti sottili 1px, Zero Box Arrotondati, Zero Pillole */
+/* Controlli Motion Carosello Piatti */
+.kitchen-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.dish-counter-badge {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dish-nav-arrows {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dish-arrow-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-sharp);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms var(--ease-elastic);
+}
+
+.dish-arrow-btn:hover {
+  background-color: var(--green-botanic);
+  border-color: var(--green-botanic);
+  transform: translateY(-1px);
+}
+
+.dish-arrow-btn:active {
+  transform: scale(0.94);
+}
+
+.dish-arrow-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Lista Piatti Sartoriale con Sliding Active Track */
 .dish-list {
+  position: relative;
   border-top: 1px solid var(--line-light);
+}
+
+/* Indicatore di selezione che scivola dolcemente */
+.dish-active-indicator {
+  position: absolute;
+  left: 0;
+  width: 2px;
+  height: 0;
+  background-color: var(--green-accent);
+  box-shadow: 0 0 10px rgba(152, 201, 170, 0.6);
+  pointer-events: none;
+  transform: translateZ(0);
+  transition:
+    top 340ms var(--ease-elastic),
+    height 340ms var(--ease-elastic),
+    opacity 240ms ease;
+  z-index: 2;
 }
 
 .dish-item {
@@ -685,32 +872,19 @@ button {
   grid-template-columns: 68px 1fr;
   gap: 1.5rem;
   align-items: center;
-  padding: 1.5rem 0.5rem;
+  padding: 1.4rem 0.5rem;
   border-bottom: 1px solid var(--line-light);
   cursor: pointer;
-  transition: padding-left 260ms var(--ease-fluid), background-color 220ms ease;
-}
-
-.dish-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background-color: var(--green-accent);
-  transform: scaleY(0);
-  transition: transform 260ms var(--ease-fluid);
+  transform: translateZ(0);
+  transition:
+    padding-left 280ms var(--ease-elastic),
+    background-color 240ms ease;
 }
 
 .dish-item:hover,
 .dish-item.active {
   padding-left: 1.25rem;
-  background-color: rgba(247, 244, 236, 0.03);
-}
-
-.dish-item.active::before {
-  transform: scaleY(1);
+  background-color: rgba(247, 244, 236, 0.04);
 }
 
 .dish-thumb {
@@ -719,22 +893,36 @@ button {
   border-radius: var(--radius-sharp);
   overflow: hidden;
   border: 1px solid rgba(247, 244, 236, 0.18);
+  transform: translateZ(0);
 }
 
 .dish-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 380ms var(--ease-elastic);
+}
+
+.dish-item:hover .dish-thumb img,
+.dish-item.active .dish-thumb img {
+  transform: scale(1.08);
 }
 
 .dish-course-label {
-  display: block;
+  display: inline-block;
   font-family: var(--font-ui);
   font-size: 0.68rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--blue-sky);
   margin-bottom: 0.25rem;
+  transition: color 240ms ease, transform 240ms var(--ease-elastic);
+}
+
+.dish-item:hover .dish-course-label,
+.dish-item.active .dish-course-label {
+  color: var(--green-accent);
+  transform: translateX(2px);
 }
 
 .dish-info h3 {
@@ -744,7 +932,7 @@ button {
   letter-spacing: 0.01em;
   color: var(--text-light);
   margin-bottom: 0.3rem;
-  transition: color 200ms ease;
+  transition: color 240ms ease;
 }
 
 .dish-item:hover .dish-info h3,
@@ -759,7 +947,7 @@ button {
   line-height: 1.65;
 }
 
-/* Riquadro Foto Piatto a Destra: Angoli 2px e Cornice Fine */
+/* Riquadro Foto Piatto Preview con Crossfade & Ken Burns Motion */
 .dish-preview-card {
   position: sticky;
   top: calc(var(--nav-h) + 2rem);
@@ -767,30 +955,38 @@ button {
   border-radius: var(--radius-sharp);
   padding: 1.25rem;
   border: 1px solid rgba(247, 244, 236, 0.18);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  transform: translateZ(0);
 }
 
 .dish-preview-photo {
+  position: relative;
   aspect-ratio: 4 / 3.9;
   border-radius: var(--radius-sharp);
   overflow: hidden;
   margin-bottom: 1.15rem;
   cursor: pointer;
+  background-color: #1a1410;
 }
 
 .dish-preview-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 220ms ease, transform 500ms var(--ease-fluid);
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  transition:
+    opacity 280ms var(--ease-smooth),
+    transform 550ms var(--ease-elastic);
 }
 
 .dish-preview-photo img.switching {
-  opacity: 0.25;
-  transform: scale(0.98);
+  opacity: 0.15;
+  transform: scale(0.96);
 }
 
 .dish-preview-photo:hover img {
-  transform: scale(1.03);
+  transform: scale(1.035);
 }
 
 .dish-preview-caption {
@@ -808,6 +1004,12 @@ button {
   font-weight: 400;
   font-style: italic;
   color: var(--text-light);
+  transition: opacity 280ms ease, transform 320ms var(--ease-elastic);
+}
+
+.dish-preview-caption h4.fading {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
 .dish-preview-caption span {
@@ -838,7 +1040,7 @@ button {
 }
 
 /* ==========================================================================
-   SCREEN 2 FIX: UNICA GRANDE SEZIONE AZZURRO LEVANTE (Terrazza + Sala + Piatti)
+   GALLERIA AZZURRA — FILTRI CON SELETTORE A PILLOLA ANIMATA & STAGGER MOTION
    ========================================================================== */
 .section-azure-gallery {
   background-color: var(--blue-azure-bg);
@@ -857,45 +1059,70 @@ button {
   flex-wrap: wrap;
 }
 
-/* Barra Filtri Elegante (Tutti, Terrazza & Mare, I Piatti, Sala & Dettagli) */
+/* Barra Filtri con Sliding Morphing Pill */
 .azure-filter-bar {
-  display: flex;
-  gap: 0.5rem;
+  position: relative;
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 4px;
+  background-color: rgba(247, 244, 236, 0.75);
+  border: 1px solid var(--line-blue);
+  border-radius: var(--radius-sharp);
   flex-wrap: wrap;
 }
 
+/* La pillola animata che scivola con easing al clic */
+.azure-filter-pill {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: calc(100% - 8px);
+  width: 0;
+  background-color: var(--blue-levante);
+  border-radius: var(--radius-sharp);
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform, width;
+  transition:
+    transform 340ms var(--ease-elastic),
+    width 340ms var(--ease-elastic);
+  box-shadow: 0 3px 12px rgba(33, 85, 115, 0.22);
+}
+
 .azure-filter-btn {
-  padding: 0.65rem 1.3rem;
+  position: relative;
+  z-index: 2;
+  padding: 0.65rem 1.25rem;
   font-family: var(--font-ui);
   font-size: 0.74rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--brown-deep);
-  background-color: rgba(247, 244, 236, 0.65);
-  border: 1px solid var(--line-blue);
+  background: transparent;
+  border: none;
   border-radius: var(--radius-sharp);
-  transition: all 200ms var(--ease-smooth);
+  white-space: nowrap;
+  will-change: color;
+  transition: color 240ms ease, transform 200ms var(--ease-elastic);
 }
 
 .azure-filter-btn:hover {
-  background-color: var(--bg-surface);
-  border-color: var(--blue-levante);
+  color: var(--blue-deep);
+  transform: translateY(-1px);
 }
 
 .azure-filter-btn.active {
-  background-color: var(--blue-levante);
   color: var(--text-light);
-  border-color: var(--blue-levante);
 }
 
-/* Griglia Unificata Elegante a 3 Colonne con Didascalie Pulite */
+/* Griglia Unificata delle Foto con Motion Stagger Fluida */
 .azure-photo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem 1.75rem;
+  transition: opacity 300ms ease;
 }
 
-/* Le prime due foto (Terrazza sul Mare e Sala) hanno risalto panoramico */
 .azure-photo-item.featured-wide {
   grid-column: span 2;
 }
@@ -904,6 +1131,20 @@ button {
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  transform: translateZ(0);
+  will-change: opacity, transform;
+  transition:
+    opacity 350ms var(--ease-smooth),
+    transform 380ms var(--ease-elastic);
+}
+
+/* Stato nascosto dal filtro: animazione fluida invece di display:none a scatti */
+.azure-photo-item.filter-hidden {
+  opacity: 0;
+  transform: scale(0.94) translateY(12px);
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
 }
 
 .azure-img-frame {
@@ -914,6 +1155,8 @@ button {
   background-color: var(--bg-cream);
   border: 1px solid rgba(33, 85, 115, 0.16);
   margin-bottom: 0.85rem;
+  box-shadow: 0 4px 16px rgba(33, 85, 115, 0.08);
+  transform: translateZ(0);
 }
 
 .azure-photo-item.featured-wide .azure-img-frame {
@@ -924,11 +1167,12 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 650ms var(--ease-fluid);
+  will-change: transform;
+  transition: transform 650ms var(--ease-elastic);
 }
 
 .azure-photo-item:hover .azure-img-frame img {
-  transform: scale(1.04);
+  transform: scale(1.045);
 }
 
 .azure-caption {
@@ -944,6 +1188,11 @@ button {
   font-size: 1.45rem;
   font-weight: 400;
   color: var(--brown-deep);
+  transition: color 240ms ease;
+}
+
+.azure-photo-item:hover .azure-caption h3 {
+  color: var(--blue-levante);
 }
 
 .azure-caption span {
@@ -956,11 +1205,12 @@ button {
 }
 
 /* ==========================================================================
-   RECENSIONI
+   RECENSIONI — CAROSELLO INTERATTIVO CON MOTION & CONTROLLI A SELETTORE
    ========================================================================== */
 .section-reviews {
   background-color: var(--bg-cream);
   border-bottom: 1px solid var(--line-soft);
+  position: relative;
 }
 
 .reviews-header {
@@ -1002,10 +1252,17 @@ button {
   color: var(--brown-muted);
 }
 
+/* Controlli del Carosello Recensioni */
+.reviews-carousel-stage {
+  position: relative;
+  overflow: hidden;
+}
+
 .reviews-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
+  transition: transform 450ms var(--ease-elastic);
 }
 
 .review-card {
@@ -1015,6 +1272,11 @@ button {
   flex-direction: column;
   justify-content: space-between;
   gap: 1.75rem;
+  transition: transform 300ms var(--ease-elastic);
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
 }
 
 .review-card:last-child {
@@ -1051,8 +1313,40 @@ button {
   color: var(--green-botanic);
 }
 
+/* Selettori dots animati per il carosello recensioni */
+.reviews-carousel-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.review-dot-btn {
+  width: 28px;
+  height: 4px;
+  background-color: var(--line-medium);
+  border-radius: var(--radius-pill);
+  transition:
+    width 320ms var(--ease-elastic),
+    background-color 280ms ease,
+    transform 240ms var(--ease-elastic);
+}
+
+.review-dot-btn:hover {
+  background-color: var(--blue-levante);
+  transform: scaleY(1.5);
+}
+
+.review-dot-btn.active {
+  width: 48px;
+  background-color: var(--blue-levante);
+}
+
 /* ==========================================================================
-   SCREEN 3 FIX: CONTATTI & INDIRIZZO (Tipografia Marcellus + Lora)
+   CONTATTI & INDIRIZZO
    ========================================================================== */
 .section-info {
   background-color: var(--bg-cream-warm);
@@ -1077,6 +1371,11 @@ button {
   grid-template-columns: 150px 1fr;
   gap: 1.5rem;
   align-items: baseline;
+  transition: background-color 220ms ease;
+}
+
+.info-row:hover {
+  background-color: rgba(247, 244, 236, 0.4);
 }
 
 .info-row-label {
@@ -1107,7 +1406,7 @@ button {
 .info-row-value a {
   color: var(--green-botanic);
   border-bottom: 1px solid var(--green-botanic);
-  transition: color 200ms ease;
+  transition: color 200ms ease, border-color 200ms ease;
 }
 
 .info-row-value a:hover {
@@ -1134,6 +1433,8 @@ button {
   border: 1px solid var(--line-blue);
   background-color: var(--blue-azure-bg);
   padding: 0.65rem;
+  box-shadow: 0 12px 36px rgba(33, 85, 115, 0.12);
+  transform: translateZ(0);
 }
 
 .map-container iframe {
@@ -1141,6 +1442,7 @@ button {
   height: 520px;
   border: none;
   display: block;
+  border-radius: var(--radius-sharp);
 }
 
 /* ==========================================================================
@@ -1177,8 +1479,28 @@ button {
   text-transform: uppercase;
 }
 
+.footer-links a {
+  position: relative;
+  transition: color 240ms ease;
+}
+
+.footer-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: var(--blue-sky);
+  transition: width 240ms var(--ease-elastic);
+}
+
 .footer-links a:hover {
   color: var(--blue-sky);
+}
+
+.footer-links a:hover::after {
+  width: 100%;
 }
 
 .footer-bottom {
@@ -1193,7 +1515,7 @@ button {
 }
 
 /* ==========================================================================
-   LIGHTBOX
+   LIGHTBOX (Smooth Open/Close)
    ========================================================================== */
 .lightbox {
   position: fixed;
@@ -1207,7 +1529,7 @@ button {
   padding: 1.5rem var(--pad-x);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 260ms ease, visibility 260ms ease;
+  transition: opacity 280ms var(--ease-smooth), visibility 280ms var(--ease-smooth);
 }
 
 .lightbox.active {
@@ -1242,8 +1564,8 @@ button {
   width: auto;
   object-fit: contain;
   border-radius: var(--radius-sharp);
-  transform: scale(0.97);
-  transition: transform 320ms var(--ease-fluid);
+  transform: scale(0.96);
+  transition: transform 340ms var(--ease-elastic);
 }
 
 .lightbox.active .lightbox-stage img {
@@ -1259,12 +1581,17 @@ button {
   font-size: 0.74rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  transition: background-color 200ms ease;
+  transition: background-color 220ms ease, transform 200ms var(--ease-elastic);
 }
 
 .lb-btn:hover {
   background-color: var(--green-botanic);
   border-color: var(--green-botanic);
+  transform: translateY(-1px);
+}
+
+.lb-btn:active {
+  transform: scale(0.96);
 }
 
 /* ==========================================================================
@@ -1291,12 +1618,21 @@ button {
     padding-top: 1.5rem;
   }
 
-  .philosophy-values,
+  .philosophy-values {
+    grid-template-columns: 1fr;
+  }
+
+  .value-col {
+    border-right: none;
+    border-bottom: 1px solid var(--line-soft);
+    padding-right: 0;
+    padding-bottom: 1.75rem;
+  }
+
   .reviews-cards {
     grid-template-columns: 1fr;
   }
 
-  .value-col,
   .review-card {
     border-right: none;
     border-bottom: 1px solid var(--line-soft);
@@ -1334,6 +1670,7 @@ button {
     padding: 1.5rem var(--pad-x);
     gap: 1.15rem;
     border-bottom: 1px solid var(--line-medium);
+    box-shadow: 0 10px 30px rgba(34, 25, 19, 0.08);
   }
 
   .nav-center.active {
