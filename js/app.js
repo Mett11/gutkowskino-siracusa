@@ -118,7 +118,7 @@
     initLightbox();
   }
 
-  // ───── 1. Navbar ─────
+  // ───── 1. Navbar con Fullscreen Mobile Drawer d'Autore ─────
   function buildNavbar(data) {
     const status = getServiceStatus();
     const header = el('header', { className: 'navbar', id: 'navbar' });
@@ -141,12 +141,60 @@
             <span>${status.text}</span>
           </div>
           <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="nav-cta">
-            <span>Prenota un tavolo</span>
+            <span>Prenota</span>
             ${ICONS.arrowUpRight}
           </a>
-          <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
             <span></span><span></span><span></span>
           </button>
+        </div>
+      </div>
+
+      <!-- DRAWER MENU MOBILE FULL-SCREEN D'AUTORE (Boutique & Sartoriale) -->
+      <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+        <div class="mobile-drawer-header">
+          <span class="mobile-drawer-logo">${data.brand.name}</span>
+          <button class="mobile-drawer-close" id="mobileDrawerClose" aria-label="Chiudi menu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <nav class="mobile-drawer-nav">
+          <a href="#filosofia" class="mobile-nav-link">
+            <span class="mnl-num">01</span>
+            <span class="mnl-text">La Filosofia</span>
+          </a>
+          <a href="#cucina" class="mobile-nav-link">
+            <span class="mnl-num">02</span>
+            <span class="mnl-text">La Cucina d'Autore</span>
+          </a>
+          <a href="#galleria-azzurra" class="mobile-nav-link">
+            <span class="mnl-num">03</span>
+            <span class="mnl-text">Terrazza & Galleria</span>
+          </a>
+          <a href="#recensioni" class="mobile-nav-link">
+            <span class="mnl-num">04</span>
+            <span class="mnl-text">Le Recensioni</span>
+          </a>
+          <a href="#contatti" class="mobile-nav-link">
+            <span class="mnl-num">05</span>
+            <span class="mnl-text">Orari & Posizione</span>
+          </a>
+        </nav>
+
+        <div class="mobile-drawer-footer">
+          <div class="mobile-drawer-status">
+            <span class="status-dot ${status.open ? '' : 'closed'}"></span>
+            <span>${status.text}</span>
+          </div>
+          <div class="mobile-drawer-location">
+            <span>Hotel Gutkowski · Lungomare di Levante</span>
+            <span>Ortigia, Siracusa · Tel. 0931 465830</span>
+          </div>
+          <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber mobile-drawer-cta">
+            <span>Prenota un tavolo su TheFork</span>
+            ${ICONS.arrowUpRight}
+          </a>
         </div>
       </div>`;
     return header;
@@ -283,6 +331,15 @@
 
           <!-- Colonna Destra: Vetrina Immersiva del Piatto Attivo -->
           <div class="kitchen-stage-col" id="kitchenStageCol">
+            <!-- SELETTORE TOUCH MOBILE: DIRETTAMENTE SOPRA IL PIATTO (Zero Scroll Scomodo) -->
+            <div class="kitchen-mobile-pills" id="dishMobilePills">
+              ${dishes.map((dish, idx) => `
+                <button class="dish-pill-btn ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button">
+                  <span>0${idx + 1}</span> ${dish.name.split(' su ')[0].split(' con ')[0]}
+                </button>
+              `).join('')}
+            </div>
+
             <div class="kitchen-stage-card">
               <div class="kitchen-stage-visual" id="dishStageVisual" data-lightbox="${first.image || ''}">
                 <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
@@ -348,6 +405,12 @@
             <button class="azure-filter-btn" data-filter="piatti">I Piatti</button>
             <button class="azure-filter-btn" data-filter="sala">Sala & Dettagli</button>
           </div>
+        </div>
+
+        <!-- HINT TOUCH MOBILE: Addio scorrimento infinito verticale -->
+        <div class="azure-mobile-hint">
+          <span>Scorri in orizzontale (16 foto)</span>
+          <span>Tocca per ingrandire ↗</span>
         </div>
 
         <div class="azure-photo-grid" id="azurePhotoGrid">
@@ -552,13 +615,37 @@
     navbar.classList.toggle('scrolled', window.scrollY > 24);
   }
 
-  // Mobile Nav Toggle
+  // Mobile Nav: Drawer Full-Screen Elegante & Sartoriale
   function initMobileNav() {
     const toggle = document.getElementById('navToggle');
-    const links = document.getElementById('navLinks');
-    if (!toggle || !links) return;
-    toggle.addEventListener('click', () => links.classList.toggle('active'));
-    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('active')));
+    const drawer = document.getElementById('mobileDrawer');
+    const closeBtn = document.getElementById('mobileDrawerClose');
+    if (!toggle || !drawer) return;
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('menu-open');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('menu-open');
+    }
+
+    toggle.addEventListener('click', openDrawer);
+    closeBtn?.addEventListener('click', closeDrawer);
+
+    drawer.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', closeDrawer);
+    });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) {
+        closeDrawer();
+      }
+    });
   }
 
   // Intersection Observer
@@ -615,8 +702,9 @@
     const stageDesc = document.getElementById('dishStageDesc');
     const stageIngredients = document.getElementById('dishStageIngredients');
     const menuButtons = Array.from(document.querySelectorAll('#kitchenMenuList .kitchen-menu-item'));
+    const pillButtons = Array.from(document.querySelectorAll('#dishMobilePills .dish-pill-btn'));
 
-    if (!stageImg || !menuButtons.length) return;
+    if (!stageImg) return;
 
     let current = 0;
     const total = dishes.length;
@@ -629,6 +717,14 @@
         const isActive = i === current;
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      pillButtons.forEach((btn, i) => {
+        const isActive = i === current;
+        btn.classList.toggle('active', isActive);
+        if (isActive) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       });
 
       stageImg.classList.add('switching');
@@ -661,6 +757,10 @@
         }
       });
     });
+
+    pillButtons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => selectDish(idx));
+    });
   }
 
   // Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
@@ -673,7 +773,7 @@
     if (!filterBar || !pill || !btns.length) return;
 
     function movePillTo(button) {
-      if (!button) return;
+      if (!button || window.innerWidth <= 860) return;
       const barRect = filterBar.getBoundingClientRect();
       const btnRect = button.getBoundingClientRect();
       const x = btnRect.left - barRect.left;
@@ -695,6 +795,11 @@
           item.style.transitionDelay = '0ms';
         }
       });
+
+      const grid = document.getElementById('azurePhotoGrid');
+      if (grid && window.innerWidth <= 860) {
+        grid.scrollTo({ left: 0, behavior: 'smooth' });
+      }
     }
 
     btns.forEach(btn => {

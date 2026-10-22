@@ -72,6 +72,9 @@ html {
   color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -79,8 +82,16 @@ body {
   background-color: var(--bg-cream);
   color: var(--text-dark);
   line-height: 1.7;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  position: relative;
   text-rendering: optimizeLegibility;
+}
+
+body.menu-open {
+  overflow: hidden !important;
+  touch-action: none;
 }
 
 img {
@@ -434,6 +445,9 @@ button {
 .nav-toggle {
   display: none;
   padding: 0.4rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .nav-toggle span {
@@ -442,6 +456,145 @@ button {
   height: 1.5px;
   background: var(--text-dark);
   margin: 5px 0;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+/* ==========================================================================
+   DRAWER MENU MOBILE FULL-SCREEN D'AUTORE
+   ========================================================================== */
+.mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: var(--bg-cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  transition:
+    transform 380ms var(--ease-elastic),
+    opacity 280ms var(--ease-smooth);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-drawer.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--line-medium);
+}
+
+.mobile-drawer-logo {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 400;
+  color: var(--text-dark);
+}
+
+.mobile-drawer-close {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line-medium);
+  border-radius: var(--radius-sharp);
+  background: var(--bg-surface);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.mobile-drawer-close:active {
+  transform: scale(0.92);
+}
+
+.mobile-drawer-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 0;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(26, 23, 21, 0.07);
+  transition: transform 200ms ease, color 200ms ease;
+}
+
+.mobile-nav-link:active {
+  transform: translateX(6px);
+  color: var(--amber-warm);
+}
+
+.mnl-num {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--amber-warm);
+  font-weight: 600;
+}
+
+.mnl-text {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  color: var(--text-dark);
+  line-height: 1.15;
+}
+
+.mobile-drawer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-medium);
+}
+
+.mobile-drawer-status {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mobile-drawer-location {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.mobile-drawer-cta {
+  width: 100%;
+  justify-content: center;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.82rem;
 }
 
 /* ==========================================================================
@@ -1190,10 +1343,10 @@ button {
 }
 
 .azure-photo-item.filter-hidden {
+  display: none !important;
   opacity: 0;
   transform: scale(0.94) translateY(12px);
   pointer-events: none;
-  position: absolute;
   visibility: hidden;
 }
 
@@ -1682,8 +1835,10 @@ button {
 }
 
 /* ==========================================================================
-   RESPONSIVE
+   RESPONSIVE DESIGN SYSTEM (Zero Scroll Orizzontale / Mobile d'Autore)
    ========================================================================== */
+
+/* ── Tablet & Laptop (< 1080px) ── */
 @media (max-width: 1080px) {
   .nav-place,
   .nav-status {
@@ -1692,14 +1847,9 @@ button {
 
   .postcard-bottom,
   .philosophy-grid,
-  .kitchen-header,
-  .dish-stage,
   .info-grid {
     grid-template-columns: 1fr;
-  }
-
-  .dish-strip-timeline {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
   }
 
   .postcard-aside {
@@ -1711,7 +1861,7 @@ button {
 
   .philosophy-values {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.75rem;
   }
 
   .azure-photo-grid {
@@ -1723,56 +1873,447 @@ button {
   }
 }
 
-@media (max-width: 768px) {
+/* ── Mobile & Tablet Portrait (< 860px) ── */
+@media (max-width: 860px) {
   :root {
-    --frame-pad: 10px;
+    --frame-pad: 8px;
+    --pad-x: 1.15rem;
+    --pad-y: 3.5rem;
+  }
+
+  /* Blocco totale di qualsiasi overflow orizzontale */
+  html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .container {
+    padding: 0 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 1. NAVBAR MOBILE */
+  .navbar {
+    height: 60px;
   }
 
   .navbar-inner {
-    grid-template-columns: 1fr auto;
-  }
-
-  .nav-center {
-    display: none;
-    position: absolute;
-    top: var(--nav-h);
-    left: 0;
-    right: 0;
-    background: var(--bg-cream);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.5rem var(--pad-x);
-    gap: 1.15rem;
-    border-bottom: 1px solid var(--line-medium);
-  }
-
-  .nav-center.active {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .nav-left {
+    min-width: 0;
+  }
+
+  .nav-brand {
+    font-size: 1.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav-place,
+  .nav-status,
+  .nav-center {
+    display: none !important;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .nav-cta {
+    height: 32px;
+    padding: 0 0.85rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
   }
 
   .nav-toggle {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-sharp);
+    cursor: pointer;
+    flex-shrink: 0;
   }
 
-  .dish-strip-timeline {
+  .nav-toggle span {
+    width: 18px;
+    height: 1.5px;
+    background: var(--text-dark);
+    margin: 2.5px 0;
+  }
+
+  /* 2. HERO CARTOLINA */
+  .postcard-stage {
+    padding: var(--frame-pad);
+  }
+
+  .postcard-hero {
+    min-height: calc(100vh - 60px - 16px);
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .postcard-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.66rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .postcard-top span {
+    word-break: break-word;
+    line-height: 1.35;
+  }
+
+  .postcard-location-badge {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .postcard-title {
+    font-size: clamp(2.1rem, 9.5vw, 3.2rem);
+    line-height: 1.02;
+    word-break: break-word;
+  }
+
+  .postcard-bottom {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-top: 1rem;
   }
 
+  .postcard-aside {
+    border-left: none;
+    border-top: 1px solid rgba(247, 244, 236, 0.22);
+    padding-left: 0;
+    padding-top: 1rem;
+    gap: 1rem;
+  }
+
+  .postcard-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .postcard-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.65rem;
+  }
+
+  .postcard-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* 3. FILOSOFIA */
+  .philosophy-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .philosophy-narrative h2.heading-display {
+    font-size: clamp(1.85rem, 6vw, 2.4rem);
+  }
+
+  /* 4. LA CUCINA — SELETTORE TOUCH + ANTEPRIMA IMMEDIATA */
+  .kitchen-header-compact {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .khc-right {
+    align-items: flex-start;
+  }
+
+  .khc-desc {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .kitchen-hub {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Nascondi la lista desktop a 5 card verticali che occupava tutta la schermata */
+  .kitchen-menu-col {
+    display: none !important;
+  }
+
+  /* Mostra il selettore touch a pillole direttamente sopra la foto */
+  .kitchen-mobile-pills {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.2rem 0 0.65rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .kitchen-mobile-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dish-pill-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.45rem 0.9rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--line-medium);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  }
+
+  .dish-pill-btn span {
+    color: var(--amber-warm);
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+
+  .dish-pill-btn.active {
+    background-color: var(--amber-warm);
+    color: var(--bg-surface);
+    border-color: var(--amber-warm);
+    box-shadow: 0 4px 12px rgba(200, 151, 88, 0.28);
+  }
+
+  .dish-pill-btn.active span {
+    color: var(--bg-surface);
+  }
+
+  .kitchen-stage-card {
+    padding: 1.15rem 1rem;
+  }
+
+  .kitchen-stage-visual {
+    aspect-ratio: 16 / 10;
+    margin-bottom: 0.95rem;
+  }
+
+  .kitchen-stage-title {
+    font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+  }
+
+  .kitchen-stage-desc {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .kitchen-stage-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .kitchen-stage-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .kitchen-stage-micro {
+    text-align: center;
+  }
+
+  /* 5. GALLERIA AZZURRA — CAROUSEL TOUCH ORIZZONTALE (Addio 16 foto verticali) */
+  .azure-gallery-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .azure-filter-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    padding: 4px;
+    gap: 0.35rem;
+  }
+
+  .azure-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .azure-filter-pill {
+    display: none !important; /* Disattiva la pillola assoluta multi-riga su mobile */
+  }
+
+  .azure-filter-btn {
+    flex-shrink: 0;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.68rem;
+    border-radius: var(--radius-pill);
+    background: transparent;
+  }
+
+  .azure-filter-btn.active {
+    background-color: var(--blue-levante);
+    color: var(--text-light);
+  }
+
+  .azure-mobile-hint {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-levante);
+    margin-bottom: 0.75rem;
+    padding: 0 0.25rem;
+  }
+
+  /* Grid trasformata in carousel touch orizzontale scroll-snap */
   .azure-photo-grid {
-    grid-template-columns: 1fr;
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 1rem !important;
+    padding: 0.25rem 0 1.25rem !important;
+    scrollbar-width: none !important;
+    margin: 0 -1rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .azure-photo-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .azure-photo-item {
+    flex: 0 0 84vw !important;
+    max-width: 84vw !important;
+    scroll-snap-align: center !important;
+    margin-bottom: 0 !important;
   }
 
   .azure-photo-item.featured-wide {
-    grid-column: span 1;
+    flex: 0 0 84vw !important;
+    max-width: 84vw !important;
+    grid-column: auto !important;
+  }
+
+  /* 6. RECENSIONI */
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .reviews-badge-score {
+    align-self: flex-start;
+  }
+
+  .score-number {
+    font-size: 3.2rem;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .review-card {
+    padding: 1.6rem 1.25rem 1.4rem;
+  }
+
+  .review-card-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .reviews-footer-actions {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .reviews-footer-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* 7. CONTATTI & FOOTER */
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
   }
 
   .info-row {
     grid-template-columns: 1fr;
     gap: 0.35rem;
+    padding: 1rem 0;
   }
 
-  .quote-text-large {
-    font-size: 1.6rem;
-    min-height: auto;
+  .info-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .info-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
