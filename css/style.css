@@ -107,9 +107,13 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)'/%3E%3C/svg%3E");
 }
 
+html.menu-open,
 body.menu-open {
   overflow: hidden !important;
-  touch-action: none;
+  height: 100% !important;
+  position: fixed !important;
+  width: 100% !important;
+  touch-action: none !important;
 }
 
 img {
@@ -558,9 +562,20 @@ button {
   display: flex;
   align-items: baseline;
   gap: 1.25rem;
-  padding: 0.65rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid rgba(26, 23, 21, 0.07);
-  transition: transform 200ms ease, color 200ms ease;
+  opacity: 0;
+  transform: translateX(18px);
+  transition:
+    transform 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 280ms ease,
+    color 200ms ease;
+  transition-delay: calc(var(--i, 0) * 45ms + 120ms);
+}
+
+.mobile-drawer.open .mobile-nav-link {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .mobile-nav-link:active {
@@ -850,7 +865,19 @@ button {
   padding: 7px;
   border: 1px solid var(--line-medium);
   box-shadow: 0 16px 48px rgba(30, 40, 37, 0.10);
-  transition: transform 500ms var(--ease-elastic), box-shadow 500ms ease;
+  animation: heroVisualBreathe 6s ease-in-out infinite;
+  transition:
+    transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 400ms ease;
+}
+
+@keyframes heroVisualBreathe {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .hero-visual-frame:hover {
@@ -906,13 +933,9 @@ button {
    FILOSOFIA (Trasparenza Materica & Tratto Botanico)
    ========================================================================== */
 .section-philosophy {
-  background: linear-gradient(
-    180deg,
-    #F4EBDD 0%,
-    #FAF6EE 14%,
-    #FAF6EE 86%,
-    #F0E7D6 100%
-  );
+  background-color: var(--bg-stone);
+  border-top: none !important;
+  border-bottom: none !important;
   position: relative;
 }
 
@@ -1033,18 +1056,12 @@ button {
    Zero Sfondo Cupo / Zero Necessità di Scroll per Selezionare e Guardare
    ========================================================================== */
 .section-kitchen {
-  background: linear-gradient(
-    180deg,
-    #F0E7D6 0%,
-    #F8F3EA 12%,
-    #F6EFE5 88%,
-    #E4EFF2 100%
-  );
+  background-color: var(--bg-stone);
   color: var(--text-dark);
+  border-top: none !important;
+  border-bottom: none !important;
   position: relative;
-  border-top: 1px solid var(--line-medium);
-  border-bottom: none;
-  padding: clamp(2.5rem, 5vh, 4rem) 0;
+  padding: clamp(3.5rem, 6vh, 5.5rem) 0;
 }
 
 .section-kitchen .heading-display {
@@ -1437,35 +1454,14 @@ button {
    GALLERIA AZZURRA — CERULEO IONIO DAL DIPINTO (RADIANZA MEDITERRANEA)
    ========================================================================== */
 
-/* ── Divisore Organico d'Autore tra Sezioni ── */
-.section-divider-organic {
-  position: relative;
-  width: 100%;
-  line-height: 0;
-  overflow: hidden;
-  margin-top: -1px;
-  margin-bottom: -1px;
-  z-index: 2;
-  pointer-events: none;
-  background-color: #F6EFE5;
-}
 
-.section-divider-organic svg {
-  display: block;
-  width: 100%;
-  height: clamp(38px, 4.8vw, 68px);
-}
 
 .section-azure-gallery {
-  background-color: #E2EEF2;
-  background-image:
-    radial-gradient(ellipse at 15% 12%, rgba(255, 255, 255, 0.88) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 25%, rgba(69, 117, 136, 0.16) 0%, transparent 60%),
-    radial-gradient(circle at 50% 85%, rgba(200, 151, 88, 0.08) 0%, transparent 55%),
-    linear-gradient(180deg, #E4EFF2 0%, #D8E9EF 35%, #CFE2EB 70%, #F4EBDD 100%);
+  background-color: var(--bg-stone);
   position: relative;
-  border-top: none;
-  border-bottom: none;
+  border-top: none !important;
+  border-bottom: none !important;
+  padding: clamp(3.5rem, 6vh, 5.5rem) 0;
 }
 
 .azure-gallery-header {
@@ -1620,14 +1616,10 @@ button {
    RECENSIONI — CARD SINGOLE STILIZZATE A TEMA (Ortigia & Ospitalità)
    ========================================================================== */
 .section-reviews {
-  background: linear-gradient(
-    180deg,
-    #F4EBDD 0%,
-    #FAF6EE 15%,
-    #FAF6EE 85%,
-    #F0E6D4 100%
-  );
-  border-bottom: 1px solid var(--line-soft);
+  background-color: var(--bg-stone);
+  border-top: none !important;
+  border-bottom: none !important;
+  position: relative;
   position: relative;
 }
 
@@ -1831,13 +1823,10 @@ button {
    CONTATTI & INDIRIZZO
    ========================================================================== */
 .section-info {
-  background: linear-gradient(
-    180deg,
-    #F0E6D4 0%,
-    #FAF6EE 35%,
-    #F4EBDD 100%
-  );
-  border-bottom: 1px solid var(--line-medium);
+  background-color: var(--bg-stone);
+  border-top: none !important;
+  border-bottom: none !important;
+  position: relative;
 }
 
 .info-grid {
@@ -2440,7 +2429,7 @@ button {
     font-size: clamp(1.85rem, 6vw, 2.4rem);
   }
 
-  /* 4. LA CUCINA — PALCOSCENICO PANORAMICO & STRIP ORIZZONTALE MOBILE */
+  /* 4. LA CUCINA MOBILE — SOLO SELETTORE CON LE FRECCE (ZERO LISTONE / ZERO STRIP) */
   .kitchen-header-compact {
     flex-direction: column;
     align-items: flex-start;
@@ -2459,8 +2448,8 @@ button {
 
   .kitchen-panoramic-stage {
     grid-template-columns: 1fr !important;
-    gap: 1.25rem !important;
-    margin-bottom: 1.5rem !important;
+    gap: 1.15rem !important;
+    margin-bottom: 1.25rem !important;
   }
 
   .kps-visual-wrap {
@@ -2469,6 +2458,29 @@ button {
 
   .kps-details-card {
     padding: 1.25rem 1rem !important;
+  }
+
+  /* Frecce Mobile tattili ed ergonomiche */
+  .kps-arrows {
+    gap: 0.5rem !important;
+  }
+
+  .kps-arrow-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.15rem !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--line-medium) !important;
+    box-shadow: 0 3px 10px rgba(30, 40, 37, 0.08) !important;
+    color: var(--text-dark) !important;
+    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms ease !important;
+  }
+
+  .kps-arrow-btn:active {
+    transform: scale(0.90) !important;
+    background-color: var(--amber-warm) !important;
+    color: #1E2825 !important;
+    border-color: var(--amber-warm) !important;
   }
 
   .kps-dish-title {
@@ -2496,28 +2508,9 @@ button {
     text-align: center;
   }
 
-  /* Strip / Deck Orizzontale Mobile: Scorrimento a carte lisce senza listone verticale */
-  .kitchen-deck-track {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 0.75rem !important;
-    scrollbar-width: none !important;
-    padding: 0.35rem 0 0.85rem !important;
-    margin: 0 -1rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-
-  .kitchen-deck-track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .kitchen-deck-card {
-    flex: 0 0 78vw !important;
-    max-width: 78vw !important;
-    scroll-snap-align: center !important;
+  /* MOBILE ONLY: Nascondi completamente il deck a schede in basso; resta SOLO il selettore frecce */
+  .kitchen-deck-wrapper {
+    display: none !important;
   }
 
   /* 5. GALLERIA AZZURRA — CAROUSEL TOUCH ORIZZONTALE (Addio 16 foto verticali) */

@@ -103,7 +103,6 @@
     app.appendChild(buildPostcardHero(data));
     app.appendChild(buildPhilosophy(data));
     app.appendChild(buildKitchenLookbook(data));
-    app.appendChild(buildOrganicDivider('kitchen-to-azure'));
     app.appendChild(buildUnifiedAzureGallery(data, unifiedPhotos));
     app.appendChild(buildReviewsSection(data));
     app.appendChild(buildInfoSection(data));
@@ -118,18 +117,6 @@
     initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
     initLightbox();
-  }
-
-  // ───── Divisore Organico d'Autore tra Sezioni (Zero Linee Dure) ─────
-  function buildOrganicDivider(variant) {
-    const div = el('div', { className: 'section-divider-organic', 'aria-hidden': 'true' });
-    if (variant === 'kitchen-to-azure') {
-      div.innerHTML = `
-        <svg viewBox="0 0 1440 68" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,0 L1440,0 L1440,16 C1240,62 1010,8 780,44 C530,82 290,14 0,38 Z" fill="#E4EFF2" />
-        </svg>`;
-    }
-    return div;
   }
 
   // ───── 1. Navbar ─────
@@ -179,23 +166,23 @@
       </div>
 
       <nav class="mobile-drawer-nav">
-        <a href="#filosofia" class="mobile-nav-link">
+        <a href="#filosofia" class="mobile-nav-link" style="--i:0">
           <span class="mnl-num">01</span>
           <span class="mnl-text">La Filosofia</span>
         </a>
-        <a href="#cucina" class="mobile-nav-link">
+        <a href="#cucina" class="mobile-nav-link" style="--i:1">
           <span class="mnl-num">02</span>
           <span class="mnl-text">La Cucina d'Autore</span>
         </a>
-        <a href="#galleria-azzurra" class="mobile-nav-link">
+        <a href="#galleria-azzurra" class="mobile-nav-link" style="--i:2">
           <span class="mnl-num">03</span>
           <span class="mnl-text">Terrazza & Galleria</span>
         </a>
-        <a href="#recensioni" class="mobile-nav-link">
+        <a href="#recensioni" class="mobile-nav-link" style="--i:3">
           <span class="mnl-num">04</span>
           <span class="mnl-text">Le Recensioni</span>
         </a>
-        <a href="#contatti" class="mobile-nav-link">
+        <a href="#contatti" class="mobile-nav-link" style="--i:4">
           <span class="mnl-num">05</span>
           <span class="mnl-text">Orari & Posizione</span>
         </a>
@@ -710,23 +697,31 @@
     navbar.classList.toggle('scrolled', window.scrollY > 24);
   }
 
-  // Mobile Nav: Drawer Full-Screen Elegante & Sartoriale
+  // Mobile Nav: Drawer Full-Screen con Scroll Lock Totale
   function initMobileNav() {
     const toggle = document.getElementById('navToggle');
     const drawer = document.getElementById('mobileDrawer');
     const closeBtn = document.getElementById('mobileDrawerClose');
     if (!toggle || !drawer) return;
 
+    let savedScrollY = 0;
+
     function openDrawer() {
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
       drawer.classList.add('open');
       drawer.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('menu-open');
       document.body.classList.add('menu-open');
+      document.body.style.top = `-${savedScrollY}px`;
     }
 
     function closeDrawer() {
       drawer.classList.remove('open');
       drawer.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('menu-open');
       document.body.classList.remove('menu-open');
+      document.body.style.top = '';
+      window.scrollTo(0, savedScrollY);
     }
 
     toggle.addEventListener('click', openDrawer);
@@ -863,6 +858,24 @@
 
     prevBtn?.addEventListener('click', () => selectDish(current - 1));
     nextBtn?.addEventListener('click', () => selectDish(current + 1));
+
+    // Supporto Touch Swipe su Mobile per navigare tra i piatti
+    const stageCard = document.querySelector('.kitchen-panoramic-stage');
+    if (stageCard) {
+      let touchStartX = 0;
+      let touchEndX = 0;
+      stageCard.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      stageCard.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) selectDish(current + 1); // swipe a sinistra -> piatto successivo
+          else selectDish(current - 1);          // swipe a destra -> piatto precedente
+        }
+      }, { passive: true });
+    }
   }
 
   // Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
