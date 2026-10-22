@@ -115,7 +115,6 @@
     initOptimizedParallax();
     initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
-    initReviewsTheater(data.reviews.featured || []);
     initLightbox();
   }
 
@@ -229,93 +228,86 @@
     return section;
   }
 
-  // ───── 4. RIFATTO: Stage Immersivo della Cucina (Zero Marrone, Palette Blu & Verde, Zero Boxy Cards) ─────
+  // ───── 4. La Cucina: Vetrina d'Autore nel Viewport (Affiancata & Luminosa) ─────
   function buildKitchenLookbook(data) {
     const d = data.kitchen;
     const dishes = d.dishes || [];
     const first = dishes[0] || {};
     const totalDishes = dishes.length;
 
-    const section = el('section', { className: 'section-kitchen section-pad', id: 'cucina' });
+    const section = el('section', { className: 'section-kitchen', id: 'cucina' });
 
-    // Timeline degutazione orizzontale
-    const stripItems = dishes.map((dish, idx) => `
-      <div class="dish-strip-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
-        <span class="dish-strip-num">0${idx + 1} · ${dish.course}</span>
-        <h4 class="dish-strip-name">${dish.name.split(' su ')[0].split(' con ')[0]}</h4>
-      </div>
+    const menuItems = dishes.map((dish, idx) => `
+      <button class="kitchen-menu-item ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button" role="tab" aria-selected="${idx === 0}">
+        <span class="kmi-num">0${idx + 1}</span>
+        <div class="kmi-content">
+          <span class="kmi-course">${dish.course}</span>
+          <span class="kmi-name">${dish.name.split(' su ')[0].split(' con ')[0]}</span>
+        </div>
+        <span class="kmi-arrow">${ICONS.arrowRight}</span>
+      </button>
     `).join('');
 
     section.innerHTML = `
       <div class="container">
-        <div class="kitchen-header reveal-up">
-          <div>
-            <span class="section-kicker light">Dal Mercato di Ortigia alla Tavola</span>
+        <!-- Header compatto della cucina -->
+        <div class="kitchen-header-compact reveal-up">
+          <div class="khc-left">
+            <span class="section-kicker amber">Dal Mercato di Ortigia alla Tavola</span>
             <h2 class="heading-display">${d.heading}</h2>
           </div>
-          <p class="kitchen-header-desc">${d.note}</p>
-        </div>
-
-        <!-- STAGE IMMERSIVO DEL PIATTO -->
-        <div class="dish-stage">
-          <div class="dish-stage-visual reveal-up" id="dishStageVisual" data-lightbox="${first.image || ''}">
-            <span class="dish-stage-badge" id="dishStageBadge">${first.course || ''}</span>
-            <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
-            <span class="dish-stage-hint">Clicca per ingrandire</span>
-          </div>
-
-          <div class="dish-stage-content reveal-up delay-1">
-            <div class="dish-stage-meta">
-              <span class="dish-stage-counter" id="dishStageCounter">01 / 0${totalDishes}</span>
-              <span class="dish-stage-course" id="dishStageCourse">${first.course || ''}</span>
-            </div>
-
-            <h3 class="dish-stage-title" id="dishStageTitle">${first.name || ''}</h3>
-            <p class="dish-stage-desc" id="dishStageDesc">${first.description || ''}</p>
-
-            <div class="dish-stage-ingredients" id="dishStageIngredients">
-              <span>Materia prima: ${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
-            </div>
-
-            <div class="dish-stage-actions">
-              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
-                <span>Prenota per assaggiarlo</span>
-                ${ICONS.arrowUpRight}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- NASTRO DEGUSTAZIONE ORIZZONTALE CON MOTION FLUIDA -->
-        <div class="dish-strip-wrap reveal-up">
-          <div class="dish-strip-nav">
-            <span class="dish-strip-label">La Carta Vegetale del Mercato</span>
-            <div class="dish-strip-arrows">
-              <button class="dish-strip-btn" id="dishPrevBtn" aria-label="Piatto precedente" title="Precedente">
-                ${ICONS.arrowLeft}
-              </button>
-              <button class="dish-strip-btn" id="dishNextBtn" aria-label="Piatto successivo" title="Successivo">
-                ${ICONS.arrowRight}
-              </button>
-            </div>
-          </div>
-
-          <div class="dish-strip-timeline" id="dishStripTimeline">
-            ${stripItems}
-          </div>
-        </div>
-
-        <div class="kitchen-footer-bar reveal-up">
-          <p>${d.maintenanceFreeDisclaimer}</p>
-          <div style="display:flex;gap:0.85rem;flex-wrap:wrap;">
-            <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-azure">
-              <span>Carta Completa su TheFork</span>
+          <div class="khc-right">
+            <p class="khc-desc">${d.note}</p>
+            <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="khc-link">
+              <span>Carta completa del giorno su TheFork</span>
               ${ICONS.arrowUpRight}
             </a>
-            <a href="${data.info.social.instagramUrl}" target="_blank" rel="noopener" class="btn btn-ghost-light">
-              <span>Segui @${data.info.social.instagramHandle}</span>
-              ${ICONS.arrowUpRight}
-            </a>
+          </div>
+        </div>
+
+        <!-- Hub Interattivo Affiancato nel Viewport: Zero Scroll Necessario -->
+        <div class="kitchen-hub reveal-up delay-1">
+          <!-- Colonna Sinistra: Lista Selettore dei Piatti -->
+          <div class="kitchen-menu-col">
+            <div class="kitchen-menu-caption">
+              <span>La Carta Vegetale del Mercato</span>
+              <span>0${totalDishes} Portate d'Autore</span>
+            </div>
+            <div class="kitchen-menu-list" id="kitchenMenuList" role="tablist">
+              ${menuItems}
+            </div>
+            <div class="kitchen-menu-footnote">
+              <span>100% vegetale · Ortaggi contadini di stagione da Ortigia</span>
+            </div>
+          </div>
+
+          <!-- Colonna Destra: Vetrina Immersiva del Piatto Attivo -->
+          <div class="kitchen-stage-col" id="kitchenStageCol">
+            <div class="kitchen-stage-card">
+              <div class="kitchen-stage-visual" id="dishStageVisual" data-lightbox="${first.image || ''}">
+                <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
+                <span class="kitchen-stage-badge" id="dishStageBadge">${first.course || ''}</span>
+                <span class="kitchen-stage-hint">Clicca per ingrandire</span>
+              </div>
+              <div class="kitchen-stage-details">
+                <div class="kitchen-stage-topline">
+                  <span class="kitchen-stage-counter" id="dishStageCounter">01 / 0${totalDishes}</span>
+                  <span class="kitchen-stage-course" id="dishStageCourse">${first.course || ''}</span>
+                </div>
+                <h3 class="kitchen-stage-title" id="dishStageTitle">${first.name || ''}</h3>
+                <p class="kitchen-stage-desc" id="dishStageDesc">${first.description || ''}</p>
+                <div class="kitchen-stage-ingredients" id="dishStageIngredients">
+                  <strong>Materia prima:</strong> <span>${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
+                </div>
+                <div class="kitchen-stage-actions">
+                  <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
+                    <span>Prenota per assaggiarlo</span>
+                    ${ICONS.arrowUpRight}
+                  </a>
+                  <span class="kitchen-stage-micro">Pochi tavoli affacciati sul mare</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>`;
@@ -365,16 +357,35 @@
     return section;
   }
 
-  // ───── 6. RIFATTO: Teatro delle Voci (Palcoscenico d'Autore — Zero Griglia di 3 Card) ─────
+  // ───── 6. Recensioni: Card Singole Stilizzate a Tema ─────
   function buildReviewsSection(data) {
     const d = data.reviews;
     const section = el('section', { className: 'section-reviews section-pad', id: 'recensioni' });
     const featured = d.featured || [];
-    const first = featured[0] || {};
 
-    const dots = featured.map((_, i) => `
-      <button class="quote-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Testimonianza ${i + 1}"></button>
-    `).join('');
+    const cardsHtml = featured.map((r, i) => {
+      const isTheFork = (r.source || '').toLowerCase().includes('thefork');
+      const badgeClass = isTheFork ? 'badge-thefork' : 'badge-google';
+      const badgeLabel = isTheFork ? 'TheFork · Verificata' : 'Google Maps · Locale';
+
+      return `
+        <article class="review-card reveal-up delay-${(i % 4) + 1}">
+          <div class="review-card-head">
+            <div class="review-card-stars">★★★★★</div>
+            <span class="review-source-badge ${badgeClass}">${badgeLabel}</span>
+          </div>
+          <div class="review-card-glyph">“</div>
+          <blockquote class="review-card-text">“${r.text}”</blockquote>
+          <div class="review-card-foot">
+            <div class="review-author-meta">
+              <strong class="review-author-name">${r.author}</strong>
+              <span class="review-author-note">Esperienza sul Lungomare di Levante</span>
+            </div>
+            <span class="review-badge-tick" title="Esperienza verificata">✓</span>
+          </div>
+        </article>
+      `;
+    }).join('');
 
     section.innerHTML = `
       <div class="container">
@@ -392,28 +403,17 @@
           </div>
         </div>
 
-        <!-- PALCOSCENICO CITAZIONE D'AUTORE CENTRALIZZATO -->
-        <div class="quote-theater reveal-up">
-          <div class="quote-mark">“</div>
-          <blockquote class="quote-text-large" id="quoteText">“${first.text || ''}”</blockquote>
+        <!-- GRIGLIA CARD SINGOLE STILIZZATE A TEMA -->
+        <div class="reviews-grid">
+          ${cardsHtml}
+        </div>
 
-          <div class="quote-author-info">
-            <strong class="quote-author-name" id="quoteAuthor">${first.author || ''}</strong>
-            <span class="quote-author-sep">·</span>
-            <span class="quote-author-source" id="quoteSource">${first.source || ''}</span>
-          </div>
-
-          <div class="reviews-theater-nav">
-            <button class="quote-nav-btn" id="quotePrevBtn" aria-label="Recensione precedente">
-              ${ICONS.arrowLeft}
-            </button>
-            <div class="quote-dots-group" id="quoteDots">
-              ${dots}
-            </div>
-            <button class="quote-nav-btn" id="quoteNextBtn" aria-label="Recensione successiva">
-              ${ICONS.arrowRight}
-            </button>
-          </div>
+        <div class="reviews-footer-actions reveal-up">
+          <p class="reviews-footer-note">Valutazione media 4.6/5 basata sulle opinioni verificate dei nostri ospiti</p>
+          <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-azure">
+            <span>Leggi tutte le recensioni su TheFork</span>
+            ${ICONS.arrowUpRight}
+          </a>
         </div>
       </div>`;
     return section;
@@ -602,7 +602,7 @@
     }, { passive: true });
   }
 
-  // Lookbook Stage Piatti con Timeline Orizzontale & Crossfade
+  // Vetrina Interattiva Piatti: Selezione Affiancata Istantanea nel Viewport
   function initDishStageCarousel(dishes) {
     if (!dishes.length) return;
 
@@ -614,9 +614,9 @@
     const stageTitle = document.getElementById('dishStageTitle');
     const stageDesc = document.getElementById('dishStageDesc');
     const stageIngredients = document.getElementById('dishStageIngredients');
-    const stripItems = Array.from(document.querySelectorAll('.dish-strip-item'));
-    const prevBtn = document.getElementById('dishPrevBtn');
-    const nextBtn = document.getElementById('dishNextBtn');
+    const menuButtons = Array.from(document.querySelectorAll('#kitchenMenuList .kitchen-menu-item'));
+
+    if (!stageImg || !menuButtons.length) return;
 
     let current = 0;
     const total = dishes.length;
@@ -625,36 +625,42 @@
       current = (index + total) % total;
       const d = dishes[current];
 
-      stripItems.forEach((item, i) => item.classList.toggle('active', i === current));
+      menuButtons.forEach((btn, i) => {
+        const isActive = i === current;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
 
       stageImg.classList.add('switching');
       stageTitle.classList.add('fading');
-      if (stageDesc) stageDesc.style.opacity = '0.3';
+      if (stageDesc) stageDesc.style.opacity = '0.35';
 
       setTimeout(() => {
         stageImg.src = d.image;
-        stageVisual.dataset.lightbox = d.image;
-        stageBadge.textContent = d.course;
-        stageCounter.textContent = `0${current + 1} / 0${total}`;
-        stageCourse.textContent = d.course;
-        stageTitle.textContent = d.name;
-        stageDesc.textContent = d.description;
+        if (stageVisual) stageVisual.dataset.lightbox = d.image;
+        if (stageBadge) stageBadge.textContent = d.course;
+        if (stageCounter) stageCounter.textContent = `0${current + 1} / 0${total}`;
+        if (stageCourse) stageCourse.textContent = d.course;
+        if (stageTitle) stageTitle.textContent = d.name;
+        if (stageDesc) stageDesc.textContent = d.description;
         if (stageIngredients) {
-          stageIngredients.innerHTML = `<span>Materia prima: ${d.ingredients || 'Ingredienti del mercato contadino di Ortigia'}</span>`;
+          stageIngredients.innerHTML = `<strong>Materia prima:</strong> <span>${d.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>`;
         }
 
         stageImg.classList.remove('switching');
         stageTitle.classList.remove('fading');
         if (stageDesc) stageDesc.style.opacity = '1';
-      }, 160);
+      }, 150);
     }
 
-    stripItems.forEach((item, idx) => {
-      item.addEventListener('click', () => selectDish(idx));
+    menuButtons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => selectDish(idx));
+      btn.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 992 && current !== idx) {
+          selectDish(idx);
+        }
+      });
     });
-
-    prevBtn?.addEventListener('click', () => selectDish(current - 1));
-    nextBtn?.addEventListener('click', () => selectDish(current + 1));
   }
 
   // Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
@@ -708,53 +714,6 @@
     window.addEventListener('resize', () => {
       const activeBtn = filterBar.querySelector('.azure-filter-btn.active');
       if (activeBtn) movePillTo(activeBtn);
-    });
-  }
-
-  // Teatro delle Recensioni (Quote Theater con Crossfade & Controlli)
-  function initReviewsTheater(featured) {
-    if (!featured.length) return;
-
-    const quoteText = document.getElementById('quoteText');
-    const quoteAuthor = document.getElementById('quoteAuthor');
-    const quoteSource = document.getElementById('quoteSource');
-    const dots = Array.from(document.querySelectorAll('#quoteDots .quote-dot'));
-    const prevBtn = document.getElementById('quotePrevBtn');
-    const nextBtn = document.getElementById('quoteNextBtn');
-
-    let current = 0;
-    const total = featured.length;
-
-    function setReview(index) {
-      current = (index + total) % total;
-      const r = featured[current];
-
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
-
-      quoteText.classList.add('fading');
-
-      setTimeout(() => {
-        quoteText.textContent = `“${r.text}”`;
-        quoteAuthor.textContent = r.author;
-        quoteSource.textContent = r.source;
-        quoteText.classList.remove('fading');
-      }, 160);
-    }
-
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => setReview(idx));
-    });
-
-    prevBtn?.addEventListener('click', () => setReview(current - 1));
-    nextBtn?.addEventListener('click', () => setReview(current + 1));
-
-    // Auto-advance con pausa
-    let timer = setInterval(() => setReview(current + 1), 7000);
-    const theater = document.querySelector('.quote-theater');
-    theater?.addEventListener('mouseenter', () => clearInterval(timer));
-    theater?.addEventListener('mouseleave', () => {
-      clearInterval(timer);
-      timer = setInterval(() => setReview(current + 1), 7000);
     });
   }
 
