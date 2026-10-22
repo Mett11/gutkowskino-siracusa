@@ -1,0 +1,254 @@
+{
+  "meta": {
+    "title": "Gutkowskino · Cucina Vegetale | Lungomare di Levante, Ortigia"
+  },
+  "brand": {
+    "name": "Gutkowskino",
+    "coordinates": "Isola di Ortigia · Siracusa",
+    "locationTag": "Lungomare di Levante Elio Vittorini, 18 — Siracusa"
+  },
+  "booking": {
+    "theforkUrl": "https://www.thefork.it/ristorante/gutkowskino-r706715",
+    "googleMapsUrl": "https://www.google.com/maps/place/Gutkowskino/@37.0641278,15.2961667,16z/data=!3m1!5s0x1313cc1dfa4a631f:0x88ec2b5bef1bce26!4m8!3m7!1s0x1313cd154c13a651:0x1213d6291007b46f!8m2!3d37.0641278!4d15.2961667!9m1!1b1!16s%2Fg%2F11rwy1bk9h"
+  },
+  "hero": {
+    "backgroundImage": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/934d1b47-b37c-4d24-a431-1ccdd0bbf0b0.jpg",
+    "heading": "Cucina vegetale d'autore <em>sul mare di Levante</em>",
+    "subheading": "Al piano terra dello storico Hotel Gutkowski, lungo la costa orientale di Ortigia. Pochi tavoli tra la brezza dello Ionio e la pietra bianca, dove l'ortaggio del mercato diventa alta cucina."
+  },
+  "manifesto": {
+    "heading": "L'orto siciliano, <em>la pietra e lo Ionio</em>",
+    "lead": "Gutkowskino è il bistrot vegetale dell'Hotel Gutkowski: una cucina contemporanea che lavora esclusivamente con il raccolto quotidiano del mercato di Ortigia e dei piccoli agricoltori aretusei.",
+    "columnLeft": "Ogni portata nasce dalla lavorazione integrale del vegetale: fondi bruni di verdura ridotti lentamente, cotture alla brace, emulsioni di erbe spontanee, creme di mandorla e pistacchio, oli essenziali agli agrumi e fiori eduli.",
+    "columnRight": "In sala, le pareti a calce illuminata dalle catenarie calde e i tavoli in legno vivo si aprono sulla terrazza affacciata sugli scogli del Lungomare di Levante: un dialogo naturale tra il verde dell'orto e l'azzurro del mare di Ortigia.",
+    "mainImage": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3a353356-b582-4e31-8648-0eb702d983ab.png",
+    "secondaryImage": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e61bc9bb-e460-49a5-85f6-b1d5526b5faf.jpg",
+    "pillars": [
+      {
+        "title": "Mercato di Ortigia",
+        "description": "Approvvigionamento giornaliero tra i banchi storici di via De Benedictis: la freschezza del mattino disegna la carta della sera."
+      },
+      {
+        "title": "Materia & Colore",
+        "description": "Impiattamenti costruiti su contrasti di temperatura, riduzioni vegetali dense, consistenze croccanti e ceramiche dipinte a mano."
+      },
+      {
+        "title": "Vini Naturali",
+        "description": "Etichette artigianali dell'Etna, del Val di Noto e macerati isolani scelti per accompagnare la complessità aromatica del vegetale."
+      }
+    ]
+  },
+  "kitchen": {
+    "heading": "Piatti rappresentativi <em>dalla nostra cucina</em>",
+    "note": "Seleziona una portata per osservarne l'impiattamento. Poiché seguiamo il ritmo del mercato contadino di Siracusa, la carta si rinnova costantemente.",
+    "maintenanceFreeDisclaimer": "La carta del giorno con le disponibilità aggiornate e i relativi prezzi è sempre consultabile sulla nostra pagina ufficiale TheFork.",
+    "dishes": [
+      {
+        "name": "Carciofo Arrostito su Crema di Barbabietola, Pinoli e Uvetta",
+        "course": "Secondo dell'Orto",
+        "description": "Carciofo intero cotto alla brace e sfogliato, adagiato su vellutata intensa di barbabietola rossa, riduzione alle mandorle, pinoli tostati e uvetta.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3b65ae14-2a51-48ab-bf93-f75fd2c90de6.jpg"
+      },
+      {
+        "name": "Conchiglioni Ripieni su Emulsione Verde e Crocchetta Dorata",
+        "course": "Primo Piatto",
+        "description": "Conchiglioni artigianali farciti e gratinati su crema di patate ed estratto di erbe verdi, serviti con crocchetta croccante su ceramica dipinta a mano.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/12306fd0-f837-40f9-b72f-9b01a39e8a6b.jpg"
+      },
+      {
+        "name": "Couscous dell'Orto con Vellutata Calda allo Zafferano",
+        "course": "Primo Piatto",
+        "description": "Semola incocciata alle verdure arrostite ed erbe mediterranee, completata al tavolo con salsa vellutata calda allo zafferano.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/289dec31-0dc3-4756-8c06-50d60211a4e5.png"
+      },
+      {
+        "name": "Carota Glassata, Fiori Eduli e Spuma di Mandorla",
+        "course": "Antipasto",
+        "description": "Carota novella cotta lentamente nel proprio fondo ridotto, veli agrodolci, fiori eduli di campo e ciuffi di crema di mandorla di Avola.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/cbe71346-9773-4b59-bfc0-fc8160115ee3.jpg"
+      },
+      {
+        "name": "Risotto al Pomodoro Arrostito & Risotto Verde alle Erbe",
+        "course": "Primo Piatto",
+        "description": "Riso mantecato all'onda con pomodoro siciliano arrostito e gocce di anacardi, oppure nella variante verde alla clorofilla di erbe spontanee.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/86d0ffb3-3fe2-4133-abc6-7d146853c748.jpg"
+      },
+      {
+        "name": "Millefoglie Croccante, Pomodoro Confit e Basilico",
+        "course": "Antipasto",
+        "description": "Cialda sottile stratificata con mousse vegetale salata, datterini confit, olio infuso al basilico e polveri aromatiche.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e49fa5c8-f810-43ff-90ef-8195c7cd237f.jpg"
+      },
+      {
+        "name": "Geometrie di Barbabietola Marinata e Mandorla",
+        "course": "Antipasto",
+        "description": "Veli di barbabietola marinata agli agrumi con spuma salata di mandorle siciliane e germogli freschi.",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/ba8736be-b065-411a-bc20-29b9060786bd.jpg"
+      }
+    ]
+  },
+  "spaces": {
+    "heading": "La terrazza sul mare <em>e la sala in calce</em>",
+    "sub": "Scorri gli ambienti di Gutkowskino: i tavoli affacciati sulla costa di Levante con vista verso il Castello Maniace, i calici intagliati e l'intimità della sala interna.",
+    "items": [
+      {
+        "title": "La Terrazza sul Lungomare di Levante al Tramonto",
+        "tag": "Terrazza Vista Mare",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/934d1b47-b37c-4d24-a431-1ccdd0bbf0b0.jpg"
+      },
+      {
+        "title": "La Sala Interna Bianca dell'Hotel Gutkowski",
+        "tag": "Interno in Calce",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3a353356-b582-4e31-8648-0eb702d983ab.png"
+      },
+      {
+        "title": "Calici in Vetro Intagliato Fronte Mare",
+        "tag": "Mise en Place",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/55a91ac3-ab3b-4431-9439-5a4bfa3d37cb.png"
+      },
+      {
+        "title": "Catenarie di Luci Calde e Tavoli in Legno Vivo",
+        "tag": "Atmosfera Serale",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e61bc9bb-e460-49a5-85f6-b1d5526b5faf.jpg"
+      },
+      {
+        "title": "Impiattamento su Legno e Ceramiche Dipinte a Mano",
+        "tag": "Dettaglio Tavola",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e4f4c94b-7e90-42b9-a2ec-dd7fc21cf671.jpg"
+      }
+    ]
+  },
+  "gallery": {
+    "photos": [
+      {
+        "title": "Terrazza sul Mare di Levante",
+        "category": "ambiente",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/934d1b47-b37c-4d24-a431-1ccdd0bbf0b0.jpg"
+      },
+      {
+        "title": "Conchiglioni Ripieni su Emulsione Verde",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/12306fd0-f837-40f9-b72f-9b01a39e8a6b.jpg"
+      },
+      {
+        "title": "Carciofo Arrostito su Crema di Barbabietola",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3b65ae14-2a51-48ab-bf93-f75fd2c90de6.jpg"
+      },
+      {
+        "title": "Calici al Tramonto sul Lungomare",
+        "category": "ambiente",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/55a91ac3-ab3b-4431-9439-5a4bfa3d37cb.png"
+      },
+      {
+        "title": "Carota Glassata e Fiori Eduli",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/cbe71346-9773-4b59-bfc0-fc8160115ee3.jpg"
+      },
+      {
+        "title": "Luci Calde in Sala",
+        "category": "ambiente",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e61bc9bb-e460-49a5-85f6-b1d5526b5faf.jpg"
+      },
+      {
+        "title": "Couscous dell'Orto allo Zafferano",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/289dec31-0dc3-4756-8c06-50d60211a4e5.png"
+      },
+      {
+        "title": "Millefoglie Salata e Basilico",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e49fa5c8-f810-43ff-90ef-8195c7cd237f.jpg"
+      },
+      {
+        "title": "Risotto al Pomodoro Arrostito",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/86d0ffb3-3fe2-4133-abc6-7d146853c748.jpg"
+      },
+      {
+        "title": "Sala Bianca dell'Hotel Gutkowski",
+        "category": "ambiente",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3a353356-b582-4e31-8648-0eb702d983ab.png"
+      },
+      {
+        "title": "Tavola in Legno e Ceramiche",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e4f4c94b-7e90-42b9-a2ec-dd7fc21cf671.jpg"
+      },
+      {
+        "title": "Barbabietola Marinata e Mandorla",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/ba8736be-b065-411a-bc20-29b9060786bd.jpg"
+      },
+      {
+        "title": "Scatto dalla Tavola · Portata di Stagione",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_3840,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/5ff48f83-5b14-4033-822b-52a3e1fbc152.jpg"
+      },
+      {
+        "title": "Dettaglio Piatto dal Mercato",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_3840,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/8b291f64-9352-4cc2-92f2-234aa3199051.jpg"
+      },
+      {
+        "title": "Creatività Vegetale a Cena",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_3840,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/6ffc3075-bee7-498f-a14e-d194dd22967e.jpg"
+      },
+      {
+        "title": "Sapori Siciliani in Chiave Botanica",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_3840,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/e1b549fe-cc6d-4e62-8b51-b2143f9304dd.jpg"
+      },
+      {
+        "title": "Impiattamento Contemporaneo",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_3840,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/c1179535-200d-4aa1-a990-79e94467d33c.jpg"
+      },
+      {
+        "title": "Dolci e Chiusure Agrumate",
+        "category": "piatti",
+        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_3840,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/b55bac8c-e434-4e0f-9d5a-3e6599d2f983.jpg"
+      }
+    ]
+  },
+  "reviews": {
+    "rating": "4.6",
+    "totalReviews": "76",
+    "featured": [
+      {
+        "author": "Ospite Verificato",
+        "source": "TheFork",
+        "text": "Cenare sul lungomare di Levante con il rumore del mare a due metri dal tavolo e scoprire piatti vegetali di una tale complessità cromatica e gustativa è un'esperienza rara."
+      },
+      {
+        "author": "Elena V.",
+        "source": "Google Maps",
+        "text": "Non siamo vegani ma siamo rimasti incantati: dal carciofo su crema di barbabietola ai primi piatti, ogni portata è equilibrata, profumata e curata nei minimi dettagli."
+      },
+      {
+        "author": "Sophie M.",
+        "source": "Google Maps",
+        "text": "Romantic terrace right over the sea in Ortigia, warm string lights inside, and creative plant-based Sicilian cuisine paired with natural wines."
+      }
+    ]
+  },
+  "info": {
+    "heading": "Orari, contatti <em>e posizione</em>",
+    "address": {
+      "street": "Lungomare di Levante Elio Vittorini, 18",
+      "detail": "Piano Terra · Hotel Gutkowski",
+      "cap": "96100",
+      "city": "Siracusa (Isola di Ortigia)"
+    },
+    "contact": {
+      "phone": "+390931465830",
+      "phoneDisplay": "0931 465830"
+    },
+    "social": {
+      "instagramHandle": "gutkowskino_",
+      "instagramUrl": "https://www.instagram.com/gutkowskino_/"
+    },
+    "priceRange": "30–45 € a persona"
+  }
+}

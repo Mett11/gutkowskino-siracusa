@@ -1,0 +1,1359 @@
+/* ==========================================================================
+   GUTKOWSKINO — Refined Sicilian Hospitality Design System
+   Fonts: Instrument Serif + Marcellus + Lora (Zero Standard/System Sans)
+   Palette: Bianco Panna, Marrone Legno, Verde Botanico, Azzurro Levante
+   ========================================================================== */
+
+:root {
+  /* 1. Bianco Panna & Calce */
+  --bg-cream:         #F7F4EC;
+  --bg-cream-warm:    #EFE9DC;
+  --bg-surface:       #FAF8F3;
+
+  /* 2. Marrone Legno Scuro */
+  --brown-deep:       #221913;
+  --brown-wood:       #2F231B;
+  --brown-muted:      #625246;
+
+  /* 3. Verde Botanico */
+  --green-botanic:    #2D543D;
+  --green-botanic-hv: #21402D;
+  --green-soft-bg:    #E4EFE8;
+  --green-accent:     #98C9AA;
+
+  /* 4. Azzurro Mare di Levante */
+  --blue-levante:     #215573;
+  --blue-deep:        #163D54;
+  --blue-azure-bg:    #DCEAF0;
+  --blue-sky:         #A3CCE0;
+
+  /* Testi Chiari */
+  --text-light:       #F7F4EC;
+  --text-light-dim:   rgba(247, 244, 236, 0.72);
+
+  /* Filetti Eleganti */
+  --line-soft:        rgba(34, 25, 19, 0.12);
+  --line-medium:      rgba(34, 25, 19, 0.22);
+  --line-blue:        rgba(33, 85, 115, 0.18);
+  --line-light:       rgba(247, 244, 236, 0.14);
+
+  /* Triade Tipografica Ricercata (Addio Sans-Serif Standard) */
+  --font-display:     'Instrument Serif', Georgia, serif;
+  --font-ui:          'Marcellus', Georgia, serif;
+  --font-body:        'Lora', Georgia, serif;
+
+  /* Angoli Eleganti e Compatti (2px-4px invece di blocchi bombati) */
+  --radius-sharp:     2px;
+  --radius-subtle:    4px;
+
+  /* Motion Curves */
+  --ease-fluid:       cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth:      cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --frame-pad:        16px;
+  --nav-h:            70px;
+  --max-w:            1360px;
+  --pad-x:            clamp(1.5rem, 4.5vw, 4rem);
+  --pad-y:            clamp(4.75rem, 8.5vw, 7.5rem);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-cream);
+  color: var(--brown-deep);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-cream);
+  color: var(--brown-deep);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+
+.section-pad {
+  padding-top: var(--pad-y);
+  padding-bottom: var(--pad-y);
+}
+
+/* ----- Gerarchia Tipografica ----- */
+.section-kicker {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green-botanic);
+  margin-bottom: 0.75rem;
+}
+
+.section-kicker.azure {
+  color: var(--blue-levante);
+}
+
+.section-kicker.light {
+  color: var(--green-accent);
+}
+
+.heading-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 4.8vw, 4.35rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--brown-deep);
+}
+
+.heading-display em {
+  font-style: italic;
+  color: var(--blue-levante);
+}
+
+/* ----- Bottoni Sartoriali (Angoli 2px, Font Marcellus) ----- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  height: 46px;
+  padding: 0 1.7rem;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sharp);
+  white-space: nowrap;
+  transition:
+    background-color 220ms var(--ease-smooth),
+    color 220ms var(--ease-smooth),
+    border-color 220ms var(--ease-smooth),
+    transform 160ms var(--ease-fluid);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform 220ms var(--ease-fluid);
+}
+
+.btn:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.btn-botanic {
+  background-color: var(--green-botanic);
+  color: var(--text-light);
+  border: 1px solid var(--green-botanic);
+}
+
+.btn-botanic:hover {
+  background-color: var(--green-botanic-hv);
+  border-color: var(--green-botanic-hv);
+}
+
+.btn-azure {
+  background-color: var(--blue-levante);
+  color: var(--text-light);
+  border: 1px solid var(--blue-levante);
+}
+
+.btn-azure:hover {
+  background-color: var(--blue-deep);
+  border-color: var(--blue-deep);
+}
+
+.btn-ghost-light {
+  background-color: transparent;
+  color: var(--text-light);
+  border: 1px solid rgba(247, 244, 236, 0.45);
+}
+
+.btn-ghost-light:hover {
+  background-color: var(--text-light);
+  color: var(--brown-deep);
+  border-color: var(--text-light);
+}
+
+.btn-outline-dark {
+  background-color: transparent;
+  color: var(--brown-deep);
+  border: 1px solid var(--line-medium);
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--brown-deep);
+  color: var(--text-light);
+  border-color: var(--brown-deep);
+}
+
+/* ----- Reveal Motion ----- */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 650ms var(--ease-fluid), transform 650ms var(--ease-fluid);
+}
+
+.reveal-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 80ms; }
+.delay-2 { transition-delay: 160ms; }
+
+/* ==========================================================================
+   NAVBAR — Inscriptional Elegance (Marcellus + Instrument Serif)
+   ========================================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  background-color: var(--bg-cream);
+  border-bottom: 1px solid var(--line-soft);
+  transition: background-color 300ms var(--ease-smooth);
+}
+
+.navbar.scrolled {
+  background-color: rgba(247, 244, 236, 0.95);
+  backdrop-filter: blur(12px);
+}
+
+.navbar-inner {
+  height: 100%;
+  padding: 0 calc(var(--frame-pad) + 0.5rem);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  justify-self: start;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--brown-deep);
+  line-height: 1;
+}
+
+.nav-place {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue-levante);
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--line-medium);
+  white-space: nowrap;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  justify-self: center;
+}
+
+.nav-center a {
+  position: relative;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brown-muted);
+  white-space: nowrap;
+  padding: 0.25rem 0;
+  transition: color 200ms ease;
+}
+
+.nav-center a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--blue-levante);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 280ms var(--ease-fluid);
+}
+
+.nav-center a:hover {
+  color: var(--brown-deep);
+}
+
+.nav-center a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  justify-self: end;
+}
+
+.nav-status {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brown-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--green-botanic);
+}
+
+.status-dot.closed {
+  background-color: var(--brown-muted);
+}
+
+.nav-cta {
+  height: 38px;
+  padding: 0 1.2rem;
+  background-color: var(--green-botanic);
+  color: var(--text-light);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sharp);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  transition: background-color 200ms ease;
+}
+
+.nav-cta:hover {
+  background-color: var(--blue-levante);
+}
+
+.nav-cta svg {
+  width: 12px;
+  height: 12px;
+}
+
+.nav-toggle {
+  display: none;
+  padding: 0.4rem;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--brown-deep);
+  margin: 5px 0;
+}
+
+/* ==========================================================================
+   HERO A CARTOLINA (Costa di Levante di Ortigia)
+   ========================================================================== */
+.postcard-stage {
+  padding: var(--frame-pad);
+}
+
+.postcard-hero {
+  position: relative;
+  min-height: calc(100vh - var(--nav-h) - (var(--frame-pad) * 2));
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(2rem, 4.5vw, 3.75rem);
+  background-color: var(--blue-deep);
+}
+
+.postcard-bg {
+  position: absolute;
+  inset: -4% 0;
+  background-size: cover;
+  background-position: center 45%;
+  transform: scale(1.05) translate3d(0, 0, 0);
+  transition: transform 1.8s var(--ease-fluid);
+}
+
+.postcard-hero.loaded .postcard-bg {
+  transform: scale(1) translate3d(0, var(--hero-parallax, 0px), 0);
+}
+
+.postcard-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 61, 84, 0.34) 0%,
+    rgba(22, 61, 84, 0.1) 42%,
+    rgba(28, 20, 15, 0.85) 100%
+  );
+}
+
+.postcard-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid rgba(247, 244, 236, 0.22);
+}
+
+.postcard-location-badge {
+  background-color: rgba(33, 85, 115, 0.72);
+  padding: 0.38rem 0.9rem;
+  border-radius: var(--radius-sharp);
+  border: 1px solid rgba(163, 204, 224, 0.42);
+}
+
+.postcard-bottom {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 3rem;
+  align-items: end;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(247, 244, 236, 0.22);
+}
+
+.postcard-kicker {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  margin-bottom: 0.75rem;
+}
+
+.postcard-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6.4vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.98;
+  color: var(--text-light);
+}
+
+.postcard-title em {
+  font-style: italic;
+  color: var(--blue-sky);
+}
+
+.postcard-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-left: 1px solid rgba(247, 244, 236, 0.24);
+  padding-left: 2rem;
+}
+
+.postcard-desc {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  color: rgba(247, 244, 236, 0.92);
+  line-height: 1.72;
+}
+
+.postcard-actions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   FILOSOFIA
+   ========================================================================== */
+.section-philosophy {
+  background-color: var(--bg-cream);
+}
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(3rem, 6vw, 5.5rem);
+  align-items: center;
+}
+
+.philosophy-lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 2.4vw, 2.15rem);
+  line-height: 1.35;
+  color: var(--brown-deep);
+  margin: 1.25rem 0 1.5rem;
+}
+
+.philosophy-copy {
+  font-size: 1rem;
+  color: var(--brown-muted);
+  line-height: 1.82;
+  margin-bottom: 1.25rem;
+}
+
+.philosophy-visuals {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.philo-img-main {
+  width: 86%;
+  margin-left: auto;
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.philo-img-main img {
+  aspect-ratio: 4 / 4.6;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-fluid);
+}
+
+.philo-img-secondary {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 52%;
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  border: 6px solid var(--bg-cream);
+  cursor: pointer;
+}
+
+.philo-img-secondary img {
+  aspect-ratio: 4 / 3.2;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-fluid);
+}
+
+.philo-img-main:hover img,
+.philo-img-secondary:hover img {
+  transform: scale(1.03);
+}
+
+.philosophy-values {
+  margin-top: 4.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line-medium);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.value-col {
+  padding-right: 1.5rem;
+  border-right: 1px solid var(--line-soft);
+}
+
+.value-col:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.value-col h3 {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--green-botanic);
+  margin-bottom: 0.5rem;
+}
+
+.value-col p {
+  font-size: 0.95rem;
+  color: var(--brown-muted);
+  line-height: 1.75;
+}
+
+/* ==========================================================================
+   SCREEN 1 FIX: LA CUCINA — Sartoriale, Meno Arrotondata, Zero Box/Pillole
+   ========================================================================== */
+.section-kitchen {
+  background-color: var(--brown-deep);
+  color: var(--text-light);
+}
+
+.section-kitchen .heading-display {
+  color: var(--text-light);
+}
+
+.section-kitchen .heading-display em {
+  color: var(--green-accent);
+}
+
+.kitchen-header {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3rem;
+  align-items: end;
+  padding-bottom: 2.75rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.kitchen-header-desc {
+  font-size: 1rem;
+  color: var(--text-light-dim);
+  line-height: 1.78;
+}
+
+.kitchen-showcase {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Lista Piatti Sartoriale: Filetti sottili 1px, Zero Box Arrotondati, Zero Pillole */
+.dish-list {
+  border-top: 1px solid var(--line-light);
+}
+
+.dish-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.5rem 0.5rem;
+  border-bottom: 1px solid var(--line-light);
+  cursor: pointer;
+  transition: padding-left 260ms var(--ease-fluid), background-color 220ms ease;
+}
+
+.dish-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--green-accent);
+  transform: scaleY(0);
+  transition: transform 260ms var(--ease-fluid);
+}
+
+.dish-item:hover,
+.dish-item.active {
+  padding-left: 1.25rem;
+  background-color: rgba(247, 244, 236, 0.03);
+}
+
+.dish-item.active::before {
+  transform: scaleY(1);
+}
+
+.dish-thumb {
+  width: 68px;
+  height: 68px;
+  border-radius: var(--radius-sharp);
+  overflow: hidden;
+  border: 1px solid rgba(247, 244, 236, 0.18);
+}
+
+.dish-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dish-course-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+  margin-bottom: 0.25rem;
+}
+
+.dish-info h3 {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--text-light);
+  margin-bottom: 0.3rem;
+  transition: color 200ms ease;
+}
+
+.dish-item:hover .dish-info h3,
+.dish-item.active .dish-info h3 {
+  color: var(--green-accent);
+  font-style: italic;
+}
+
+.dish-info p {
+  font-size: 0.9rem;
+  color: var(--text-light-dim);
+  line-height: 1.65;
+}
+
+/* Riquadro Foto Piatto a Destra: Angoli 2px e Cornice Fine */
+.dish-preview-card {
+  position: sticky;
+  top: calc(var(--nav-h) + 2rem);
+  background-color: var(--brown-wood);
+  border-radius: var(--radius-sharp);
+  padding: 1.25rem;
+  border: 1px solid rgba(247, 244, 236, 0.18);
+}
+
+.dish-preview-photo {
+  aspect-ratio: 4 / 3.9;
+  border-radius: var(--radius-sharp);
+  overflow: hidden;
+  margin-bottom: 1.15rem;
+  cursor: pointer;
+}
+
+.dish-preview-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 220ms ease, transform 500ms var(--ease-fluid);
+}
+
+.dish-preview-photo img.switching {
+  opacity: 0.25;
+  transform: scale(0.98);
+}
+
+.dish-preview-photo:hover img {
+  transform: scale(1.03);
+}
+
+.dish-preview-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line-light);
+}
+
+.dish-preview-caption h4 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-light);
+}
+
+.dish-preview-caption span {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  white-space: nowrap;
+}
+
+.kitchen-footer-bar {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.kitchen-footer-bar p {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-light-dim);
+  max-width: 58ch;
+}
+
+/* ==========================================================================
+   SCREEN 2 FIX: UNICA GRANDE SEZIONE AZZURRO LEVANTE (Terrazza + Sala + Piatti)
+   ========================================================================== */
+.section-azure-gallery {
+  background-color: var(--blue-azure-bg);
+  border-top: 1px solid var(--line-blue);
+  border-bottom: 1px solid var(--line-blue);
+}
+
+.azure-gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  padding-bottom: 2.25rem;
+  margin-bottom: 2.75rem;
+  border-bottom: 1px solid var(--line-blue);
+  flex-wrap: wrap;
+}
+
+/* Barra Filtri Elegante (Tutti, Terrazza & Mare, I Piatti, Sala & Dettagli) */
+.azure-filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.azure-filter-btn {
+  padding: 0.65rem 1.3rem;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brown-deep);
+  background-color: rgba(247, 244, 236, 0.65);
+  border: 1px solid var(--line-blue);
+  border-radius: var(--radius-sharp);
+  transition: all 200ms var(--ease-smooth);
+}
+
+.azure-filter-btn:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--blue-levante);
+}
+
+.azure-filter-btn.active {
+  background-color: var(--blue-levante);
+  color: var(--text-light);
+  border-color: var(--blue-levante);
+}
+
+/* Griglia Unificata Elegante a 3 Colonne con Didascalie Pulite */
+.azure-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1.75rem;
+}
+
+/* Le prime due foto (Terrazza sul Mare e Sala) hanno risalto panoramico */
+.azure-photo-item.featured-wide {
+  grid-column: span 2;
+}
+
+.azure-photo-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.azure-img-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-subtle);
+  background-color: var(--bg-cream);
+  border: 1px solid rgba(33, 85, 115, 0.16);
+  margin-bottom: 0.85rem;
+}
+
+.azure-photo-item.featured-wide .azure-img-frame {
+  aspect-ratio: 16 / 10;
+}
+
+.azure-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 650ms var(--ease-fluid);
+}
+
+.azure-photo-item:hover .azure-img-frame img {
+  transform: scale(1.04);
+}
+
+.azure-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0 0.15rem;
+}
+
+.azure-caption h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 400;
+  color: var(--brown-deep);
+}
+
+.azure-caption span {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue-levante);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   RECENSIONI
+   ========================================================================== */
+.section-reviews {
+  background-color: var(--bg-cream);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 3.25rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--line-medium);
+  flex-wrap: wrap;
+}
+
+.reviews-badge-score {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.score-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 0.9;
+  color: var(--blue-levante);
+}
+
+.score-stars {
+  color: #C88232;
+  letter-spacing: 3px;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.score-label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brown-muted);
+}
+
+.reviews-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.review-card {
+  padding-right: 2rem;
+  border-right: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.75rem;
+}
+
+.review-card:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.review-quote {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1.42;
+  color: var(--brown-deep);
+}
+
+.review-author-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.review-author-row strong {
+  color: var(--brown-deep);
+  font-weight: 400;
+}
+
+.review-author-row span {
+  color: var(--green-botanic);
+}
+
+/* ==========================================================================
+   SCREEN 3 FIX: CONTATTI & INDIRIZZO (Tipografia Marcellus + Lora)
+   ========================================================================== */
+.section-info {
+  background-color: var(--bg-cream-warm);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 4.5rem;
+  align-items: center;
+}
+
+.info-ledger {
+  margin-top: 2.25rem;
+  border-top: 1px solid var(--line-medium);
+}
+
+.info-row {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1.5rem;
+  align-items: baseline;
+}
+
+.info-row-label {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-levante);
+}
+
+.info-row-value {
+  font-family: var(--font-ui);
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+  color: var(--brown-deep);
+  line-height: 1.75;
+}
+
+.info-row-value small {
+  display: block;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--brown-muted);
+  margin-top: 0.15rem;
+}
+
+.info-row-value a {
+  color: var(--green-botanic);
+  border-bottom: 1px solid var(--green-botanic);
+  transition: color 200ms ease;
+}
+
+.info-row-value a:hover {
+  color: var(--blue-levante);
+  border-color: var(--blue-levante);
+}
+
+.hours-list {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.4rem 2rem;
+}
+
+.info-actions {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.map-container {
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  border: 1px solid var(--line-blue);
+  background-color: var(--blue-azure-bg);
+  padding: 0.65rem;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 520px;
+  border: none;
+  display: block;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+  background-color: var(--brown-deep);
+  color: var(--text-light-dim);
+  padding: 4rem 0 2.5rem;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--line-light);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--text-light);
+}
+
+.footer-links {
+  display: flex;
+  gap: 2.25rem;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.footer-links a:hover {
+  color: var(--blue-sky);
+}
+
+.footer-bottom {
+  padding-top: 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ==========================================================================
+   LIGHTBOX
+   ========================================================================== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  background: rgba(24, 18, 14, 0.96);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem var(--pad-x);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 260ms ease, visibility 260ms ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-top,
+.lightbox-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-light);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lightbox-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+.lightbox-stage img {
+  max-width: 88vw;
+  max-height: 78vh;
+  width: auto;
+  object-fit: contain;
+  border-radius: var(--radius-sharp);
+  transform: scale(0.97);
+  transition: transform 320ms var(--ease-fluid);
+}
+
+.lightbox.active .lightbox-stage img {
+  transform: scale(1);
+}
+
+.lb-btn {
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-sharp);
+  border: 1px solid var(--line-light);
+  color: var(--text-light);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color 200ms ease;
+}
+
+.lb-btn:hover {
+  background-color: var(--green-botanic);
+  border-color: var(--green-botanic);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .nav-place,
+  .nav-status {
+    display: none;
+  }
+
+  .postcard-bottom,
+  .philosophy-grid,
+  .kitchen-header,
+  .kitchen-showcase,
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .postcard-aside {
+    border-left: none;
+    border-top: 1px solid rgba(247, 244, 236, 0.24);
+    padding-left: 0;
+    padding-top: 1.5rem;
+  }
+
+  .philosophy-values,
+  .reviews-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .value-col,
+  .review-card {
+    border-right: none;
+    border-bottom: 1px solid var(--line-soft);
+    padding-right: 0;
+    padding-bottom: 1.75rem;
+  }
+
+  .azure-photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .azure-photo-item.featured-wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --frame-pad: 10px;
+  }
+
+  .navbar-inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .nav-center {
+    display: none;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    background: var(--bg-cream);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem var(--pad-x);
+    gap: 1.15rem;
+    border-bottom: 1px solid var(--line-medium);
+  }
+
+  .nav-center.active {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .azure-photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .azure-photo-item.featured-wide {
+    grid-column: span 1;
+  }
+
+  .info-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
