@@ -103,6 +103,7 @@
     app.appendChild(buildPostcardHero(data));
     app.appendChild(buildPhilosophy(data));
     app.appendChild(buildKitchenLookbook(data));
+    app.appendChild(buildOrganicDivider('kitchen-to-azure'));
     app.appendChild(buildUnifiedAzureGallery(data, unifiedPhotos));
     app.appendChild(buildReviewsSection(data));
     app.appendChild(buildInfoSection(data));
@@ -117,6 +118,18 @@
     initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
     initLightbox();
+  }
+
+  // ───── Divisore Organico d'Autore tra Sezioni (Zero Linee Dure) ─────
+  function buildOrganicDivider(variant) {
+    const div = el('div', { className: 'section-divider-organic', 'aria-hidden': 'true' });
+    if (variant === 'kitchen-to-azure') {
+      div.innerHTML = `
+        <svg viewBox="0 0 1440 68" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 L1440,0 L1440,16 C1240,62 1010,8 780,44 C530,82 290,14 0,38 Z" fill="#E4EFF2" />
+        </svg>`;
+    }
+    return div;
   }
 
   // ───── 1. Navbar ─────
@@ -271,11 +284,14 @@
 
           <!-- Dettagli Cartolina Mobile (Indirizzo & Divisore) -->
           <div class="mobile-postcard-foot" aria-hidden="true">
-            <div class="postcard-foot-sep"></div>
-            <div class="postcard-foot-data">
-              <span>Hotel Gutkowski · Lungomare di Levante Elio Vittorini, 18</span>
-              <span>Isola di Ortigia · 96100 Siracusa (SR)</span>
+            <div class="mp-lines"><span></span><span></span><span></span></div>
+            <div class="mpf-address-card">
+              <span class="mpf-badge">Ortigia · Siracusa</span>
+              <strong class="mpf-hotel">Hotel Gutkowski</strong>
+              <span class="mpf-street">Lungomare di Levante Elio Vittorini, 18</span>
+              <span class="mpf-meta">Isola di Ortigia · 96100 Siracusa (SR)</span>
             </div>
+            
           </div>
 
           <!-- Highlights Desktop Proporzionati -->
@@ -402,7 +418,8 @@
         <!-- Palcoscenico Principale del Piatto Selezionato -->
         <div class="kitchen-panoramic-stage reveal-up delay-1">
           <div class="kps-visual-wrap" id="dishStageVisual" data-lightbox="${first.image || ''}">
-            <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
+            <img id="dishStageImgA" class="kps-img active" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
+            <img id="dishStageImgB" class="kps-img" src="" alt="" decoding="async" referrerpolicy="no-referrer">
             <span class="kps-badge" id="dishStageBadge">${first.course || ''}</span>
             <span class="kps-zoom-hint">Ingrandisci ↗</span>
           </div>
@@ -772,7 +789,8 @@
     if (!dishes.length) return;
 
     const stageVisual = document.getElementById('dishStageVisual');
-    const stageImg = document.getElementById('dishStageImg');
+    const stageImgA = document.getElementById('dishStageImgA');
+    const stageImgB = document.getElementById('dishStageImgB');
     const stageBadge = document.getElementById('dishStageBadge');
     const stageCounter = document.getElementById('dishStageCounter');
     const stageCourse = document.getElementById('dishStageCourse');
@@ -783,7 +801,7 @@
     const prevBtn = document.getElementById('dishPrevBtn');
     const nextBtn = document.getElementById('dishNextBtn');
 
-    if (!stageImg) return;
+    if (!stageImgA || !stageImgB) return;
 
     let current = 0;
     const total = dishes.length;
@@ -801,13 +819,11 @@
         }
       });
 
-      stageImg.classList.add('switching');
+      // Transizione morbida testi
       if (stageTitle) stageTitle.classList.add('fading');
       if (stageDesc) stageDesc.style.opacity = '0.35';
 
       setTimeout(() => {
-        stageImg.src = d.image;
-        if (stageVisual) stageVisual.dataset.lightbox = d.image;
         if (stageBadge) stageBadge.textContent = d.course;
         if (stageCounter) stageCounter.textContent = `0${current + 1} / 0${total}`;
         if (stageCourse) stageCourse.textContent = d.course;
@@ -817,10 +833,28 @@
           stageIngredients.innerHTML = `<span class="kps-ing-label">Materia Prima:</span> <span class="kps-ing-value">${d.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>`;
         }
 
-        stageImg.classList.remove('switching');
         if (stageTitle) stageTitle.classList.remove('fading');
         if (stageDesc) stageDesc.style.opacity = '1';
-      }, 150);
+      }, 120);
+
+      // ZERO-BLINK Crossfade: prepariamo l'immagine successiva e scambiamo la classe active
+      const activeImg = stageImgA.classList.contains('active') ? stageImgA : stageImgB;
+      const nextImg = activeImg === stageImgA ? stageImgB : stageImgA;
+
+      nextImg.src = d.image;
+      nextImg.alt = d.name;
+
+      const finishCrossfade = () => {
+        nextImg.classList.add('active');
+        activeImg.classList.remove('active');
+        if (stageVisual) stageVisual.dataset.lightbox = d.image;
+      };
+
+      if (nextImg.complete) {
+        finishCrossfade();
+      } else {
+        nextImg.onload = finishCrossfade;
+      }
     }
 
     deckCards.forEach((card, idx) => {
