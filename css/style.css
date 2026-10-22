@@ -292,7 +292,6 @@ button {
   height: var(--nav-h);
   background-color: var(--bg-cream);
   border-bottom: 1px solid var(--line-soft);
-  transform: translateZ(0);
   transition: background-color 260ms var(--ease-smooth), box-shadow 260ms ease;
 }
 
@@ -465,12 +464,17 @@ button {
 .mobile-drawer {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999;
   background-color: var(--bg-cream);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.25rem 1.5rem 2rem;
+  padding: 1.5rem 1.5rem 2rem;
+  box-sizing: border-box;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-100%);
