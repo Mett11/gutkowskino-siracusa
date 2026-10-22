@@ -1,47 +1,54 @@
 /* ==========================================================================
-   GUTKOWSKINO — Refined Sicilian Hospitality Design System
-   Color Palette: Bianco Calce, Pietra Chiara, Blu Ionio & Ambra Dorata
-   (Zero Verde Petrolio / Zero Verde Fangoso)
+   GUTKOWSKINO — Refined Atelier & Mediterranean Watercolor Design System
+   Palette estratta dal dipinto: Carta d'Arte, Ceruleo Ionio, Arenaria & Terracotta
+   Effetto Continuità: Texture di Carta Fine-Art, Velature d'Acquerello & Tratto di Penna
    ========================================================================== */
 
 :root {
-  /* 1. Bianco Panna & Calce Naturale di Ortigia */
-  --bg-cream:         #F7F4EC;
-  --bg-cream-warm:    #EFE9DC;
-  --bg-surface:       #FAF8F3;
+  /* 1. Carta d'Arte & Calce Naturale di Ortigia (Canvas & Watercolor Paper) */
+  --bg-cream:         #FAF6EE;
+  --bg-cream-warm:    #F4EBDD;
+  --bg-surface:       #FDFBF7;
+  --bg-canvas:        #FAF6EE;
+  --bg-stone:         #EADFC9;
 
-  /* 2. Blu Ionio & Notte di Levante (Profondo, Nobile, Architetturale) */
-  --blue-night:       #0E1720;
-  --blue-night-mid:   #14202C;
-  --blue-night-light: #1A2A3A;
-  --blue-levante:     #1E4D6B;
-  --blue-azure-bg:    #DAE8EE;
-  --blue-sky:         #9ECBE0;
+  /* 2. Blu Ionio & Pigmenti Acquerello Mare di Levante */
+  --blue-night:       #1E2825;       /* Inchiostro profondo / grafite calda del dipinto */
+  --blue-night-mid:   #273430;
+  --blue-night-light: #344440;
+  --blue-levante:     #457588;       /* Il ceruleo acquerellato del mare dal dipinto */
+  --blue-levante-deep:#325867;
+  --blue-azure-bg:    #E2EDF1;       /* Velatura chiara del mare e del cielo */
+  --blue-sky:         #92BFCE;
 
-  /* 3. Ambra Calda, Miele & Terracotta Dorata di Sicilia */
-  --amber-warm:       #C89758;
-  --amber-warm-hv:    #D8A76B;
-  --amber-soft:       #E8CA9B;
-  --amber-glow:       rgba(200, 151, 88, 0.16);
+  /* 3. Ambra Calda, Rattan & Terracotta Dorata del Terrazzo */
+  --amber-warm:       #C69255;       /* Terracotta e sedie in rattan dal dipinto */
+  --amber-warm-hv:    #D6A265;
+  --amber-soft:       #E0BA85;       /* Sabbia dorata / calcarenite al sole */
+  --amber-glow:       rgba(198, 146, 85, 0.18);
 
-  /* 4. Tonalità Inchiostro & Pietra per Testi */
-  --text-dark:        #1A1715;
-  --text-muted:       #5C554F;
-  --text-light:       #F7F4EC;
-  --text-light-dim:   rgba(247, 244, 236, 0.76);
+  /* 4. Foglia di Pianta Grassa & Salvia */
+  --sage-green:       #5F7762;       /* Verde agavi e vasi del terrazzo */
+  --sage-soft:        #8BA18E;
 
-  /* 5. Filetti e Bordi Sartoriali */
-  --line-soft:        rgba(26, 23, 21, 0.11);
-  --line-medium:      rgba(26, 23, 21, 0.20);
-  --line-blue:        rgba(30, 77, 107, 0.18);
-  --line-light:       rgba(247, 244, 236, 0.15);
+  /* 5. Tonalità Inchiostro da Disegno per Testi */
+  --text-dark:        #1E2825;       /* Inchiostro seppia/antracite del tratto */
+  --text-muted:       #566461;       /* Inchiostro diluito / acquerello */
+  --text-light:       #FAF6EE;       /* Bianco carta d'autore */
+  --text-light-dim:   rgba(250, 246, 238, 0.82);
+
+  /* 6. Filetti a Tratto di Penna e Velature Sartoriali */
+  --line-soft:        rgba(30, 40, 37, 0.09);
+  --line-medium:      rgba(30, 40, 37, 0.16);
+  --line-blue:        rgba(69, 117, 136, 0.22);
+  --line-light:       rgba(250, 246, 238, 0.20);
 
   /* Tipografia Editoriale */
   --font-display:     'Instrument Serif', Georgia, serif;
   --font-ui:          'Marcellus', Georgia, serif;
   --font-body:        'Lora', Georgia, serif;
 
-  /* Geometrie */
+  /* Geometrie Sartoriali */
   --radius-sharp:     2px;
   --radius-subtle:    4px;
   --radius-pill:      999px;
@@ -87,6 +94,17 @@ body {
   overflow-x: hidden;
   position: relative;
   text-rendering: optimizeLegibility;
+}
+
+/* Texture Carta d'Arte Acquerello Continua (Fine-Art Watercolor Paper Grain) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  opacity: 0.034;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)'/%3E%3C/svg%3E");
 }
 
 body.menu-open {
@@ -617,16 +635,16 @@ button {
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(2rem, 4.5vw, 3.75rem);
-  background-color: var(--blue-night);
+  background-color: var(--bg-stone);
   transform: translateZ(0);
 }
 
 .postcard-bg {
   position: absolute;
-  inset: -8% 0;
+  inset: -6% 0;
   background-size: cover;
-  background-position: center 45%;
-  transform: translate3d(0, 0, 0) scale(1.05);
+  background-position: center 42%;
+  transform: translate3d(0, 0, 0) scale(1.04);
   will-change: transform;
 }
 
@@ -635,9 +653,10 @@ button {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(14, 23, 32, 0.35) 0%,
-    rgba(14, 23, 32, 0.12) 42%,
-    rgba(10, 16, 23, 0.88) 100%
+    rgba(30, 40, 37, 0.05) 0%,
+    rgba(30, 40, 37, 0.02) 35%,
+    rgba(26, 36, 33, 0.38) 65%,
+    rgba(20, 29, 27, 0.88) 100%
   );
   pointer-events: none;
 }
@@ -761,10 +780,17 @@ button {
 }
 
 /* ==========================================================================
-   FILOSOFIA
+   FILOSOFIA (Trasparenza Materica & Tratto Botanico)
    ========================================================================== */
 .section-philosophy {
-  background-color: var(--bg-cream);
+  background: linear-gradient(
+    180deg,
+    #F4EBDD 0%,
+    #FAF6EE 14%,
+    #FAF6EE 86%,
+    #F0E7D6 100%
+  );
+  position: relative;
 }
 
 .philosophy-grid {
@@ -800,7 +826,10 @@ button {
   border-radius: var(--radius-subtle);
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 12px 36px rgba(26, 23, 21, 0.08);
+  background-color: #FFFFFF;
+  padding: 6px;
+  border: 1px solid var(--line-medium);
+  box-shadow: 0 14px 40px rgba(30, 40, 37, 0.08);
 }
 
 .philo-img-main img {
@@ -816,9 +845,11 @@ button {
   width: 52%;
   border-radius: var(--radius-subtle);
   overflow: hidden;
-  border: 6px solid var(--bg-cream);
+  border: 1px solid var(--line-medium);
+  padding: 5px;
+  background-color: #FFFFFF;
   cursor: pointer;
-  box-shadow: 0 16px 40px rgba(26, 23, 21, 0.12);
+  box-shadow: 0 16px 44px rgba(30, 40, 37, 0.12);
 }
 
 .philo-img-secondary img {
@@ -879,14 +910,17 @@ button {
    Zero Sfondo Cupo / Zero Necessità di Scroll per Selezionare e Guardare
    ========================================================================== */
 .section-kitchen {
-  background-color: var(--bg-cream-warm);
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(200, 151, 88, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(30, 77, 107, 0.04) 0%, transparent 40%);
+  background: linear-gradient(
+    180deg,
+    #F0E7D6 0%,
+    #F8F3EA 12%,
+    #F6EFE5 88%,
+    #E4EFF2 100%
+  );
   color: var(--text-dark);
   position: relative;
   border-top: 1px solid var(--line-medium);
-  border-bottom: 1px solid var(--line-medium);
+  border-bottom: 1px solid var(--line-blue);
   padding: clamp(2.5rem, 5vh, 4rem) 0;
 }
 
@@ -1291,12 +1325,18 @@ button {
 }
 
 /* ==========================================================================
-   GALLERIA AZZURRA — FILTRI CON PILLOLA ANIMATA & STAGGER
+   GALLERIA AZZURRA — CERULEO IONIO DAL DIPINTO
    ========================================================================== */
 .section-azure-gallery {
-  background-color: var(--blue-azure-bg);
+  background: linear-gradient(
+    180deg,
+    #E4EFF2 0%,
+    #DAE9EE 25%,
+    #D4E5EC 75%,
+    #F4EBDD 100%
+  );
   border-top: 1px solid var(--line-blue);
-  border-bottom: 1px solid var(--line-blue);
+  border-bottom: 1px solid var(--line-medium);
 }
 
 .azure-gallery-header {
@@ -1451,7 +1491,13 @@ button {
    RECENSIONI — CARD SINGOLE STILIZZATE A TEMA (Ortigia & Ospitalità)
    ========================================================================== */
 .section-reviews {
-  background-color: var(--bg-cream);
+  background: linear-gradient(
+    180deg,
+    #F4EBDD 0%,
+    #FAF6EE 15%,
+    #FAF6EE 85%,
+    #F0E6D4 100%
+  );
   border-bottom: 1px solid var(--line-soft);
   position: relative;
 }
@@ -1656,7 +1702,13 @@ button {
    CONTATTI & INDIRIZZO
    ========================================================================== */
 .section-info {
-  background-color: var(--bg-cream-warm);
+  background: linear-gradient(
+    180deg,
+    #F0E6D4 0%,
+    #FAF6EE 35%,
+    #F4EBDD 100%
+  );
+  border-bottom: 1px solid var(--line-medium);
 }
 
 .info-grid {
@@ -2017,7 +2069,7 @@ button {
 
   /* Inquadratura Fotografica Panoramica della Terrazza sul Mare */
   .postcard-bg {
-    background-position: 72% 35% !important;
+    background-position: 52% 38% !important;
     background-size: cover !important;
   }
 
@@ -2025,11 +2077,11 @@ button {
   .postcard-scrim {
     background: linear-gradient(
       180deg,
-      rgba(14, 23, 32, 0) 0%,
-      rgba(14, 23, 32, 0) 42%,
-      rgba(12, 18, 25, 0.32) 62%,
-      rgba(10, 16, 23, 0.76) 82%,
-      rgba(10, 16, 23, 0.94) 100%
+      rgba(30, 40, 37, 0) 0%,
+      rgba(30, 40, 37, 0) 38%,
+      rgba(26, 36, 33, 0.26) 58%,
+      rgba(20, 29, 27, 0.72) 80%,
+      rgba(18, 26, 24, 0.94) 100%
     ) !important;
   }
 
@@ -2133,14 +2185,14 @@ button {
     line-height: 1.05 !important;
     font-weight: 400 !important;
     word-break: break-word !important;
-    color: #F7F4EC !important;
+    color: #FAF6EE !important;
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65) !important;
   }
 
   .postcard-title em {
     display: block !important;
     font-style: italic !important;
-    color: #F0B86E !important;
+    color: var(--amber-soft) !important;
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7) !important;
     margin-top: 0.18rem !important;
   }
