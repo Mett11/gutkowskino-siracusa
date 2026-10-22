@@ -1,8 +1,6 @@
 /* ==========================================================================
    GUTKOWSKINO — Refined Sicilian Hospitality Design System
-   High-Performance, Butter-Smooth Motion, Hardware-Accelerated
-   Fonts: Instrument Serif + Marcellus + Lora
-   Palette: Bianco Panna, Marrone Legno, Verde Botanico, Azzurro Levante
+   Color Palette: Calce, Pietra Chiara, Verde Botanico & Blu Ionio
    ========================================================================== */
 
 :root {
@@ -11,50 +9,54 @@
   --bg-cream-warm:    #EFE9DC;
   --bg-surface:       #FAF8F3;
 
-  /* 2. Marrone Legno Scuro */
-  --brown-deep:       #221913;
-  --brown-wood:       #2F231B;
-  --brown-muted:      #625246;
+  /* 2. Marrone Legno Caldo (solo dettagli testo e accenti) */
+  --brown-deep:       #1E1A17;
+  --brown-wood:       #2A241F;
+  --brown-muted:      #5E554E;
 
-  /* 3. Verde Botanico */
-  --green-botanic:    #2D543D;
-  --green-botanic-hv: #21402D;
-  --green-soft-bg:    #E4EFE8;
-  --green-accent:     #98C9AA;
+  /* 3. Verde Botanico Notturno & Salvia */
+  --green-botanic:    #244D36;
+  --green-botanic-hv: #1A3B29;
+  --green-deep:       #13291F;
+  --green-soft-bg:    #E2ECE6;
+  --green-accent:     #8FD4AB;
 
-  /* 4. Azzurro Mare di Levante */
-  --blue-levante:     #215573;
-  --blue-deep:        #163D54;
-  --blue-azure-bg:    #DCEAF0;
-  --blue-sky:         #A3CCE0;
+  /* 4. Azzurro Ionio & Notte di Levante */
+  --blue-levante:     #1E5270;
+  --blue-deep:        #122B3B;
+  --blue-azure-bg:    #DAE8EE;
+  --blue-sky:         #9ECBE0;
+
+  /* 5. Tonalità Notturna Ibrida (Verde Botanico Profondo + Blu Ionio) */
+  --night-sea-dark:   #0D1F1C;
+  --night-sea-mid:    #142B28;
+  --night-sea-blue:   #10242B;
 
   /* Testi Chiari */
   --text-light:       #F7F4EC;
   --text-light-dim:   rgba(247, 244, 236, 0.74);
 
-  /* Filetti Eleganti */
-  --line-soft:        rgba(34, 25, 19, 0.12);
-  --line-medium:      rgba(34, 25, 19, 0.22);
-  --line-blue:        rgba(33, 85, 115, 0.18);
-  --line-light:       rgba(247, 244, 236, 0.14);
+  /* Filetti Sartoriali */
+  --line-soft:        rgba(30, 26, 23, 0.11);
+  --line-medium:      rgba(30, 26, 23, 0.20);
+  --line-blue:        rgba(30, 82, 112, 0.18);
+  --line-light:       rgba(247, 244, 236, 0.15);
 
   /* Tipografia */
   --font-display:     'Instrument Serif', Georgia, serif;
   --font-ui:          'Marcellus', Georgia, serif;
   --font-body:        'Lora', Georgia, serif;
 
-  /* Angoli Sartoriali */
+  /* Geometrie */
   --radius-sharp:     2px;
   --radius-subtle:    4px;
   --radius-pill:      999px;
 
-  /* Curve di Motion Ultra-Fluide (Zero scatti) */
+  /* Curve di Motion */
   --ease-elastic:     cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring:      cubic-bezier(0.25, 1, 0.5, 1);
   --ease-smooth:      cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out-quad:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-  /* Layout */
+  /* Spaziatura */
   --frame-pad:        16px;
   --nav-h:            70px;
   --max-w:            1360px;
@@ -62,7 +64,7 @@
   --pad-y:            clamp(4.75rem, 8.5vw, 7.5rem);
 }
 
-/* ── Reset & Performance Baseline ── */
+/* ── Reset & Baseline ── */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -119,17 +121,6 @@ button {
   padding-bottom: var(--pad-y);
 }
 
-/* Ottimizzazione rendering per sezioni sotto la piega */
-.section-philosophy,
-.section-kitchen,
-.section-azure-gallery,
-.section-reviews,
-.section-info {
-  content-visibility: auto;
-  contain-intrinsic-size: 800px;
-}
-
-/* ----- Gerarchia Tipografica ----- */
 .section-kicker {
   display: inline-block;
   font-family: var(--font-ui);
@@ -173,7 +164,7 @@ button {
   transform: skewX(-2deg);
 }
 
-/* ----- Bottoni Sartoriali con Motion Tattile ----- */
+/* ----- Bottoni Sartoriali ----- */
 .btn {
   position: relative;
   display: inline-flex;
@@ -181,7 +172,7 @@ button {
   justify-content: center;
   gap: 0.7rem;
   height: 46px;
-  padding: 0 1.7rem;
+  padding: 0 1.75rem;
   font-family: var(--font-ui);
   font-size: 0.78rem;
   letter-spacing: 0.14em;
@@ -199,37 +190,19 @@ button {
     box-shadow 260ms var(--ease-smooth);
 }
 
-.btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, transparent 70%);
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 300ms ease, transform 300ms var(--ease-elastic);
-  pointer-events: none;
-}
-
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(34, 25, 19, 0.08);
-}
-
-.btn:hover::after {
-  opacity: 1;
-  transform: scale(1.2);
+  box-shadow: 0 6px 18px rgba(20, 35, 30, 0.1);
 }
 
 .btn:active {
   transform: translateY(0) scale(0.97);
-  box-shadow: 0 2px 6px rgba(34, 25, 19, 0.05);
 }
 
 .btn svg {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  will-change: transform;
   transition: transform 260ms var(--ease-elastic);
 }
 
@@ -283,7 +256,7 @@ button {
   border-color: var(--brown-deep);
 }
 
-/* ----- Reveal Motion su GPU ----- */
+/* Reveal Observer */
 .reveal-up {
   opacity: 0;
   transform: translate3d(0, 24px, 0);
@@ -300,10 +273,9 @@ button {
 
 .delay-1 { transition-delay: 90ms; }
 .delay-2 { transition-delay: 180ms; }
-.delay-3 { transition-delay: 270ms; }
 
 /* ==========================================================================
-   NAVBAR — Inscriptional Elegance (Hardware Accelerated)
+   NAVBAR
    ========================================================================== */
 .navbar {
   position: sticky;
@@ -313,18 +285,14 @@ button {
   background-color: var(--bg-cream);
   border-bottom: 1px solid var(--line-soft);
   transform: translateZ(0);
-  will-change: background-color, border-color, box-shadow;
-  transition:
-    background-color 260ms var(--ease-smooth),
-    border-color 260ms var(--ease-smooth),
-    box-shadow 260ms var(--ease-smooth);
+  transition: background-color 260ms var(--ease-smooth), box-shadow 260ms ease;
 }
 
 .navbar.scrolled {
-  background-color: rgba(247, 244, 236, 0.94);
+  background-color: rgba(247, 244, 236, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(34, 25, 19, 0.04);
+  box-shadow: 0 4px 20px rgba(30, 26, 23, 0.05);
 }
 
 .navbar-inner {
@@ -349,11 +317,10 @@ button {
   font-weight: 400;
   color: var(--brown-deep);
   line-height: 1;
-  transition: transform 300ms var(--ease-elastic), color 240ms ease;
+  transition: color 240ms ease;
 }
 
 .nav-brand:hover {
-  transform: translateY(-1px);
   color: var(--green-botanic);
 }
 
@@ -384,7 +351,7 @@ button {
   color: var(--brown-muted);
   white-space: nowrap;
   padding: 0.3rem 0;
-  transition: color 240ms var(--ease-smooth), transform 240ms var(--ease-elastic);
+  transition: color 240ms ease;
 }
 
 .nav-center a::after {
@@ -401,7 +368,6 @@ button {
 
 .nav-center a:hover {
   color: var(--brown-deep);
-  transform: translateY(-1px);
 }
 
 .nav-center a:hover::after {
@@ -432,7 +398,6 @@ button {
   height: 6px;
   border-radius: 50%;
   background-color: var(--green-botanic);
-  box-shadow: 0 0 0 0 rgba(45, 84, 61, 0.4);
   animation: pulse-dot 2.4s infinite;
 }
 
@@ -442,15 +407,9 @@ button {
 }
 
 @keyframes pulse-dot {
-  0% {
-    box-shadow: 0 0 0 0 rgba(45, 84, 61, 0.5);
-  }
-  70% {
-    box-shadow: 0 0 0 7px rgba(45, 84, 61, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(45, 84, 61, 0);
-  }
+  0%   { box-shadow: 0 0 0 0 rgba(36, 77, 54, 0.5); }
+  70%  { box-shadow: 0 0 0 7px rgba(36, 77, 54, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(36, 77, 54, 0); }
 }
 
 .nav-cta {
@@ -467,27 +426,12 @@ button {
   align-items: center;
   gap: 0.45rem;
   white-space: nowrap;
-  will-change: transform;
-  transition:
-    background-color 220ms ease,
-    transform 200ms var(--ease-elastic),
-    box-shadow 220ms ease;
+  transition: background-color 220ms ease, transform 200ms var(--ease-elastic);
 }
 
 .nav-cta:hover {
   background-color: var(--blue-levante);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(33, 85, 115, 0.25);
-}
-
-.nav-cta svg {
-  width: 12px;
-  height: 12px;
-  transition: transform 220ms var(--ease-elastic);
-}
-
-.nav-cta:hover svg {
-  transform: translate(2px, -2px);
 }
 
 .nav-toggle {
@@ -501,11 +445,10 @@ button {
   height: 1.5px;
   background: var(--brown-deep);
   margin: 5px 0;
-  transition: transform 240ms ease;
 }
 
 /* ==========================================================================
-   HERO A CARTOLINA (Parallasse Fluido & Zero Lag)
+   HERO A CARTOLINA
    ========================================================================== */
 .postcard-stage {
   padding: var(--frame-pad);
@@ -524,7 +467,6 @@ button {
   transform: translateZ(0);
 }
 
-/* Zero conflitti tra scroll JS e transition CSS */
 .postcard-bg {
   position: absolute;
   inset: -8% 0;
@@ -532,7 +474,6 @@ button {
   background-position: center 45%;
   transform: translate3d(0, 0, 0) scale(1.05);
   will-change: transform;
-  backface-visibility: hidden;
 }
 
 .postcard-scrim {
@@ -540,9 +481,9 @@ button {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(22, 61, 84, 0.32) 0%,
-    rgba(22, 61, 84, 0.12) 42%,
-    rgba(28, 20, 15, 0.86) 100%
+    rgba(18, 43, 59, 0.32) 0%,
+    rgba(18, 43, 59, 0.12) 42%,
+    rgba(16, 28, 24, 0.88) 100%
   );
   pointer-events: none;
 }
@@ -565,16 +506,10 @@ button {
 }
 
 .postcard-location-badge {
-  background-color: rgba(33, 85, 115, 0.75);
+  background-color: rgba(30, 82, 112, 0.75);
   padding: 0.38rem 0.9rem;
   border-radius: var(--radius-sharp);
-  border: 1px solid rgba(163, 204, 224, 0.42);
-  transition: background-color 240ms ease, transform 240ms var(--ease-elastic);
-}
-
-.postcard-location-badge:hover {
-  background-color: var(--blue-levante);
-  transform: translateY(-1px);
+  border: 1px solid rgba(158, 203, 224, 0.42);
 }
 
 .postcard-bottom {
@@ -633,7 +568,7 @@ button {
 }
 
 /* ==========================================================================
-   FILOSOFIA
+   FILOSOFIA (Architettura Narrativa Fluida — Zero Box/Card)
    ========================================================================== */
 .section-philosophy {
   background-color: var(--bg-cream);
@@ -672,15 +607,13 @@ button {
   border-radius: var(--radius-subtle);
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 12px 36px rgba(34, 25, 19, 0.08);
-  transform: translateZ(0);
+  box-shadow: 0 12px 36px rgba(30, 26, 23, 0.08);
 }
 
 .philo-img-main img {
   aspect-ratio: 4 / 4.6;
   object-fit: cover;
   transition: transform 650ms var(--ease-elastic);
-  will-change: transform;
 }
 
 .philo-img-secondary {
@@ -692,15 +625,13 @@ button {
   overflow: hidden;
   border: 6px solid var(--bg-cream);
   cursor: pointer;
-  box-shadow: 0 16px 40px rgba(34, 25, 19, 0.12);
-  transform: translateZ(0);
+  box-shadow: 0 16px 40px rgba(30, 26, 23, 0.12);
 }
 
 .philo-img-secondary img {
   aspect-ratio: 4 / 3.2;
   object-fit: cover;
   transition: transform 650ms var(--ease-elastic);
-  will-change: transform;
 }
 
 .philo-img-main:hover img,
@@ -708,18 +639,18 @@ button {
   transform: scale(1.04);
 }
 
+/* Pilastri Editoriali a Flusso Lineare (Zero scatole) */
 .philosophy-values {
   margin-top: 4.5rem;
   padding-top: 3rem;
   border-top: 1px solid var(--line-medium);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 .value-col {
-  padding-right: 1.5rem;
-  border-right: 1px solid var(--line-soft);
+  position: relative;
   transition: transform 320ms var(--ease-elastic);
 }
 
@@ -727,9 +658,13 @@ button {
   transform: translateY(-3px);
 }
 
-.value-col:last-child {
-  border-right: none;
-  padding-right: 0;
+.value-col-num {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--blue-levante);
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 .value-col h3 {
@@ -738,7 +673,7 @@ button {
   font-weight: 400;
   font-style: italic;
   color: var(--green-botanic);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .value-col p {
@@ -748,12 +683,15 @@ button {
 }
 
 /* ==========================================================================
-   LA CUCINA — LOOKBOOK & CAROSELLO PIATTI INTERATTIVO CON MOTION FLUIDA
+   LA CUCINA — LOOKBOOK PANORAMICO IMMERSIVO (Blu Ionio & Verde Botanico)
+   Zero Marrone Pesante · Zero Scatole/Card · Design Editoriale d'Autore
    ========================================================================== */
 .section-kitchen {
-  background-color: var(--brown-deep);
+  background: linear-gradient(165deg, var(--night-sea-dark) 0%, var(--night-sea-mid) 50%, var(--night-sea-blue) 100%);
   color: var(--text-light);
   position: relative;
+  border-top: 1px solid rgba(158, 203, 224, 0.15);
+  border-bottom: 1px solid rgba(158, 203, 224, 0.15);
 }
 
 .section-kitchen .heading-display {
@@ -770,52 +708,201 @@ button {
   gap: 3rem;
   align-items: end;
   padding-bottom: 2.75rem;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
   border-bottom: 1px solid var(--line-light);
 }
 
 .kitchen-header-desc {
-  font-size: 1rem;
+  font-size: 1.02rem;
   color: var(--text-light-dim);
-  line-height: 1.78;
+  line-height: 1.8;
 }
 
-.kitchen-showcase {
+/* ── STAGE IMMERSIVO DEL PIATTO (Addio vecchia card a destra e lista a sinistra) ── */
+.dish-stage {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-/* Controlli Motion Carosello Piatti */
-.kitchen-controls-bar {
-  display: flex;
-  justify-content: space-between;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
   align-items: center;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid var(--line-light);
+  min-height: 480px;
+  margin-bottom: 3.5rem;
 }
 
-.dish-counter-badge {
+/* Colonna Foto Immersiva */
+.dish-stage-visual {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  background-color: rgba(14, 32, 28, 0.6);
+  border: 1px solid rgba(158, 203, 224, 0.22);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.dish-stage-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: opacity, transform;
+  transition:
+    opacity 350ms var(--ease-smooth),
+    transform 650ms var(--ease-elastic);
+}
+
+.dish-stage-visual img.switching {
+  opacity: 0.15;
+  transform: scale(0.96);
+}
+
+.dish-stage-visual:hover img {
+  transform: scale(1.04);
+}
+
+.dish-stage-badge {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  background-color: rgba(18, 43, 59, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(158, 203, 224, 0.35);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sharp);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+  z-index: 2;
+}
+
+.dish-stage-hint {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.25rem;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 236, 0.65);
+  background-color: rgba(13, 31, 28, 0.7);
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sharp);
+  z-index: 2;
+  transition: color 200ms ease;
+}
+
+.dish-stage-visual:hover .dish-stage-hint {
+  color: var(--green-accent);
+}
+
+/* Colonna Dettagli Narrativi Sartoriali */
+.dish-stage-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dish-stage-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dish-stage-counter {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  color: var(--green-accent);
+}
+
+.dish-stage-course {
   font-family: var(--font-ui);
   font-size: 0.74rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--green-accent);
+  color: var(--blue-sky);
+  padding-left: 1rem;
+  border-left: 1px solid var(--line-light);
+}
+
+.dish-stage-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--text-light);
+  margin-bottom: 1.35rem;
+  transition: opacity 300ms ease, transform 350ms var(--ease-elastic);
+}
+
+.dish-stage-title.fading {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.dish-stage-desc {
+  font-size: 1.04rem;
+  color: var(--text-light-dim);
+  line-height: 1.82;
+  margin-bottom: 1.75rem;
+  max-width: 50ch;
+  transition: opacity 300ms ease;
+}
+
+.dish-stage-ingredients {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  padding: 0.85rem 1.15rem;
+  background-color: rgba(158, 203, 224, 0.06);
+  border: 1px solid rgba(158, 203, 224, 0.18);
+  border-radius: var(--radius-sharp);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--green-accent);
+  margin-bottom: 2rem;
 }
 
-.dish-nav-arrows {
+.dish-stage-actions {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 1.25rem;
 }
 
-.dish-arrow-btn {
-  width: 38px;
-  height: 38px;
+/* ── NASTRO DEGUSTAZIONE ORIZZONTALE (SELETTORE PIATTI CON MOTION FLUIDA) ── */
+.dish-strip-wrap {
+  border-top: 1px solid var(--line-light);
+  padding-top: 2rem;
+  margin-top: 2rem;
+}
+
+.dish-strip-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.dish-strip-label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-light-dim);
+}
+
+.dish-strip-arrows {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.dish-strip-btn {
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--line-light);
   border-radius: var(--radius-sharp);
   color: var(--text-light);
@@ -828,197 +915,76 @@ button {
     transform 220ms var(--ease-elastic);
 }
 
-.dish-arrow-btn:hover {
-  background-color: var(--green-botanic);
-  border-color: var(--green-botanic);
-  transform: translateY(-1px);
+.dish-strip-btn:hover {
+  background-color: var(--blue-levante);
+  border-color: var(--blue-levante);
+  transform: translateY(-2px);
 }
 
-.dish-arrow-btn:active {
+.dish-strip-btn:active {
   transform: scale(0.94);
 }
 
-.dish-arrow-btn svg {
-  width: 14px;
-  height: 14px;
+.dish-strip-btn svg {
+  width: 15px;
+  height: 15px;
 }
 
-/* Lista Piatti Sartoriale con Sliding Active Track */
-.dish-list {
-  position: relative;
-  border-top: 1px solid var(--line-light);
-}
-
-/* Indicatore di selezione che scivola dolcemente */
-.dish-active-indicator {
-  position: absolute;
-  left: 0;
-  width: 2px;
-  height: 0;
-  background-color: var(--green-accent);
-  box-shadow: 0 0 10px rgba(152, 201, 170, 0.6);
-  pointer-events: none;
-  transform: translateZ(0);
-  transition:
-    top 340ms var(--ease-elastic),
-    height 340ms var(--ease-elastic),
-    opacity 240ms ease;
-  z-index: 2;
-}
-
-.dish-item {
-  position: relative;
+/* Timeline orizzontale a pulsanti sartoriali */
+.dish-strip-timeline {
   display: grid;
-  grid-template-columns: 68px 1fr;
-  gap: 1.5rem;
-  align-items: center;
-  padding: 1.4rem 0.5rem;
-  border-bottom: 1px solid var(--line-light);
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.dish-strip-item {
+  position: relative;
+  padding: 1rem 1rem 1.2rem;
+  border-top: 2px solid rgba(247, 244, 236, 0.2);
   cursor: pointer;
-  transform: translateZ(0);
+  text-align: left;
   transition:
-    padding-left 280ms var(--ease-elastic),
-    background-color 240ms ease;
+    border-color 300ms var(--ease-elastic),
+    background-color 240ms ease,
+    transform 240ms var(--ease-elastic);
 }
 
-.dish-item:hover,
-.dish-item.active {
-  padding-left: 1.25rem;
+.dish-strip-item:hover {
+  border-color: var(--blue-sky);
   background-color: rgba(247, 244, 236, 0.04);
+  transform: translateY(-2px);
 }
 
-.dish-thumb {
-  width: 68px;
-  height: 68px;
-  border-radius: var(--radius-sharp);
-  overflow: hidden;
-  border: 1px solid rgba(247, 244, 236, 0.18);
-  transform: translateZ(0);
+.dish-strip-item.active {
+  border-color: var(--green-accent);
+  background-color: rgba(143, 212, 171, 0.08);
 }
 
-.dish-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 380ms var(--ease-elastic);
-}
-
-.dish-item:hover .dish-thumb img,
-.dish-item.active .dish-thumb img {
-  transform: scale(1.08);
-}
-
-.dish-course-label {
-  display: inline-block;
+.dish-strip-num {
   font-family: var(--font-ui);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
   color: var(--blue-sky);
-  margin-bottom: 0.25rem;
-  transition: color 240ms ease, transform 240ms var(--ease-elastic);
-}
-
-.dish-item:hover .dish-course-label,
-.dish-item.active .dish-course-label {
-  color: var(--green-accent);
-  transform: translateX(2px);
-}
-
-.dish-info h3 {
-  font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: var(--text-light);
-  margin-bottom: 0.3rem;
+  display: block;
+  margin-bottom: 0.35rem;
   transition: color 240ms ease;
 }
 
-.dish-item:hover .dish-info h3,
-.dish-item.active .dish-info h3 {
+.dish-strip-item.active .dish-strip-num {
   color: var(--green-accent);
-  font-style: italic;
 }
 
-.dish-info p {
-  font-size: 0.9rem;
-  color: var(--text-light-dim);
-  line-height: 1.65;
-}
-
-/* Riquadro Foto Piatto Preview con Crossfade & Ken Burns Motion */
-.dish-preview-card {
-  position: sticky;
-  top: calc(var(--nav-h) + 2rem);
-  background-color: var(--brown-wood);
-  border-radius: var(--radius-sharp);
-  padding: 1.25rem;
-  border: 1px solid rgba(247, 244, 236, 0.18);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
-  transform: translateZ(0);
-}
-
-.dish-preview-photo {
-  position: relative;
-  aspect-ratio: 4 / 3.9;
-  border-radius: var(--radius-sharp);
-  overflow: hidden;
-  margin-bottom: 1.15rem;
-  cursor: pointer;
-  background-color: #1a1410;
-}
-
-.dish-preview-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  will-change: opacity, transform;
-  transform: translateZ(0);
-  transition:
-    opacity 280ms var(--ease-smooth),
-    transform 550ms var(--ease-elastic);
-}
-
-.dish-preview-photo img.switching {
-  opacity: 0.15;
-  transform: scale(0.96);
-}
-
-.dish-preview-photo:hover img {
-  transform: scale(1.035);
-}
-
-.dish-preview-caption {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--line-light);
-}
-
-.dish-preview-caption h4 {
+.dish-strip-name {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 400;
-  font-style: italic;
+  font-size: 1.15rem;
   color: var(--text-light);
-  transition: opacity 280ms ease, transform 320ms var(--ease-elastic);
+  line-height: 1.25;
+  transition: color 240ms ease;
 }
 
-.dish-preview-caption h4.fading {
-  opacity: 0;
-  transform: translateY(6px);
-}
-
-.dish-preview-caption span {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.dish-strip-item.active .dish-strip-name {
   color: var(--green-accent);
-  white-space: nowrap;
+  font-style: italic;
 }
 
 .kitchen-footer-bar {
@@ -1040,7 +1006,7 @@ button {
 }
 
 /* ==========================================================================
-   GALLERIA AZZURRA — FILTRI CON SELETTORE A PILLOLA ANIMATA & STAGGER MOTION
+   GALLERIA AZZURRA — FILTRI CON PILLOLA ANIMATA & STAGGER
    ========================================================================== */
 .section-azure-gallery {
   background-color: var(--blue-azure-bg);
@@ -1059,7 +1025,6 @@ button {
   flex-wrap: wrap;
 }
 
-/* Barra Filtri con Sliding Morphing Pill */
 .azure-filter-bar {
   position: relative;
   display: inline-flex;
@@ -1071,7 +1036,6 @@ button {
   flex-wrap: wrap;
 }
 
-/* La pillola animata che scivola con easing al clic */
 .azure-filter-pill {
   position: absolute;
   top: 4px;
@@ -1086,7 +1050,7 @@ button {
   transition:
     transform 340ms var(--ease-elastic),
     width 340ms var(--ease-elastic);
-  box-shadow: 0 3px 12px rgba(33, 85, 115, 0.22);
+  box-shadow: 0 3px 12px rgba(30, 82, 112, 0.22);
 }
 
 .azure-filter-btn {
@@ -1102,7 +1066,6 @@ button {
   border: none;
   border-radius: var(--radius-sharp);
   white-space: nowrap;
-  will-change: color;
   transition: color 240ms ease, transform 200ms var(--ease-elastic);
 }
 
@@ -1115,7 +1078,6 @@ button {
   color: var(--text-light);
 }
 
-/* Griglia Unificata delle Foto con Motion Stagger Fluida */
 .azure-photo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1131,14 +1093,12 @@ button {
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  transform: translateZ(0);
   will-change: opacity, transform;
   transition:
     opacity 350ms var(--ease-smooth),
     transform 380ms var(--ease-elastic);
 }
 
-/* Stato nascosto dal filtro: animazione fluida invece di display:none a scatti */
 .azure-photo-item.filter-hidden {
   opacity: 0;
   transform: scale(0.94) translateY(12px);
@@ -1153,10 +1113,9 @@ button {
   overflow: hidden;
   border-radius: var(--radius-subtle);
   background-color: var(--bg-cream);
-  border: 1px solid rgba(33, 85, 115, 0.16);
+  border: 1px solid rgba(30, 82, 112, 0.16);
   margin-bottom: 0.85rem;
-  box-shadow: 0 4px 16px rgba(33, 85, 115, 0.08);
-  transform: translateZ(0);
+  box-shadow: 0 4px 16px rgba(30, 82, 112, 0.08);
 }
 
 .azure-photo-item.featured-wide .azure-img-frame {
@@ -1167,7 +1126,6 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  will-change: transform;
   transition: transform 650ms var(--ease-elastic);
 }
 
@@ -1205,7 +1163,7 @@ button {
 }
 
 /* ==========================================================================
-   RECENSIONI — CAROSELLO INTERATTIVO CON MOTION & CONTROLLI A SELETTORE
+   RECENSIONI — TEATRO EDITORIALE DELLE VOCI (Addio Griglia a 3 Card)
    ========================================================================== */
 .section-reviews {
   background-color: var(--bg-cream);
@@ -1218,7 +1176,7 @@ button {
   justify-content: space-between;
   align-items: flex-end;
   gap: 2rem;
-  margin-bottom: 3.25rem;
+  margin-bottom: 3.5rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--line-medium);
   flex-wrap: wrap;
@@ -1252,95 +1210,124 @@ button {
   color: var(--brown-muted);
 }
 
-/* Controlli del Carosello Recensioni */
-.reviews-carousel-stage {
-  position: relative;
-  overflow: hidden;
+/* Palcoscenico Centrale della Citazione d'Autore */
+.quote-theater {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2.5rem 1.5rem 1rem;
 }
 
-.reviews-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
-  transition: transform 450ms var(--ease-elastic);
-}
-
-.review-card {
-  padding-right: 2rem;
-  border-right: 1px solid var(--line-soft);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.75rem;
-  transition: transform 300ms var(--ease-elastic);
-}
-
-.review-card:hover {
-  transform: translateY(-4px);
-}
-
-.review-card:last-child {
-  border-right: none;
-  padding-right: 0;
-}
-
-.review-quote {
+.quote-mark {
   font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-style: italic;
-  line-height: 1.42;
-  color: var(--brown-deep);
+  font-size: 4.5rem;
+  line-height: 0.6;
+  color: var(--blue-levante);
+  opacity: 0.35;
+  margin-bottom: 1.5rem;
 }
 
-.review-author-row {
+.quote-text-large {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.32;
+  color: var(--brown-deep);
+  min-height: 140px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
-  border-top: 1px solid var(--line-soft);
+  justify-content: center;
+  transition: opacity 300ms ease, transform 350ms var(--ease-elastic);
+}
+
+.quote-text-large.fading {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.quote-author-info {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
   font-family: var(--font-ui);
-  font-size: 0.76rem;
-  letter-spacing: 0.1em;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.review-author-row strong {
+.quote-author-name {
   color: var(--brown-deep);
-  font-weight: 400;
+  font-weight: 500;
 }
 
-.review-author-row span {
+.quote-author-sep {
+  color: var(--line-medium);
+}
+
+.quote-author-source {
   color: var(--green-botanic);
 }
 
-/* Selettori dots animati per il carosello recensioni */
-.reviews-carousel-nav {
+/* Controlli Teatrali (Frecce + Selettori a Pillola) */
+.reviews-theater-nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line-soft);
+  gap: 1.75rem;
+  margin-top: 3.5rem;
 }
 
-.review-dot-btn {
-  width: 28px;
+.quote-nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sharp);
+  border: 1px solid var(--line-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brown-deep);
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms var(--ease-elastic);
+}
+
+.quote-nav-btn:hover {
+  background-color: var(--blue-levante);
+  border-color: var(--blue-levante);
+  color: var(--text-light);
+  transform: translateY(-2px);
+}
+
+.quote-nav-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.quote-dots-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.quote-dot {
+  width: 24px;
   height: 4px;
   background-color: var(--line-medium);
   border-radius: var(--radius-pill);
   transition:
     width 320ms var(--ease-elastic),
-    background-color 280ms ease,
-    transform 240ms var(--ease-elastic);
+    background-color 260ms ease;
 }
 
-.review-dot-btn:hover {
+.quote-dot:hover {
   background-color: var(--blue-levante);
-  transform: scaleY(1.5);
 }
 
-.review-dot-btn.active {
+.quote-dot.active {
   width: 48px;
   background-color: var(--blue-levante);
 }
@@ -1406,7 +1393,7 @@ button {
 .info-row-value a {
   color: var(--green-botanic);
   border-bottom: 1px solid var(--green-botanic);
-  transition: color 200ms ease, border-color 200ms ease;
+  transition: color 200ms ease;
 }
 
 .info-row-value a:hover {
@@ -1433,8 +1420,7 @@ button {
   border: 1px solid var(--line-blue);
   background-color: var(--blue-azure-bg);
   padding: 0.65rem;
-  box-shadow: 0 12px 36px rgba(33, 85, 115, 0.12);
-  transform: translateZ(0);
+  box-shadow: 0 12px 36px rgba(30, 82, 112, 0.12);
 }
 
 .map-container iframe {
@@ -1449,7 +1435,7 @@ button {
    FOOTER
    ========================================================================== */
 .footer {
-  background-color: var(--brown-deep);
+  background-color: var(--night-sea-dark);
   color: var(--text-light-dim);
   padding: 4rem 0 2.5rem;
 }
@@ -1479,28 +1465,8 @@ button {
   text-transform: uppercase;
 }
 
-.footer-links a {
-  position: relative;
-  transition: color 240ms ease;
-}
-
-.footer-links a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background-color: var(--blue-sky);
-  transition: width 240ms var(--ease-elastic);
-}
-
 .footer-links a:hover {
   color: var(--blue-sky);
-}
-
-.footer-links a:hover::after {
-  width: 100%;
 }
 
 .footer-bottom {
@@ -1515,13 +1481,13 @@ button {
 }
 
 /* ==========================================================================
-   LIGHTBOX (Smooth Open/Close)
+   LIGHTBOX
    ========================================================================== */
 .lightbox {
   position: fixed;
   inset: 0;
   z-index: 2500;
-  background: rgba(24, 18, 14, 0.96);
+  background: rgba(13, 28, 25, 0.97);
   backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
@@ -1590,10 +1556,6 @@ button {
   transform: translateY(-1px);
 }
 
-.lb-btn:active {
-  transform: scale(0.96);
-}
-
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
@@ -1606,9 +1568,13 @@ button {
   .postcard-bottom,
   .philosophy-grid,
   .kitchen-header,
-  .kitchen-showcase,
+  .dish-stage,
   .info-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dish-strip-timeline {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .postcard-aside {
@@ -1620,24 +1586,7 @@ button {
 
   .philosophy-values {
     grid-template-columns: 1fr;
-  }
-
-  .value-col {
-    border-right: none;
-    border-bottom: 1px solid var(--line-soft);
-    padding-right: 0;
-    padding-bottom: 1.75rem;
-  }
-
-  .reviews-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .review-card {
-    border-right: none;
-    border-bottom: 1px solid var(--line-soft);
-    padding-right: 0;
-    padding-bottom: 1.75rem;
+    gap: 2rem;
   }
 
   .azure-photo-grid {
@@ -1670,7 +1619,6 @@ button {
     padding: 1.5rem var(--pad-x);
     gap: 1.15rem;
     border-bottom: 1px solid var(--line-medium);
-    box-shadow: 0 10px 30px rgba(34, 25, 19, 0.08);
   }
 
   .nav-center.active {
@@ -1679,6 +1627,10 @@ button {
 
   .nav-toggle {
     display: block;
+  }
+
+  .dish-strip-timeline {
+    grid-template-columns: 1fr;
   }
 
   .azure-photo-grid {
@@ -1692,5 +1644,10 @@ button {
   .info-row {
     grid-template-columns: 1fr;
     gap: 0.35rem;
+  }
+
+  .quote-text-large {
+    font-size: 1.6rem;
+    min-height: auto;
   }
 }

@@ -1,11 +1,12 @@
 /**
  * GUTKOWSKINO — Refined Sicilian Hospitality Showcase
- * High-Performance, Butter-Smooth Motion, Hardware-Accelerated
  *
- * - Sartorial lookbook carousel with dynamic sliding indicator
- * - Azure Gallery with morphing sliding pill filter & stagger motion
- * - Interactive reviews carousel with animated dot indicators
- * - Jitter-free hardware-accelerated parallax (requestAnimationFrame)
+ * Art Direction: Bianco Calce, Verde Botanico, Blu Ionio
+ * Architecture:
+ * - Immersive Panoramic Dish Stage with Horizontal Tasting Strip (Zero heavy brown, zero boxy cards)
+ * - Quote Theater for guest reviews (Single impactful editorial stage)
+ * - Morphing sliding pill filter for Azure Gallery
+ * - 60/120fps hardware-accelerated transitions
  */
 
 (function () {
@@ -44,7 +45,6 @@
     }
   }
 
-  // Unisce e deduplica automaticamente gli scatti di Terrazza, Sala e Galleria
   function buildUnifiedPhotos(data) {
     const raw = [];
 
@@ -108,18 +108,18 @@
     app.appendChild(buildFooter(data));
     app.appendChild(buildLightbox());
 
-    // Inizializzazione motion ad alte prestazioni
+    // Inizializzazioni interazioni e motion
     initNavScroll();
     initMobileNav();
     initRevealObserver();
     initOptimizedParallax();
-    initDishLookbookCarousel();
+    initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
-    initReviewsCarousel();
+    initReviewsTheater(data.reviews.featured || []);
     initLightbox();
   }
 
-  // ───── Navbar ─────
+  // ───── 1. Navbar ─────
   function buildNavbar(data) {
     const status = getServiceStatus();
     const header = el('header', { className: 'navbar', id: 'navbar' });
@@ -153,7 +153,7 @@
     return header;
   }
 
-  // ───── Hero a Cartolina ─────
+  // ───── 2. Hero a Cartolina ─────
   function buildPostcardHero(data) {
     const heroBg = data.hero.backgroundImage || '';
     const stage = el('div', { className: 'postcard-stage' });
@@ -189,13 +189,14 @@
     return stage;
   }
 
-  // ───── Filosofia ─────
+  // ───── 3. Filosofia (Pilastri Editoriali Ariosi — Zero Box) ─────
   function buildPhilosophy(data) {
     const d = data.manifesto;
     const section = el('section', { className: 'section-philosophy section-pad', id: 'filosofia' });
 
     const values = d.pillars.map((p, i) => `
-      <div class="value-col reveal-up delay-${(i % 2) + 1}">
+      <div class="value-col reveal-up delay-${(i % 3) + 1}">
+        <span class="value-col-num">0${i + 1} / RADICI</span>
         <h3>${p.title}</h3>
         <p>${p.description}</p>
       </div>`).join('');
@@ -228,30 +229,22 @@
     return section;
   }
 
-  // ───── La Cucina: Lookbook & Carosello Piatti con Sliding Track ─────
+  // ───── 4. RIFATTO: Stage Immersivo della Cucina (Zero Marrone, Palette Blu & Verde, Zero Boxy Cards) ─────
   function buildKitchenLookbook(data) {
     const d = data.kitchen;
+    const dishes = d.dishes || [];
+    const first = dishes[0] || {};
+    const totalDishes = dishes.length;
+
     const section = el('section', { className: 'section-kitchen section-pad', id: 'cucina' });
 
-    const totalDishes = d.dishes.length;
-
-    const items = d.dishes.map((dish, i) => `
-      <article class="dish-item ${i === 0 ? 'active' : ''}"
-               data-dish-index="${i}"
-               data-dish-img="${dish.image}"
-               data-dish-name="${dish.name}"
-               data-dish-course="${dish.course}">
-        <div class="dish-thumb">
-          <img src="${dish.image}" alt="${dish.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-        </div>
-        <div class="dish-info">
-          <span class="dish-course-label">${dish.course}</span>
-          <h3>${dish.name}</h3>
-          <p>${dish.description}</p>
-        </div>
-      </article>`).join('');
-
-    const first = d.dishes[0] || {};
+    // Timeline degutazione orizzontale
+    const stripItems = dishes.map((dish, idx) => `
+      <div class="dish-strip-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
+        <span class="dish-strip-num">0${idx + 1} · ${dish.course}</span>
+        <h4 class="dish-strip-name">${dish.name.split(' su ')[0].split(' con ')[0]}</h4>
+      </div>
+    `).join('');
 
     section.innerHTML = `
       <div class="container">
@@ -263,46 +256,60 @@
           <p class="kitchen-header-desc">${d.note}</p>
         </div>
 
-        <div class="kitchen-controls-bar reveal-up">
-          <div class="dish-counter-badge">
-            <span>Portata</span>
-            <strong id="dishCounterCurrent">01</strong>
-            <span>/</span>
-            <span>0${totalDishes}</span>
+        <!-- STAGE IMMERSIVO DEL PIATTO -->
+        <div class="dish-stage">
+          <div class="dish-stage-visual reveal-up" id="dishStageVisual" data-lightbox="${first.image || ''}">
+            <span class="dish-stage-badge" id="dishStageBadge">${first.course || ''}</span>
+            <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
+            <span class="dish-stage-hint">Clicca per ingrandire</span>
           </div>
 
-          <div class="dish-nav-arrows">
-            <button class="dish-arrow-btn" id="dishPrevBtn" aria-label="Portata precedente" title="Precedente">
-              ${ICONS.arrowLeft}
-            </button>
-            <button class="dish-arrow-btn" id="dishNextBtn" aria-label="Portata successiva" title="Successiva">
-              ${ICONS.arrowRight}
-            </button>
+          <div class="dish-stage-content reveal-up delay-1">
+            <div class="dish-stage-meta">
+              <span class="dish-stage-counter" id="dishStageCounter">01 / 0${totalDishes}</span>
+              <span class="dish-stage-course" id="dishStageCourse">${first.course || ''}</span>
+            </div>
+
+            <h3 class="dish-stage-title" id="dishStageTitle">${first.name || ''}</h3>
+            <p class="dish-stage-desc" id="dishStageDesc">${first.description || ''}</p>
+
+            <div class="dish-stage-ingredients" id="dishStageIngredients">
+              <span>🌿 ${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
+            </div>
+
+            <div class="dish-stage-actions">
+              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-botanic">
+                <span>Prenota per assaggiarlo</span>
+                ${ICONS.arrowUpRight}
+              </a>
+            </div>
           </div>
         </div>
 
-        <div class="kitchen-showcase">
-          <div class="dish-list" id="dishList">
-            <div class="dish-active-indicator" id="dishActiveIndicator"></div>
-            ${items}
+        <!-- NASTRO DEGUSTAZIONE ORIZZONTALE CON MOTION FLUIDA -->
+        <div class="dish-strip-wrap reveal-up">
+          <div class="dish-strip-nav">
+            <span class="dish-strip-label">Sequenza della Cucina Botanica</span>
+            <div class="dish-strip-arrows">
+              <button class="dish-strip-btn" id="dishPrevBtn" aria-label="Piatto precedente" title="Precedente">
+                ${ICONS.arrowLeft}
+              </button>
+              <button class="dish-strip-btn" id="dishNextBtn" aria-label="Piatto successivo" title="Successivo">
+                ${ICONS.arrowRight}
+              </button>
+            </div>
           </div>
 
-          <div class="dish-preview-card reveal-up delay-1">
-            <div class="dish-preview-photo" id="dishPreviewPhoto" data-lightbox="${first.image || ''}">
-              <img id="dishPreviewImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
-            </div>
-            <div class="dish-preview-caption">
-              <h4 id="dishPreviewTitle">${first.name || ''}</h4>
-              <span id="dishPreviewCourse">${first.course || ''}</span>
-            </div>
+          <div class="dish-strip-timeline" id="dishStripTimeline">
+            ${stripItems}
           </div>
         </div>
 
         <div class="kitchen-footer-bar reveal-up">
           <p>${d.maintenanceFreeDisclaimer}</p>
           <div style="display:flex;gap:0.85rem;flex-wrap:wrap;">
-            <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-botanic">
-              <span>Carta del Giorno su TheFork</span>
+            <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-azure">
+              <span>Carta Completa su TheFork</span>
               ${ICONS.arrowUpRight}
             </a>
             <a href="${data.info.social.instagramUrl}" target="_blank" rel="noopener" class="btn btn-ghost-light">
@@ -315,7 +322,7 @@
     return section;
   }
 
-  // ───── Galleria Azzurra con Morphing Sliding Pill ─────
+  // ───── 5. Galleria Azzurra con Morphing Sliding Pill ─────
   function buildUnifiedAzureGallery(data, unifiedPhotos) {
     const d = data.spaces;
     const section = el('section', { className: 'section-azure-gallery section-pad', id: 'galleria-azzurra' });
@@ -358,22 +365,15 @@
     return section;
   }
 
-  // ───── Recensioni: Carosello Interattivo ─────
+  // ───── 6. RIFATTO: Teatro delle Voci (Palcoscenico d'Autore — Zero Griglia di 3 Card) ─────
   function buildReviewsSection(data) {
     const d = data.reviews;
     const section = el('section', { className: 'section-reviews section-pad', id: 'recensioni' });
+    const featured = d.featured || [];
+    const first = featured[0] || {};
 
-    const cards = d.featured.map((r, i) => `
-      <article class="review-card reveal-up delay-${(i % 3) + 1}" data-review-index="${i}">
-        <blockquote class="review-quote">“${r.text}”</blockquote>
-        <div class="review-author-row">
-          <strong>${r.author}</strong>
-          <span>★ 5.0 · ${r.source}</span>
-        </div>
-      </article>`).join('');
-
-    const dots = d.featured.map((_, i) => `
-      <button class="review-dot-btn ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Recensione ${i + 1}"></button>
+    const dots = featured.map((_, i) => `
+      <button class="quote-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Testimonianza ${i + 1}"></button>
     `).join('');
 
     section.innerHTML = `
@@ -392,20 +392,34 @@
           </div>
         </div>
 
-        <div class="reviews-carousel-stage">
-          <div class="reviews-cards" id="reviewsCards">
-            ${cards}
-          </div>
-        </div>
+        <!-- PALCOSCENICO CITAZIONE D'AUTORE CENTRALIZZATO -->
+        <div class="quote-theater reveal-up">
+          <div class="quote-mark">“</div>
+          <blockquote class="quote-text-large" id="quoteText">“${first.text || ''}”</blockquote>
 
-        <div class="reviews-carousel-nav" id="reviewsDots">
-          ${dots}
+          <div class="quote-author-info">
+            <strong class="quote-author-name" id="quoteAuthor">${first.author || ''}</strong>
+            <span class="quote-author-sep">·</span>
+            <span class="quote-author-source" id="quoteSource">${first.source || ''}</span>
+          </div>
+
+          <div class="reviews-theater-nav">
+            <button class="quote-nav-btn" id="quotePrevBtn" aria-label="Recensione precedente">
+              ${ICONS.arrowLeft}
+            </button>
+            <div class="quote-dots-group" id="quoteDots">
+              ${dots}
+            </div>
+            <button class="quote-nav-btn" id="quoteNextBtn" aria-label="Recensione successiva">
+              ${ICONS.arrowRight}
+            </button>
+          </div>
         </div>
       </div>`;
     return section;
   }
 
-  // ───── Contatti & Info ─────
+  // ───── 7. Contatti & Indirizzo ─────
   function buildInfoSection(data) {
     const d = data.info;
     const section = el('section', { className: 'section-info section-pad', id: 'contatti' });
@@ -472,6 +486,7 @@
     return section;
   }
 
+  // ───── 8. Footer ─────
   function buildFooter(data) {
     const footer = el('footer', { className: 'footer' });
     footer.innerHTML = `
@@ -492,6 +507,7 @@
     return footer;
   }
 
+  // ───── 9. Lightbox ─────
   function buildLightbox() {
     const lb = el('div', { className: 'lightbox', id: 'lightbox', role: 'dialog', 'aria-modal': 'true' });
     lb.innerHTML = `
@@ -513,10 +529,10 @@
   }
 
   /* ==========================================================================
-     BEHAVIOURS & MOTION LOGIC (Zero Jitter, Smooth Hardware-Accelerated)
+     INTERACTIONS & HARDWARE-ACCELERATED MOTION LOGIC
      ========================================================================== */
 
-  // 1. Navbar Scroll con throttle a singolo flag
+  // Navbar Scroll Debounced
   function initNavScroll() {
     const navbar = document.getElementById('navbar');
     if (!navbar) return;
@@ -536,7 +552,7 @@
     navbar.classList.toggle('scrolled', window.scrollY > 24);
   }
 
-  // 2. Mobile Nav Toggle
+  // Mobile Nav Toggle
   function initMobileNav() {
     const toggle = document.getElementById('navToggle');
     const links = document.getElementById('navLinks');
@@ -545,7 +561,7 @@
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('active')));
   }
 
-  // 3. Scroll Reveal Observer su GPU
+  // Intersection Observer
   function initRevealObserver() {
     const observer = new IntersectionObserver(
       entries => {
@@ -561,7 +577,7 @@
     document.querySelectorAll('.reveal-up').forEach(node => observer.observe(node));
   }
 
-  // 4. Parallasse Ottimizzato (Zero conflitti CSS-JS, 120fps fluido)
+  // Parallasse Ottimizzato (Zero conflitti CSS-JS)
   function initOptimizedParallax() {
     const heroBg = document.getElementById('heroBg');
     if (!heroBg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -572,7 +588,6 @@
     function updateParallax() {
       const scrollY = window.scrollY;
       if (scrollY <= heroHeight) {
-        // Movimento sub-pixel fluido senza lag di transizione
         const offset = scrollY * 0.16;
         heroBg.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0) scale(1.05)`;
       }
@@ -587,91 +602,62 @@
     }, { passive: true });
   }
 
-  // 5. Lookbook & Carosello dei Piatti con Sliding Track & Navigazione
-  function initDishLookbookCarousel() {
-    const items = Array.from(document.querySelectorAll('.dish-item'));
-    const previewImg = document.getElementById('dishPreviewImg');
-    const previewPhoto = document.getElementById('dishPreviewPhoto');
-    const previewTitle = document.getElementById('dishPreviewTitle');
-    const previewCourse = document.getElementById('dishPreviewCourse');
-    const counterCurrent = document.getElementById('dishCounterCurrent');
-    const indicator = document.getElementById('dishActiveIndicator');
+  // Lookbook Stage Piatti con Timeline Orizzontale & Crossfade
+  function initDishStageCarousel(dishes) {
+    if (!dishes.length) return;
+
+    const stageVisual = document.getElementById('dishStageVisual');
+    const stageImg = document.getElementById('dishStageImg');
+    const stageBadge = document.getElementById('dishStageBadge');
+    const stageCounter = document.getElementById('dishStageCounter');
+    const stageCourse = document.getElementById('dishStageCourse');
+    const stageTitle = document.getElementById('dishStageTitle');
+    const stageDesc = document.getElementById('dishStageDesc');
+    const stageIngredients = document.getElementById('dishStageIngredients');
+    const stripItems = Array.from(document.querySelectorAll('.dish-strip-item'));
     const prevBtn = document.getElementById('dishPrevBtn');
     const nextBtn = document.getElementById('dishNextBtn');
-    const dishList = document.getElementById('dishList');
 
-    if (!items.length || !previewImg) return;
-
-    let currentIndex = 0;
-
-    function updateSlidingIndicator(activeItem) {
-      if (!indicator || !activeItem || !dishList) return;
-      const listRect = dishList.getBoundingClientRect();
-      const itemRect = activeItem.getBoundingClientRect();
-      const topOffset = itemRect.top - listRect.top;
-      indicator.style.top = `${topOffset}px`;
-      indicator.style.height = `${itemRect.height}px`;
-      indicator.style.opacity = '1';
-    }
+    let current = 0;
+    const total = dishes.length;
 
     function selectDish(index) {
-      currentIndex = (index + items.length) % items.length;
-      const targetItem = items[currentIndex];
+      current = (index + total) % total;
+      const d = dishes[current];
 
-      items.forEach(i => i.classList.remove('active'));
-      targetItem.classList.add('active');
+      stripItems.forEach((item, i) => item.classList.toggle('active', i === current));
 
-      updateSlidingIndicator(targetItem);
+      stageImg.classList.add('switching');
+      stageTitle.classList.add('fading');
+      if (stageDesc) stageDesc.style.opacity = '0.3';
 
-      if (counterCurrent) {
-        counterCurrent.textContent = `0${currentIndex + 1}`;
-      }
+      setTimeout(() => {
+        stageImg.src = d.image;
+        stageVisual.dataset.lightbox = d.image;
+        stageBadge.textContent = d.course;
+        stageCounter.textContent = `0${current + 1} / 0${total}`;
+        stageCourse.textContent = d.course;
+        stageTitle.textContent = d.name;
+        stageDesc.textContent = d.description;
+        if (stageIngredients) {
+          stageIngredients.innerHTML = `<span>🌿 ${d.ingredients || 'Ingredienti del mercato contadino di Ortigia'}</span>`;
+        }
 
-      const newSrc = targetItem.dataset.dishImg;
-      const newName = targetItem.dataset.dishName;
-      const newCourse = targetItem.dataset.dishCourse;
-
-      if (newSrc && previewImg.getAttribute('src') !== newSrc) {
-        previewImg.classList.add('switching');
-        previewTitle?.classList.add('fading');
-
-        setTimeout(() => {
-          previewImg.src = newSrc;
-          if (previewPhoto) previewPhoto.dataset.lightbox = newSrc;
-          if (previewTitle) previewTitle.textContent = newName;
-          if (previewCourse) previewCourse.textContent = newCourse;
-
-          previewImg.classList.remove('switching');
-          previewTitle?.classList.remove('fading');
-        }, 160);
-      }
+        stageImg.classList.remove('switching');
+        stageTitle.classList.remove('fading');
+        if (stageDesc) stageDesc.style.opacity = '1';
+      }, 160);
     }
 
-    // Eventi di click e hover sugli elementi della lista
-    items.forEach((item, idx) => {
+    stripItems.forEach((item, idx) => {
       item.addEventListener('click', () => selectDish(idx));
-      item.addEventListener('mouseenter', () => {
-        if (currentIndex !== idx) selectDish(idx);
-      });
     });
 
-    // Frecce carosello
-    prevBtn?.addEventListener('click', () => selectDish(currentIndex - 1));
-    nextBtn?.addEventListener('click', () => selectDish(currentIndex + 1));
-
-    // Posizionamento iniziale della sliding pill
-    requestAnimationFrame(() => {
-      const firstActive = items[0];
-      if (firstActive) updateSlidingIndicator(firstActive);
-    });
-
-    window.addEventListener('resize', () => {
-      const currentActive = items[currentIndex];
-      if (currentActive) updateSlidingIndicator(currentActive);
-    });
+    prevBtn?.addEventListener('click', () => selectDish(current - 1));
+    nextBtn?.addEventListener('click', () => selectDish(current + 1));
   }
 
-  // 6. Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
+  // Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
   function initAzureFilterPill() {
     const filterBar = document.getElementById('azureFilters');
     const pill = document.getElementById('azureFilterPill');
@@ -714,7 +700,6 @@
       });
     });
 
-    // Inizializza pillola sul bottone attivo
     requestAnimationFrame(() => {
       const activeBtn = filterBar.querySelector('.azure-filter-btn.active') || btns[0];
       if (activeBtn) movePillTo(activeBtn);
@@ -726,51 +711,54 @@
     });
   }
 
-  // 7. Carosello Interattivo delle Recensioni con Dots Animati
-  function initReviewsCarousel() {
-    const dots = Array.from(document.querySelectorAll('#reviewsDots .review-dot-btn'));
-    const cards = Array.from(document.querySelectorAll('.reviews-cards .review-card'));
-    const stage = document.getElementById('reviewsCards');
-    if (!dots.length || !cards.length || !stage) return;
+  // Teatro delle Recensioni (Quote Theater con Crossfade & Controlli)
+  function initReviewsTheater(featured) {
+    if (!featured.length) return;
 
-    let activeReview = 0;
+    const quoteText = document.getElementById('quoteText');
+    const quoteAuthor = document.getElementById('quoteAuthor');
+    const quoteSource = document.getElementById('quoteSource');
+    const dots = Array.from(document.querySelectorAll('#quoteDots .quote-dot'));
+    const prevBtn = document.getElementById('quotePrevBtn');
+    const nextBtn = document.getElementById('quoteNextBtn');
 
-    function activateReview(idx) {
-      activeReview = (idx + cards.length) % cards.length;
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === activeReview));
+    let current = 0;
+    const total = featured.length;
 
-      // Su schermi ridotti o per visualizzare la card selezionata
-      if (window.innerWidth <= 1080) {
-        cards.forEach((card, i) => {
-          card.style.display = i === activeReview ? 'flex' : 'none';
-        });
-      } else {
-        cards.forEach((card, i) => {
-          card.style.opacity = i === activeReview ? '1' : '0.65';
-          card.style.transform = i === activeReview ? 'translateY(-4px)' : 'translateY(0)';
-        });
-      }
+    function setReview(index) {
+      current = (index + total) % total;
+      const r = featured[current];
+
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+
+      quoteText.classList.add('fading');
+
+      setTimeout(() => {
+        quoteText.textContent = `“${r.text}”`;
+        quoteAuthor.textContent = r.author;
+        quoteSource.textContent = r.source;
+        quoteText.classList.remove('fading');
+      }, 160);
     }
 
     dots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => activateReview(idx));
+      dot.addEventListener('click', () => setReview(idx));
     });
 
-    // Auto-rotazione leggera recensioni con stop all'hover
-    let timer = setInterval(() => {
-      activateReview((activeReview + 1) % dots.length);
-    }, 6000);
+    prevBtn?.addEventListener('click', () => setReview(current - 1));
+    nextBtn?.addEventListener('click', () => setReview(current + 1));
 
-    stage.addEventListener('mouseenter', () => clearInterval(timer));
-    stage.addEventListener('mouseleave', () => {
+    // Auto-advance con pausa
+    let timer = setInterval(() => setReview(current + 1), 7000);
+    const theater = document.querySelector('.quote-theater');
+    theater?.addEventListener('mouseenter', () => clearInterval(timer));
+    theater?.addEventListener('mouseleave', () => {
       clearInterval(timer);
-      timer = setInterval(() => {
-        activateReview((activeReview + 1) % dots.length);
-      }, 6000);
+      timer = setInterval(() => setReview(current + 1), 7000);
     });
   }
 
-  // 8. Lightbox con Animazioni Fluide
+  // Lightbox
   function initLightbox() {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImage');
