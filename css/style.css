@@ -1,48 +1,42 @@
 /* ==========================================================================
    GUTKOWSKINO — Refined Sicilian Hospitality Design System
-   Color Palette: Calce, Pietra Chiara, Verde Botanico & Blu Ionio
+   Color Palette: Bianco Calce, Pietra Chiara, Blu Ionio & Ambra Dorata
+   (Zero Verde Petrolio / Zero Verde Fangoso)
    ========================================================================== */
 
 :root {
-  /* 1. Bianco Panna & Calce */
+  /* 1. Bianco Panna & Calce Naturale di Ortigia */
   --bg-cream:         #F7F4EC;
   --bg-cream-warm:    #EFE9DC;
   --bg-surface:       #FAF8F3;
 
-  /* 2. Marrone Legno Caldo (solo dettagli testo e accenti) */
-  --brown-deep:       #1E1A17;
-  --brown-wood:       #2A241F;
-  --brown-muted:      #5E554E;
-
-  /* 3. Verde Botanico Notturno & Salvia */
-  --green-botanic:    #244D36;
-  --green-botanic-hv: #1A3B29;
-  --green-deep:       #13291F;
-  --green-soft-bg:    #E2ECE6;
-  --green-accent:     #8FD4AB;
-
-  /* 4. Azzurro Ionio & Notte di Levante */
-  --blue-levante:     #1E5270;
-  --blue-deep:        #122B3B;
+  /* 2. Blu Ionio & Notte di Levante (Profondo, Nobile, Architetturale) */
+  --blue-night:       #0E1720;
+  --blue-night-mid:   #14202C;
+  --blue-night-light: #1A2A3A;
+  --blue-levante:     #1E4D6B;
   --blue-azure-bg:    #DAE8EE;
   --blue-sky:         #9ECBE0;
 
-  /* 5. Tonalità Notturna Ibrida (Verde Botanico Profondo + Blu Ionio) */
-  --night-sea-dark:   #0D1F1C;
-  --night-sea-mid:    #142B28;
-  --night-sea-blue:   #10242B;
+  /* 3. Ambra Calda, Miele & Terracotta Dorata di Sicilia */
+  --amber-warm:       #C89758;
+  --amber-warm-hv:    #D8A76B;
+  --amber-soft:       #E8CA9B;
+  --amber-glow:       rgba(200, 151, 88, 0.16);
 
-  /* Testi Chiari */
+  /* 4. Tonalità Inchiostro & Pietra per Testi */
+  --text-dark:        #1A1715;
+  --text-muted:       #5C554F;
   --text-light:       #F7F4EC;
-  --text-light-dim:   rgba(247, 244, 236, 0.74);
+  --text-light-dim:   rgba(247, 244, 236, 0.76);
 
-  /* Filetti Sartoriali */
-  --line-soft:        rgba(30, 26, 23, 0.11);
-  --line-medium:      rgba(30, 26, 23, 0.20);
-  --line-blue:        rgba(30, 82, 112, 0.18);
+  /* 5. Filetti e Bordi Sartoriali */
+  --line-soft:        rgba(26, 23, 21, 0.11);
+  --line-medium:      rgba(26, 23, 21, 0.20);
+  --line-blue:        rgba(30, 77, 107, 0.18);
   --line-light:       rgba(247, 244, 236, 0.15);
 
-  /* Tipografia */
+  /* Tipografia Editoriale */
   --font-display:     'Instrument Serif', Georgia, serif;
   --font-ui:          'Marcellus', Georgia, serif;
   --font-body:        'Lora', Georgia, serif;
@@ -52,7 +46,7 @@
   --radius-subtle:    4px;
   --radius-pill:      999px;
 
-  /* Curve di Motion */
+  /* Curve di Motion Fluide */
   --ease-elastic:     cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth:      cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -75,7 +69,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--bg-cream);
-  color: var(--brown-deep);
+  color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -83,7 +77,7 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--bg-cream);
-  color: var(--brown-deep);
+  color: var(--text-dark);
   line-height: 1.7;
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
@@ -127,7 +121,7 @@ button {
   font-size: 0.76rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--green-botanic);
+  color: var(--blue-levante);
   margin-bottom: 0.75rem;
   transition: transform 300ms var(--ease-elastic);
 }
@@ -136,12 +130,12 @@ button {
   transform: translateX(3px);
 }
 
-.section-kicker.azure {
-  color: var(--blue-levante);
+.section-kicker.amber {
+  color: var(--amber-warm);
 }
 
-.section-kicker.light {
-  color: var(--green-accent);
+.section-kicker.azure {
+  color: var(--blue-levante);
 }
 
 .heading-display {
@@ -150,7 +144,7 @@ button {
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.01em;
-  color: var(--brown-deep);
+  color: var(--text-dark);
 }
 
 .heading-display em {
@@ -192,7 +186,7 @@ button {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(20, 35, 30, 0.1);
+  box-shadow: 0 6px 18px rgba(14, 23, 32, 0.12);
 }
 
 .btn:active {
@@ -210,15 +204,18 @@ button {
   transform: translate(3px, -3px);
 }
 
-.btn-botanic {
-  background-color: var(--green-botanic);
-  color: var(--text-light);
-  border: 1px solid var(--green-botanic);
+/* Bottone Ambra Caldo (Elegante & Luminoso) */
+.btn-amber {
+  background-color: var(--amber-warm);
+  color: var(--blue-night);
+  border: 1px solid var(--amber-warm);
+  font-weight: 600;
 }
 
-.btn-botanic:hover {
-  background-color: var(--green-botanic-hv);
-  border-color: var(--green-botanic-hv);
+.btn-amber:hover {
+  background-color: var(--amber-warm-hv);
+  border-color: var(--amber-warm-hv);
+  color: var(--blue-night);
 }
 
 .btn-azure {
@@ -228,8 +225,8 @@ button {
 }
 
 .btn-azure:hover {
-  background-color: var(--blue-deep);
-  border-color: var(--blue-deep);
+  background-color: var(--blue-night-mid);
+  border-color: var(--blue-night-mid);
 }
 
 .btn-ghost-light {
@@ -240,20 +237,20 @@ button {
 
 .btn-ghost-light:hover {
   background-color: var(--text-light);
-  color: var(--brown-deep);
+  color: var(--blue-night);
   border-color: var(--text-light);
 }
 
 .btn-outline-dark {
   background-color: transparent;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   border: 1px solid var(--line-medium);
 }
 
 .btn-outline-dark:hover {
-  background-color: var(--brown-deep);
+  background-color: var(--text-dark);
   color: var(--text-light);
-  border-color: var(--brown-deep);
+  border-color: var(--text-dark);
 }
 
 /* Reveal Observer */
@@ -292,7 +289,7 @@ button {
   background-color: rgba(247, 244, 236, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(30, 26, 23, 0.05);
+  box-shadow: 0 4px 20px rgba(26, 23, 21, 0.05);
 }
 
 .navbar-inner {
@@ -315,13 +312,13 @@ button {
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 400;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   line-height: 1;
   transition: color 240ms ease;
 }
 
 .nav-brand:hover {
-  color: var(--green-botanic);
+  color: var(--blue-levante);
 }
 
 .nav-place {
@@ -348,7 +345,7 @@ button {
   font-size: 0.76rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brown-muted);
+  color: var(--text-muted);
   white-space: nowrap;
   padding: 0.3rem 0;
   transition: color 240ms ease;
@@ -367,7 +364,7 @@ button {
 }
 
 .nav-center a:hover {
-  color: var(--brown-deep);
+  color: var(--text-dark);
 }
 
 .nav-center a:hover::after {
@@ -386,7 +383,7 @@ button {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brown-muted);
+  color: var(--text-muted);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -397,25 +394,25 @@ button {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--green-botanic);
+  background-color: var(--amber-warm);
   animation: pulse-dot 2.4s infinite;
 }
 
 .status-dot.closed {
-  background-color: var(--brown-muted);
+  background-color: var(--text-muted);
   animation: none;
 }
 
 @keyframes pulse-dot {
-  0%   { box-shadow: 0 0 0 0 rgba(36, 77, 54, 0.5); }
-  70%  { box-shadow: 0 0 0 7px rgba(36, 77, 54, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(36, 77, 54, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(200, 151, 88, 0.5); }
+  70%  { box-shadow: 0 0 0 7px rgba(200, 151, 88, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(200, 151, 88, 0); }
 }
 
 .nav-cta {
   height: 38px;
   padding: 0 1.2rem;
-  background-color: var(--green-botanic);
+  background-color: var(--blue-night);
   color: var(--text-light);
   font-family: var(--font-ui);
   font-size: 0.72rem;
@@ -443,7 +440,7 @@ button {
   display: block;
   width: 22px;
   height: 1.5px;
-  background: var(--brown-deep);
+  background: var(--text-dark);
   margin: 5px 0;
 }
 
@@ -463,7 +460,7 @@ button {
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(2rem, 4.5vw, 3.75rem);
-  background-color: var(--blue-deep);
+  background-color: var(--blue-night);
   transform: translateZ(0);
 }
 
@@ -481,9 +478,9 @@ button {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(18, 43, 59, 0.32) 0%,
-    rgba(18, 43, 59, 0.12) 42%,
-    rgba(16, 28, 24, 0.88) 100%
+    rgba(14, 23, 32, 0.35) 0%,
+    rgba(14, 23, 32, 0.12) 42%,
+    rgba(10, 16, 23, 0.88) 100%
   );
   pointer-events: none;
 }
@@ -506,10 +503,11 @@ button {
 }
 
 .postcard-location-badge {
-  background-color: rgba(30, 82, 112, 0.75);
+  background-color: rgba(20, 32, 44, 0.82);
   padding: 0.38rem 0.9rem;
   border-radius: var(--radius-sharp);
-  border: 1px solid rgba(158, 203, 224, 0.42);
+  border: 1px solid rgba(200, 151, 88, 0.4);
+  color: var(--amber-soft);
 }
 
 .postcard-bottom {
@@ -529,7 +527,7 @@ button {
   font-size: 0.76rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--green-accent);
+  color: var(--amber-soft);
   margin-bottom: 0.75rem;
 }
 
@@ -543,7 +541,7 @@ button {
 
 .postcard-title em {
   font-style: italic;
-  color: var(--blue-sky);
+  color: var(--amber-warm);
 }
 
 .postcard-aside {
@@ -568,7 +566,7 @@ button {
 }
 
 /* ==========================================================================
-   FILOSOFIA (Architettura Narrativa Fluida — Zero Box/Card)
+   FILOSOFIA
    ========================================================================== */
 .section-philosophy {
   background-color: var(--bg-cream);
@@ -585,13 +583,13 @@ button {
   font-family: var(--font-display);
   font-size: clamp(1.65rem, 2.4vw, 2.15rem);
   line-height: 1.35;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   margin: 1.25rem 0 1.5rem;
 }
 
 .philosophy-copy {
   font-size: 1rem;
-  color: var(--brown-muted);
+  color: var(--text-muted);
   line-height: 1.82;
   margin-bottom: 1.25rem;
 }
@@ -607,7 +605,7 @@ button {
   border-radius: var(--radius-subtle);
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 12px 36px rgba(30, 26, 23, 0.08);
+  box-shadow: 0 12px 36px rgba(26, 23, 21, 0.08);
 }
 
 .philo-img-main img {
@@ -625,7 +623,7 @@ button {
   overflow: hidden;
   border: 6px solid var(--bg-cream);
   cursor: pointer;
-  box-shadow: 0 16px 40px rgba(30, 26, 23, 0.12);
+  box-shadow: 0 16px 40px rgba(26, 23, 21, 0.12);
 }
 
 .philo-img-secondary img {
@@ -639,7 +637,6 @@ button {
   transform: scale(1.04);
 }
 
-/* Pilastri Editoriali a Flusso Lineare (Zero scatole) */
 .philosophy-values {
   margin-top: 4.5rem;
   padding-top: 3rem;
@@ -662,7 +659,7 @@ button {
   font-family: var(--font-ui);
   font-size: 0.72rem;
   letter-spacing: 0.14em;
-  color: var(--blue-levante);
+  color: var(--amber-warm);
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -672,26 +669,27 @@ button {
   font-size: 1.85rem;
   font-weight: 400;
   font-style: italic;
-  color: var(--green-botanic);
+  color: var(--text-dark);
   margin-bottom: 0.6rem;
 }
 
 .value-col p {
   font-size: 0.95rem;
-  color: var(--brown-muted);
+  color: var(--text-muted);
   line-height: 1.75;
 }
 
 /* ==========================================================================
-   LA CUCINA — LOOKBOOK PANORAMICO IMMERSIVO (Blu Ionio & Verde Botanico)
-   Zero Marrone Pesante · Zero Scatole/Card · Design Editoriale d'Autore
+   LA CUCINA — LOOKBOOK PANORAMICO EDITORIALE
+   Palette: Deep Midnight Navy (#0E1720) + Ambra Dorata di Sicilia (#C89758)
+   (Addio Verde Petrolio / Addio Verde Acqua)
    ========================================================================== */
 .section-kitchen {
-  background: linear-gradient(165deg, var(--night-sea-dark) 0%, var(--night-sea-mid) 50%, var(--night-sea-blue) 100%);
+  background: linear-gradient(175deg, var(--blue-night-mid) 0%, var(--blue-night) 100%);
   color: var(--text-light);
   position: relative;
-  border-top: 1px solid rgba(158, 203, 224, 0.15);
-  border-bottom: 1px solid rgba(158, 203, 224, 0.15);
+  border-top: 1px solid var(--line-light);
+  border-bottom: 1px solid var(--line-light);
 }
 
 .section-kitchen .heading-display {
@@ -699,7 +697,7 @@ button {
 }
 
 .section-kitchen .heading-display em {
-  color: var(--green-accent);
+  color: var(--amber-warm);
 }
 
 .kitchen-header {
@@ -718,7 +716,7 @@ button {
   line-height: 1.8;
 }
 
-/* ── STAGE IMMERSIVO DEL PIATTO (Addio vecchia card a destra e lista a sinistra) ── */
+/* ── STAGE IMMERSIVO DEL PIATTO ── */
 .dish-stage {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -728,15 +726,14 @@ button {
   margin-bottom: 3.5rem;
 }
 
-/* Colonna Foto Immersiva */
 .dish-stage-visual {
   position: relative;
   aspect-ratio: 16 / 11;
   border-radius: var(--radius-subtle);
   overflow: hidden;
-  background-color: rgba(14, 32, 28, 0.6);
-  border: 1px solid rgba(158, 203, 224, 0.22);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  background-color: var(--blue-night-mid);
+  border: 1px solid rgba(247, 244, 236, 0.16);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
   cursor: pointer;
 }
 
@@ -763,17 +760,17 @@ button {
   position: absolute;
   top: 1.25rem;
   left: 1.25rem;
-  background-color: rgba(18, 43, 59, 0.85);
+  background-color: rgba(14, 23, 32, 0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(158, 203, 224, 0.35);
-  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(200, 151, 88, 0.4);
+  padding: 0.4rem 0.95rem;
   border-radius: var(--radius-sharp);
   font-family: var(--font-ui);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--blue-sky);
+  color: var(--amber-soft);
   z-index: 2;
 }
 
@@ -786,18 +783,20 @@ button {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(247, 244, 236, 0.65);
-  background-color: rgba(13, 31, 28, 0.7);
-  padding: 0.3rem 0.65rem;
+  background-color: rgba(14, 23, 32, 0.85);
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(247, 244, 236, 0.12);
   border-radius: var(--radius-sharp);
   z-index: 2;
-  transition: color 200ms ease;
+  transition: color 200ms ease, border-color 200ms ease;
 }
 
 .dish-stage-visual:hover .dish-stage-hint {
-  color: var(--green-accent);
+  color: var(--amber-warm);
+  border-color: var(--amber-warm);
 }
 
-/* Colonna Dettagli Narrativi Sartoriali */
+/* Colonna Dettagli Narrativi */
 .dish-stage-content {
   display: flex;
   flex-direction: column;
@@ -813,9 +812,9 @@ button {
 
 .dish-stage-counter {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   letter-spacing: 0.16em;
-  color: var(--green-accent);
+  color: var(--amber-warm);
 }
 
 .dish-stage-course {
@@ -823,7 +822,7 @@ button {
   font-size: 0.74rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--blue-sky);
+  color: var(--amber-soft);
   padding-left: 1rem;
   border-left: 1px solid var(--line-light);
 }
@@ -857,13 +856,13 @@ button {
   align-items: center;
   gap: 0.6rem;
   padding: 0.85rem 1.15rem;
-  background-color: rgba(158, 203, 224, 0.06);
-  border: 1px solid rgba(158, 203, 224, 0.18);
+  background-color: rgba(247, 244, 236, 0.04);
+  border: 1px solid rgba(200, 151, 88, 0.28);
   border-radius: var(--radius-sharp);
   font-family: var(--font-ui);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
-  color: var(--green-accent);
+  color: var(--amber-soft);
   margin-bottom: 2rem;
 }
 
@@ -873,7 +872,7 @@ button {
   gap: 1.25rem;
 }
 
-/* ── NASTRO DEGUSTAZIONE ORIZZONTALE (SELETTORE PIATTI CON MOTION FLUIDA) ── */
+/* ── NASTRO DEGUSTAZIONE ORIZZONTALE ── */
 .dish-strip-wrap {
   border-top: 1px solid var(--line-light);
   padding-top: 2rem;
@@ -889,10 +888,10 @@ button {
 
 .dish-strip-label {
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-light-dim);
+  color: var(--amber-soft);
 }
 
 .dish-strip-arrows {
@@ -912,12 +911,14 @@ button {
   transition:
     background-color 220ms ease,
     border-color 220ms ease,
+    color 220ms ease,
     transform 220ms var(--ease-elastic);
 }
 
 .dish-strip-btn:hover {
-  background-color: var(--blue-levante);
-  border-color: var(--blue-levante);
+  background-color: var(--amber-warm);
+  border-color: var(--amber-warm);
+  color: var(--blue-night);
   transform: translateY(-2px);
 }
 
@@ -930,7 +931,6 @@ button {
   height: 15px;
 }
 
-/* Timeline orizzontale a pulsanti sartoriali */
 .dish-strip-timeline {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -940,7 +940,7 @@ button {
 .dish-strip-item {
   position: relative;
   padding: 1rem 1rem 1.2rem;
-  border-top: 2px solid rgba(247, 244, 236, 0.2);
+  border-top: 2px solid rgba(247, 244, 236, 0.18);
   cursor: pointer;
   text-align: left;
   transition:
@@ -950,28 +950,28 @@ button {
 }
 
 .dish-strip-item:hover {
-  border-color: var(--blue-sky);
-  background-color: rgba(247, 244, 236, 0.04);
+  border-color: var(--amber-warm);
+  background-color: rgba(247, 244, 236, 0.03);
   transform: translateY(-2px);
 }
 
 .dish-strip-item.active {
-  border-color: var(--green-accent);
-  background-color: rgba(143, 212, 171, 0.08);
+  border-color: var(--amber-warm);
+  background-color: var(--amber-glow);
 }
 
 .dish-strip-num {
   font-family: var(--font-ui);
   font-size: 0.7rem;
   letter-spacing: 0.14em;
-  color: var(--blue-sky);
+  color: rgba(247, 244, 236, 0.55);
   display: block;
   margin-bottom: 0.35rem;
   transition: color 240ms ease;
 }
 
 .dish-strip-item.active .dish-strip-num {
-  color: var(--green-accent);
+  color: var(--amber-soft);
 }
 
 .dish-strip-name {
@@ -983,7 +983,7 @@ button {
 }
 
 .dish-strip-item.active .dish-strip-name {
-  color: var(--green-accent);
+  color: var(--amber-warm);
   font-style: italic;
 }
 
@@ -1050,7 +1050,7 @@ button {
   transition:
     transform 340ms var(--ease-elastic),
     width 340ms var(--ease-elastic);
-  box-shadow: 0 3px 12px rgba(30, 82, 112, 0.22);
+  box-shadow: 0 3px 12px rgba(30, 77, 107, 0.22);
 }
 
 .azure-filter-btn {
@@ -1061,7 +1061,7 @@ button {
   font-size: 0.74rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   background: transparent;
   border: none;
   border-radius: var(--radius-sharp);
@@ -1070,7 +1070,7 @@ button {
 }
 
 .azure-filter-btn:hover {
-  color: var(--blue-deep);
+  color: var(--blue-levante);
   transform: translateY(-1px);
 }
 
@@ -1113,9 +1113,9 @@ button {
   overflow: hidden;
   border-radius: var(--radius-subtle);
   background-color: var(--bg-cream);
-  border: 1px solid rgba(30, 82, 112, 0.16);
+  border: 1px solid rgba(30, 77, 107, 0.16);
   margin-bottom: 0.85rem;
-  box-shadow: 0 4px 16px rgba(30, 82, 112, 0.08);
+  box-shadow: 0 4px 16px rgba(30, 77, 107, 0.08);
 }
 
 .azure-photo-item.featured-wide .azure-img-frame {
@@ -1145,7 +1145,7 @@ button {
   font-family: var(--font-display);
   font-size: 1.45rem;
   font-weight: 400;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   transition: color 240ms ease;
 }
 
@@ -1163,7 +1163,7 @@ button {
 }
 
 /* ==========================================================================
-   RECENSIONI — TEATRO EDITORIALE DELLE VOCI (Addio Griglia a 3 Card)
+   RECENSIONI — TEATRO EDITORIALE DELLE VOCI
    ========================================================================== */
 .section-reviews {
   background-color: var(--bg-cream);
@@ -1207,10 +1207,9 @@ button {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--brown-muted);
+  color: var(--text-muted);
 }
 
-/* Palcoscenico Centrale della Citazione d'Autore */
 .quote-theater {
   max-width: 960px;
   margin: 0 auto;
@@ -1233,7 +1232,7 @@ button {
   font-weight: 400;
   font-style: italic;
   line-height: 1.32;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   min-height: 140px;
   display: flex;
   align-items: center;
@@ -1259,7 +1258,7 @@ button {
 }
 
 .quote-author-name {
-  color: var(--brown-deep);
+  color: var(--text-dark);
   font-weight: 500;
 }
 
@@ -1268,10 +1267,9 @@ button {
 }
 
 .quote-author-source {
-  color: var(--green-botanic);
+  color: var(--amber-warm);
 }
 
-/* Controlli Teatrali (Frecce + Selettori a Pillola) */
 .reviews-theater-nav {
   display: flex;
   justify-content: center;
@@ -1288,10 +1286,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   transition:
     background-color 220ms ease,
     border-color 220ms ease,
+    color 220ms ease,
     transform 220ms var(--ease-elastic);
 }
 
@@ -1377,7 +1376,7 @@ button {
   font-family: var(--font-ui);
   font-size: 1.08rem;
   letter-spacing: 0.02em;
-  color: var(--brown-deep);
+  color: var(--text-dark);
   line-height: 1.75;
 }
 
@@ -1386,19 +1385,19 @@ button {
   font-family: var(--font-body);
   font-style: italic;
   font-size: 0.95rem;
-  color: var(--brown-muted);
+  color: var(--text-muted);
   margin-top: 0.15rem;
 }
 
 .info-row-value a {
-  color: var(--green-botanic);
-  border-bottom: 1px solid var(--green-botanic);
+  color: var(--blue-levante);
+  border-bottom: 1px solid var(--blue-levante);
   transition: color 200ms ease;
 }
 
 .info-row-value a:hover {
-  color: var(--blue-levante);
-  border-color: var(--blue-levante);
+  color: var(--amber-warm);
+  border-color: var(--amber-warm);
 }
 
 .hours-list {
@@ -1420,7 +1419,7 @@ button {
   border: 1px solid var(--line-blue);
   background-color: var(--blue-azure-bg);
   padding: 0.65rem;
-  box-shadow: 0 12px 36px rgba(30, 82, 112, 0.12);
+  box-shadow: 0 12px 36px rgba(30, 77, 107, 0.12);
 }
 
 .map-container iframe {
@@ -1435,7 +1434,7 @@ button {
    FOOTER
    ========================================================================== */
 .footer {
-  background-color: var(--night-sea-dark);
+  background-color: var(--blue-night);
   color: var(--text-light-dim);
   padding: 4rem 0 2.5rem;
 }
@@ -1466,7 +1465,7 @@ button {
 }
 
 .footer-links a:hover {
-  color: var(--blue-sky);
+  color: var(--amber-soft);
 }
 
 .footer-bottom {
@@ -1487,7 +1486,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: 2500;
-  background: rgba(13, 28, 25, 0.97);
+  background: rgba(14, 23, 32, 0.97);
   backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
@@ -1551,8 +1550,8 @@ button {
 }
 
 .lb-btn:hover {
-  background-color: var(--green-botanic);
-  border-color: var(--green-botanic);
+  background-color: var(--blue-levante);
+  border-color: var(--blue-levante);
   transform: translateY(-1px);
 }
 

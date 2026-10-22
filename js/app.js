@@ -1,7 +1,7 @@
 /**
  * GUTKOWSKINO — Refined Sicilian Hospitality Showcase
  *
- * Art Direction: Bianco Calce, Verde Botanico, Blu Ionio
+ * Art Direction: Bianco Calce, Blu Ionio, Ambra Dorata
  * Architecture:
  * - Immersive Panoramic Dish Stage with Horizontal Tasting Strip (Zero heavy brown, zero boxy cards)
  * - Quote Theater for guest reviews (Single impactful editorial stage)
@@ -175,7 +175,7 @@
           <div class="postcard-aside reveal-up delay-1 in-view">
             <p class="postcard-desc">${data.hero.subheading}</p>
             <div class="postcard-actions">
-              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-botanic">
+              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
                 <span>Prenota su TheFork</span>
                 ${ICONS.arrowUpRight}
               </a>
@@ -274,11 +274,11 @@
             <p class="dish-stage-desc" id="dishStageDesc">${first.description || ''}</p>
 
             <div class="dish-stage-ingredients" id="dishStageIngredients">
-              <span>🌿 ${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
+              <span>Materia prima: ${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
             </div>
 
             <div class="dish-stage-actions">
-              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-botanic">
+              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
                 <span>Prenota per assaggiarlo</span>
                 ${ICONS.arrowUpRight}
               </a>
@@ -289,7 +289,7 @@
         <!-- NASTRO DEGUSTAZIONE ORIZZONTALE CON MOTION FLUIDA -->
         <div class="dish-strip-wrap reveal-up">
           <div class="dish-strip-nav">
-            <span class="dish-strip-label">Sequenza della Cucina Botanica</span>
+            <span class="dish-strip-label">La Carta Vegetale del Mercato</span>
             <div class="dish-strip-arrows">
               <button class="dish-strip-btn" id="dishPrevBtn" aria-label="Piatto precedente" title="Precedente">
                 ${ICONS.arrowLeft}
@@ -463,7 +463,7 @@
             </div>
 
             <div class="info-actions">
-              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-botanic">
+              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
                 <span>Prenota su TheFork</span>
                 ${ICONS.arrowUpRight}
               </a>
@@ -640,7 +640,7 @@
         stageTitle.textContent = d.name;
         stageDesc.textContent = d.description;
         if (stageIngredients) {
-          stageIngredients.innerHTML = `<span>🌿 ${d.ingredients || 'Ingredienti del mercato contadino di Ortigia'}</span>`;
+          stageIngredients.innerHTML = `<span>Materia prima: ${d.ingredients || 'Ingredienti del mercato contadino di Ortigia'}</span>`;
         }
 
         stageImg.classList.remove('switching');
