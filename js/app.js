@@ -205,40 +205,113 @@
     return drawer;
   }
 
-  // ───── 2. Hero a Cartolina ─────
+  // ───── 2. Hero a Cartolina (Split Desktop / Cartolina SVG Mobile) ─────
   function buildPostcardHero(data) {
-    const heroBg = data.hero.backgroundImage || '';
+    const heroBg = data.hero.backgroundImage || 'assets/images/hero-terrazza-reale.webp';
     const stage = el('div', { className: 'postcard-stage' });
     stage.innerHTML = `
-      <section class="postcard-hero" id="hero">
-        <div class="postcard-bg" id="heroBg" style="background-image:url('${heroBg}')"></div>
-        <div class="postcard-scrim"></div>
-
-        <div class="postcard-top">
-          <span class="postcard-address-full">Lungomare di Levante Elio Vittorini, 18 · Siracusa</span>
-          <span class="postcard-location-badge">Hotel Gutkowski · Isola di Ortigia</span>
-          <div class="postcard-geo-minimal">
-            <span class="geo-dot"></span>
-            <span>Ortigia · Siracusa</span>
+      <section class="postcard-hero split-hero" id="hero">
+        <!-- Desktop Sinistra / Mobile Cartolina Testi & SVG -->
+        <div class="hero-split-text reveal-up in-view">
+          
+          <!-- Pillole Superiori: Senza background e con testi scuri -->
+          <div class="hero-pills-bar">
+            <span class="hero-pill-clean">
+              <span class="pill-dot"></span>
+              Ortigia · Siracusa
+            </span>
+            <span class="hero-pill-clean">Hotel Gutkowski</span>
+            <span class="hero-pill-clean">Cucina Vegetale d'Autore</span>
           </div>
+
+          <!-- Mobile Only: Outlines SVG Postali & Timbro Cartolina (Niente Immagine su Mobile) -->
+          <div class="mobile-postcard-svgs" aria-hidden="true">
+            <svg class="svg-postmark" viewBox="0 0 170 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="36" cy="38" r="32" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 2" />
+              <circle cx="36" cy="38" r="27" stroke="currentColor" stroke-width="0.8" />
+              <text x="36" y="31" text-anchor="middle" font-size="5.5" font-family="var(--font-ui)" letter-spacing="1.2" fill="currentColor">GUTKOWSKINO</text>
+              <text x="36" y="41" text-anchor="middle" font-size="4.5" font-family="var(--font-ui)" letter-spacing="0.8" fill="var(--amber-warm)">★ ORTIGIA ★</text>
+              <text x="36" y="50" text-anchor="middle" font-size="4.2" font-family="var(--font-ui)" letter-spacing="0.6" fill="currentColor">SIRACUSA · 96100</text>
+              <!-- Onde di annullo postale -->
+              <path d="M72 26 C 90 20, 110 32, 130 26 C 145 22, 155 30, 168 26" stroke="currentColor" stroke-width="0.9" />
+              <path d="M72 38 C 90 32, 110 44, 130 38 C 145 34, 155 42, 168 38" stroke="currentColor" stroke-width="0.9" />
+              <path d="M72 50 C 90 44, 110 56, 130 50 C 145 46, 155 54, 168 50" stroke="currentColor" stroke-width="0.9" />
+            </svg>
+            <div class="svg-stamp-box">
+              <svg viewBox="0 0 48 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="44" height="54" stroke="currentColor" stroke-width="1" stroke-dasharray="2.5 2" rx="1" />
+                <circle cx="24" cy="22" r="7" stroke="var(--amber-warm)" stroke-width="0.9" />
+                <path d="M12 38 C 18 31, 30 31, 36 38" stroke="var(--amber-warm)" stroke-width="0.9" />
+                <text x="24" y="49" text-anchor="middle" font-size="4.8" font-family="var(--font-ui)" letter-spacing="0.8" fill="currentColor">POSTE · 1.20€</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Gerarchia Tipografica Editoriale Proporzionata -->
+          <div class="hero-copy-group">
+            <span class="hero-kicker">Bistrot Contemporaneo sul Lungomare</span>
+            <h1 class="hero-title">
+              <span class="title-primary">Cucina vegetale d'autore</span>
+              <span class="title-secondary">sul mare di Levante</span>
+            </h1>
+            <p class="hero-desc">${data.hero.subheading}</p>
+          </div>
+
+          <!-- Azioni (CTA) -->
+          <div class="hero-actions">
+            <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber hero-cta-btn">
+              <span>Prenota su TheFork</span>
+              ${ICONS.arrowUpRight}
+            </a>
+            <a href="#cucina" class="hero-link-secondary">
+              <span>Scopri i piatti</span>
+              <span class="hero-link-arrow">↓</span>
+            </a>
+          </div>
+
+          <!-- Dettagli Cartolina Mobile (Indirizzo & Divisore) -->
+          <div class="mobile-postcard-foot" aria-hidden="true">
+            <div class="postcard-foot-sep"></div>
+            <div class="postcard-foot-data">
+              <span>Hotel Gutkowski · Lungomare di Levante Elio Vittorini, 18</span>
+              <span>Isola di Ortigia · 96100 Siracusa (SR)</span>
+            </div>
+          </div>
+
+          <!-- Highlights Desktop Proporzionati -->
+          <div class="hero-highlights">
+            <div class="hero-hl-item">
+              <span class="hl-num">01</span>
+              <div class="hl-content">
+                <strong>Mercato di Ortigia</strong>
+                <small>Spesa contadina quotidiana</small>
+              </div>
+            </div>
+            <div class="hero-hl-item">
+              <span class="hl-num">02</span>
+              <div class="hl-content">
+                <strong>Terrazza sul Mare</strong>
+                <small>Pochi tavoli affacciati sullo Ionio</small>
+              </div>
+            </div>
+            <div class="hero-hl-item">
+              <span class="hl-num">03</span>
+              <div class="hl-content">
+                <strong>Vini Naturali</strong>
+                <small>Etna, Val di Noto & macerati</small>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="postcard-bottom">
-          <div class="reveal-up in-view">
-            <span class="postcard-kicker">Bistrot Contemporaneo</span>
-            <h1 class="postcard-title">${data.hero.heading}</h1>
-          </div>
-          <div class="postcard-aside reveal-up delay-1 in-view">
-            <p class="postcard-desc">${data.hero.subheading}</p>
-            <div class="postcard-actions">
-              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber hero-cta-primary">
-                <span>Prenota su TheFork</span>
-                ${ICONS.arrowUpRight}
-              </a>
-              <a href="#cucina" class="hero-link-secondary">
-                <span>Scopri il menu</span>
-                <span class="hero-link-arrow">↓</span>
-              </a>
+        <!-- Desktop Destra: Fotografia della Terrazza sul Mare (Nascosta su Mobile) -->
+        <div class="hero-split-visual reveal-up delay-1 in-view">
+          <div class="hero-visual-frame">
+            <img src="${heroBg}" alt="Terrazza Gutkowskino sul Mare di Levante" class="hero-visual-img" loading="eager" decoding="async">
+            <div class="hero-visual-caption">
+              <span class="hvc-tag">Terrazza Gutkowskino</span>
+              <span class="hvc-sub">Vista Scogli & Mare di Levante · Ortigia</span>
             </div>
           </div>
         </div>
@@ -286,7 +359,7 @@
     return section;
   }
 
-  // ───── 4. La Cucina: Vetrina d'Autore nel Viewport (Affiancata & Luminosa) ─────
+  // ───── 4. La Cucina: Vetrina d'Autore nel Viewport (Carousel Orizzontale a Carte) ─────
   function buildKitchenLookbook(data) {
     const d = data.kitchen;
     const dishes = d.dishes || [];
@@ -295,14 +368,17 @@
 
     const section = el('section', { className: 'section-kitchen', id: 'cucina' });
 
-    const menuItems = dishes.map((dish, idx) => `
-      <button class="kitchen-menu-item ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button" role="tab" aria-selected="${idx === 0}">
-        <span class="kmi-num">0${idx + 1}</span>
-        <div class="kmi-content">
-          <span class="kmi-course">${dish.course}</span>
-          <span class="kmi-name">${dish.name.split(' su ')[0].split(' con ')[0]}</span>
+    // Deck Orizzontale a Carte delle Portate (Addio listone verticale)
+    const dishDeckCards = dishes.map((dish, idx) => `
+      <button class="kitchen-deck-card ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button" role="tab" aria-selected="${idx === 0}">
+        <div class="kdc-thumb">
+          <img src="${dish.image}" alt="${dish.name}" loading="lazy" decoding="async">
         </div>
-        <span class="kmi-arrow">${ICONS.arrowRight}</span>
+        <div class="kdc-info">
+          <span class="kdc-num">0${idx + 1}</span>
+          <span class="kdc-course">${dish.course}</span>
+          <strong class="kdc-name">${dish.name.split(' su ')[0].split(' con ')[0]}</strong>
+        </div>
       </button>
     `).join('');
 
@@ -323,58 +399,50 @@
           </div>
         </div>
 
-        <!-- Hub Interattivo Affiancato nel Viewport: Zero Scroll Necessario -->
-        <div class="kitchen-hub reveal-up delay-1">
-          <!-- Colonna Sinistra: Lista Selettore dei Piatti -->
-          <div class="kitchen-menu-col">
-            <div class="kitchen-menu-caption">
-              <span>La Carta Vegetale del Mercato</span>
-              <span>0${totalDishes} Portate d'Autore</span>
-            </div>
-            <div class="kitchen-menu-list" id="kitchenMenuList" role="tablist">
-              ${menuItems}
-            </div>
-            <div class="kitchen-menu-footnote">
-              <span>100% vegetale · Ortaggi contadini di stagione da Ortigia</span>
-            </div>
+        <!-- Palcoscenico Principale del Piatto Selezionato -->
+        <div class="kitchen-panoramic-stage reveal-up delay-1">
+          <div class="kps-visual-wrap" id="dishStageVisual" data-lightbox="${first.image || ''}">
+            <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
+            <span class="kps-badge" id="dishStageBadge">${first.course || ''}</span>
+            <span class="kps-zoom-hint">Ingrandisci ↗</span>
           </div>
 
-          <!-- Colonna Destra: Vetrina Immersiva del Piatto Attivo -->
-          <div class="kitchen-stage-col" id="kitchenStageCol">
-            <!-- SELETTORE TOUCH MOBILE: DIRETTAMENTE SOPRA IL PIATTO (Zero Scroll Scomodo) -->
-            <div class="kitchen-mobile-pills" id="dishMobilePills">
-              ${dishes.map((dish, idx) => `
-                <button class="dish-pill-btn ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button">
-                  <span>0${idx + 1}</span> ${dish.name.split(' su ')[0].split(' con ')[0]}
-                </button>
-              `).join('')}
+          <div class="kps-details-card">
+            <div class="kps-top-nav">
+              <span class="kps-counter" id="dishStageCounter">01 / 0${totalDishes}</span>
+              <span class="kps-course-label" id="dishStageCourse">${first.course || ''}</span>
+              <div class="kps-arrows">
+                <button class="kps-arrow-btn" id="dishPrevBtn" aria-label="Piatto precedente">←</button>
+                <button class="kps-arrow-btn" id="dishNextBtn" aria-label="Piatto successivo">→</button>
+              </div>
             </div>
 
-            <div class="kitchen-stage-card">
-              <div class="kitchen-stage-visual" id="dishStageVisual" data-lightbox="${first.image || ''}">
-                <img id="dishStageImg" src="${first.image || ''}" alt="${first.name || ''}" decoding="async" referrerpolicy="no-referrer">
-                <span class="kitchen-stage-badge" id="dishStageBadge">${first.course || ''}</span>
-                <span class="kitchen-stage-hint">Clicca per ingrandire</span>
-              </div>
-              <div class="kitchen-stage-details">
-                <div class="kitchen-stage-topline">
-                  <span class="kitchen-stage-counter" id="dishStageCounter">01 / 0${totalDishes}</span>
-                  <span class="kitchen-stage-course" id="dishStageCourse">${first.course || ''}</span>
-                </div>
-                <h3 class="kitchen-stage-title" id="dishStageTitle">${first.name || ''}</h3>
-                <p class="kitchen-stage-desc" id="dishStageDesc">${first.description || ''}</p>
-                <div class="kitchen-stage-ingredients" id="dishStageIngredients">
-                  <strong>Materia prima:</strong> <span>${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
-                </div>
-                <div class="kitchen-stage-actions">
-                  <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
-                    <span>Prenota per assaggiarlo</span>
-                    ${ICONS.arrowUpRight}
-                  </a>
-                  <span class="kitchen-stage-micro">Pochi tavoli affacciati sul mare</span>
-                </div>
-              </div>
+            <h3 class="kps-dish-title" id="dishStageTitle">${first.name || ''}</h3>
+            <p class="kps-dish-desc" id="dishStageDesc">${first.description || ''}</p>
+
+            <div class="kps-ingredients" id="dishStageIngredients">
+              <span class="kps-ing-label">Materia Prima:</span>
+              <span class="kps-ing-value">${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
             </div>
+
+            <div class="kps-bottom-actions">
+              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
+                <span>Prenota per assaggiarlo</span>
+                ${ICONS.arrowUpRight}
+              </a>
+              <span class="kps-tag-quote">100% vegetale · Spesa giornaliera a Ortigia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strip / Deck Orizzontale delle Portate (Zero Listone Verticale) -->
+        <div class="kitchen-deck-wrapper reveal-up delay-2">
+          <div class="kitchen-deck-header">
+            <span>Seleziona una portata per visualizzarla</span>
+            <span>Tocca le carte o naviga con le frecce</span>
+          </div>
+          <div class="kitchen-deck-track" id="kitchenDeckTrack" role="tablist">
+            ${dishDeckCards}
           </div>
         </div>
       </div>`;
@@ -699,7 +767,7 @@
     }, { passive: true });
   }
 
-  // Vetrina Interattiva Piatti: Selezione Affiancata Istantanea nel Viewport
+  // Vetrina Interattiva Piatti: Deck Orizzontale a Carte e Frecce di Navigazione
   function initDishStageCarousel(dishes) {
     if (!dishes.length) return;
 
@@ -711,8 +779,9 @@
     const stageTitle = document.getElementById('dishStageTitle');
     const stageDesc = document.getElementById('dishStageDesc');
     const stageIngredients = document.getElementById('dishStageIngredients');
-    const menuButtons = Array.from(document.querySelectorAll('#kitchenMenuList .kitchen-menu-item'));
-    const pillButtons = Array.from(document.querySelectorAll('#dishMobilePills .dish-pill-btn'));
+    const deckCards = Array.from(document.querySelectorAll('#kitchenDeckTrack .kitchen-deck-card'));
+    const prevBtn = document.getElementById('dishPrevBtn');
+    const nextBtn = document.getElementById('dishNextBtn');
 
     if (!stageImg) return;
 
@@ -723,22 +792,17 @@
       current = (index + total) % total;
       const d = dishes[current];
 
-      menuButtons.forEach((btn, i) => {
+      deckCards.forEach((card, i) => {
         const isActive = i === current;
-        btn.classList.toggle('active', isActive);
-        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-
-      pillButtons.forEach((btn, i) => {
-        const isActive = i === current;
-        btn.classList.toggle('active', isActive);
+        card.classList.toggle('active', isActive);
+        card.setAttribute('aria-selected', isActive ? 'true' : 'false');
         if (isActive) {
-          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
       });
 
       stageImg.classList.add('switching');
-      stageTitle.classList.add('fading');
+      if (stageTitle) stageTitle.classList.add('fading');
       if (stageDesc) stageDesc.style.opacity = '0.35';
 
       setTimeout(() => {
@@ -750,27 +814,21 @@
         if (stageTitle) stageTitle.textContent = d.name;
         if (stageDesc) stageDesc.textContent = d.description;
         if (stageIngredients) {
-          stageIngredients.innerHTML = `<strong>Materia prima:</strong> <span>${d.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>`;
+          stageIngredients.innerHTML = `<span class="kps-ing-label">Materia Prima:</span> <span class="kps-ing-value">${d.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>`;
         }
 
         stageImg.classList.remove('switching');
-        stageTitle.classList.remove('fading');
+        if (stageTitle) stageTitle.classList.remove('fading');
         if (stageDesc) stageDesc.style.opacity = '1';
       }, 150);
     }
 
-    menuButtons.forEach((btn, idx) => {
-      btn.addEventListener('click', () => selectDish(idx));
-      btn.addEventListener('mouseenter', () => {
-        if (window.innerWidth > 992 && current !== idx) {
-          selectDish(idx);
-        }
-      });
+    deckCards.forEach((card, idx) => {
+      card.addEventListener('click', () => selectDish(idx));
     });
 
-    pillButtons.forEach((btn, idx) => {
-      btn.addEventListener('click', () => selectDish(idx));
-    });
+    prevBtn?.addEventListener('click', () => selectDish(current - 1));
+    nextBtn?.addEventListener('click', () => selectDish(current + 1));
   }
 
   // Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
