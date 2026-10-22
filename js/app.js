@@ -1,12 +1,11 @@
 /**
  * GUTKOWSKINO — Refined Sicilian Hospitality Showcase
  *
- * Art Direction: Bianco Calce, Blu Ionio, Ambra Dorata
- * Architecture:
- * - Immersive Panoramic Dish Stage with Horizontal Tasting Strip (Zero heavy brown, zero boxy cards)
- * - Quote Theater for guest reviews (Single impactful editorial stage)
- * - Morphing sliding pill filter for Azure Gallery
- * - 60/120fps hardware-accelerated transitions
+ * Art Direction: Carta d'Arte, Salvia dell'Orto, Calcarenite Dorata, Ceruleo Ionio
+ * Motion Architecture (archetipo Premium / Editorial - SKILL.md):
+ * - 3 Motion Layers: Primary (choreographed stagger <500ms) + Secondary (follow-through & counter-shadow) + Ambient (multi-rate sine floating & scroll parallax)
+ * - Mediterranean Fine-Art SVG Outlines with IntersectionObserver ink-draw animation
+ * - 4-Act Dish Stage transition with cascading botanical ingredient pills
  */
 
 (function () {
@@ -17,6 +16,117 @@
     arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>`,
     arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`,
     phone: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`
+  };
+
+  /* ── Collezione di Outline SVG Mediterranei a Tratto di Penna Fine-Art ── */
+  const MED_SVGS = {
+    // Fregio divisorio botanico (Ramo d'ulivo, bocciolo di cappero e sole)
+    dividerBotanical: `
+      <div class="med-section-divider svg-draw-trigger" aria-hidden="true">
+        <svg viewBox="0 0 640 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="svg-ink-path" d="M20 22 H235" stroke="currentColor" stroke-width="0.85" stroke-dasharray="4 4"/>
+          <path class="svg-ink-path" d="M405 22 H620" stroke="currentColor" stroke-width="0.85" stroke-dasharray="4 4"/>
+          <path class="svg-ink-path" d="M248 22 C272 22, 286 11, 320 11 C354 11, 368 22, 392 22" stroke="currentColor" stroke-width="1.1"/>
+          <path class="svg-ink-path" d="M248 22 C272 22, 286 33, 320 33 C354 33, 368 22, 392 22" stroke="currentColor" stroke-width="1.1"/>
+          <path class="svg-ink-path" d="M276 18 C268 10, 256 12, 262 20" stroke="var(--sage-green)" stroke-width="1"/>
+          <path class="svg-ink-path" d="M364 18 C372 10, 384 12, 378 20" stroke="var(--sage-green)" stroke-width="1"/>
+          <circle class="svg-ink-path" cx="320" cy="22" r="4.5" stroke="var(--amber-warm)" stroke-width="1.2"/>
+          <circle cx="298" cy="22" r="1.8" fill="var(--amber-warm)"/>
+          <circle cx="342" cy="22" r="1.8" fill="var(--amber-warm)"/>
+        </svg>
+      </div>`,
+
+    // Fregio divisorio marino (Onde dello Ionio e bussola di Levante)
+    dividerMarine: `
+      <div class="med-section-divider marine svg-draw-trigger" aria-hidden="true">
+        <svg viewBox="0 0 640 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="svg-ink-path" d="M20 22 Q 55 12, 90 22 T 160 22 T 230 22 T 285 22" stroke="currentColor" stroke-width="1"/>
+          <path class="svg-ink-path" d="M355 22 Q 390 12, 425 22 T 495 22 T 565 22 T 620 22" stroke="currentColor" stroke-width="1"/>
+          <path class="svg-ink-path" d="M320 7 L324 18 L335 22 L324 26 L320 37 L316 26 L305 22 L316 18 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
+          <circle class="svg-ink-path" cx="320" cy="22" r="12" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 2"/>
+        </svg>
+      </div>`,
+
+    // Filigrana Sezione 1 (Filosofia): Arco di Ortigia, Carciofo Spinoso, Fico d'India e Ulivo
+    watermarkBotanical: `
+      <svg class="med-bg-illustration philo-watermark svg-draw-trigger" data-parallax-speed="0.12" viewBox="0 0 420 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Cornice ad arco architettonico siciliano -->
+        <path class="svg-ink-path" d="M50 490 V210 C50 110, 122 40, 210 40 C298 40, 370 110, 370 210 V490" stroke="currentColor" stroke-width="1.1"/>
+        <path class="svg-ink-path" d="M64 490 V212 C64 120, 130 54, 210 54 C290 54, 356 120, 356 212 V490" stroke="currentColor" stroke-width="0.7" stroke-dasharray="4 4"/>
+        <!-- Raggi solari stilizzati nella lunetta -->
+        <circle class="svg-ink-path ambient-float-slow" cx="210" cy="135" r="24" stroke="var(--amber-warm)" stroke-width="1"/>
+        <path class="svg-ink-path" d="M210 92 V102 M210 168 V178 M167 135 H177 M243 135 H253 M180 105 L187 112 M233 158 L240 165 M240 105 L233 112 M187 158 L180 165" stroke="var(--amber-warm)" stroke-width="0.9"/>
+        <!-- Carciofo spinoso di Siracusa al centro -->
+        <path class="svg-ink-path" d="M210 470 C210 410, 208 360, 210 315" stroke="currentColor" stroke-width="1.4"/>
+        <path class="svg-ink-path" d="M210 315 C182 315, 165 282, 178 248 C192 264, 204 274, 210 274 C216 274, 228 264, 242 248 C255 282, 238 315, 210 315 Z" stroke="currentColor" stroke-width="1.15"/>
+        <path class="svg-ink-path" d="M188 262 C175 236, 192 208, 210 194 C228 208, 245 236, 232 262" stroke="currentColor" stroke-width="1.15"/>
+        <path class="svg-ink-path" d="M174 295 C148 286, 138 258, 154 234 C168 250, 176 266, 182 278" stroke="currentColor" stroke-width="1"/>
+        <path class="svg-ink-path" d="M246 295 C272 286, 282 258, 266 234 C252 250, 244 266, 238 278" stroke="currentColor" stroke-width="1"/>
+        <!-- Foglie sinuose alla base dello stelo -->
+        <path class="svg-ink-path" d="M209 385 C175 375, 135 395, 118 430 C150 422, 182 405, 209 398" stroke="currentColor" stroke-width="1"/>
+        <path class="svg-ink-path" d="M211 365 C245 355, 285 375, 302 410 C270 402, 238 385, 211 378" stroke="currentColor" stroke-width="1"/>
+      </svg>`,
+
+    // Filigrana Sezione 2 (La Cucina): Anfora ceramica, Limone aretuseo, Fiore di Cappero e Spiga
+    watermarkGastronomic: `
+      <svg class="med-bg-illustration kitchen-watermark svg-draw-trigger" data-parallax-speed="-0.1" viewBox="0 0 440 440" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle class="svg-ink-path" cx="220" cy="220" r="190" stroke="currentColor" stroke-width="0.8" stroke-dasharray="5 5"/>
+        <circle class="svg-ink-path" cx="220" cy="220" r="176" stroke="currentColor" stroke-width="1"/>
+        <!-- Anfora / Ceramica di Caltagirone & Ortigia -->
+        <path class="svg-ink-path" d="M188 118 H252 M198 118 V142 C164 166, 152 218, 168 272 C178 304, 194 328, 194 342 H246 C246 328, 262 304, 272 272 C288 218, 276 166, 242 142 V118" stroke="currentColor" stroke-width="1.2"/>
+        <!-- Manici dell'anfora -->
+        <path class="svg-ink-path" d="M196 132 C160 132, 146 172, 164 198" stroke="currentColor" stroke-width="1.1"/>
+        <path class="svg-ink-path" d="M244 132 C280 132, 294 172, 276 198" stroke="currentColor" stroke-width="1.1"/>
+        <!-- Decorazione ad onde sull'anfora -->
+        <path class="svg-ink-path" d="M162 222 Q 190 206, 220 222 T 278 222" stroke="var(--amber-warm)" stroke-width="1.1"/>
+        <path class="svg-ink-path" d="M166 244 Q 192 228, 220 244 T 274 244" stroke="var(--blue-levante)" stroke-width="1"/>
+        <!-- Agrume in sezione & Fiore di Cappero -->
+        <circle class="svg-ink-path ambient-float-mid" cx="122" cy="306" r="36" stroke="var(--amber-warm)" stroke-width="1.1"/>
+        <circle class="svg-ink-path ambient-float-mid" cx="122" cy="306" r="29" stroke="var(--amber-warm)" stroke-width="0.8"/>
+        <path class="svg-ink-path ambient-float-mid" d="M122 277 V335 M93 306 H151 M102 286 L142 326 M142 286 L102 326" stroke="var(--amber-warm)" stroke-width="0.75"/>
+        <!-- Rametto botanico di zafferano / timo -->
+        <path class="svg-ink-path" d="M312 330 C320 280, 342 230, 360 180" stroke="var(--sage-green)" stroke-width="1.1"/>
+        <path class="svg-ink-path" d="M322 290 C306 278, 304 260, 326 268 M334 252 C352 242, 356 224, 336 232 M346 214 C330 202, 328 184, 350 192" stroke="var(--sage-green)" stroke-width="1"/>
+      </svg>`,
+
+    // Filigrana Sezione 3 (Galleria Azzurra): Rosa dei Venti Ionica, Onde di Levante e Scogliera
+    watermarkMarine: `
+      <svg class="med-bg-illustration azure-watermark svg-draw-trigger" data-parallax-speed="0.14" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle class="svg-ink-path" cx="240" cy="240" r="195" stroke="currentColor" stroke-width="0.9"/>
+        <circle class="svg-ink-path" cx="240" cy="240" r="182" stroke="currentColor" stroke-width="0.7" stroke-dasharray="3 5"/>
+        <circle class="svg-ink-path" cx="240" cy="240" r="118" stroke="currentColor" stroke-width="0.75"/>
+        <!-- Rosa dei Venti di Ortigia -->
+        <path class="svg-ink-path ambient-spin-very-slow" d="M240 38 L258 212 L432 240 L258 268 L240 442 L222 268 L48 240 L222 212 Z" stroke="currentColor" stroke-width="1.1"/>
+        <path class="svg-ink-path" d="M115 115 L226 226 M365 115 L254 226 M365 365 L254 254 M115 365 L226 254" stroke="var(--amber-warm)" stroke-width="0.95"/>
+        <!-- Onde del Mare di Levante -->
+        <path class="svg-ink-path" d="M75 340 Q 116 320, 158 340 T 240 340 T 322 340 T 405 340" stroke="currentColor" stroke-width="1.2"/>
+        <path class="svg-ink-path" d="M95 364 Q 132 346, 168 364 T 240 364 T 312 364 T 385 364" stroke="currentColor" stroke-width="1"/>
+        <circle cx="240" cy="240" r="7" stroke="var(--amber-warm)" stroke-width="1.4"/>
+      </svg>`,
+
+    // Icone Sartoriali per i 3 Pilastri della Filosofia
+    pillars: [
+      // 01. Mercato di Ortigia (Arco storico, spiga e agrume)
+      `<svg class="pillar-svg-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="svg-ink-path" d="M10 48 V26 C10 15, 18 8, 28 8 C38 8, 46 15, 46 26 V48" stroke="currentColor" stroke-width="1.3"/>
+        <path class="svg-ink-path" d="M6 48 H50" stroke="currentColor" stroke-width="1.3"/>
+        <circle class="svg-ink-path" cx="28" cy="29" r="9" stroke="var(--amber-warm)" stroke-width="1.3"/>
+        <path class="svg-ink-path" d="M28 20 C31 15, 36 16, 33 21" stroke="var(--sage-green)" stroke-width="1.2"/>
+      </svg>`,
+      // 02. Materia & Colore (Ceramica dipinta a mano & essenza)
+      `<svg class="pillar-svg-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="svg-ink-path" d="M8 28 C8 40, 17 46, 28 46 C39 46, 48 40, 48 28 Z" stroke="currentColor" stroke-width="1.3"/>
+        <path class="svg-ink-path" d="M19 46 H37 M14 34 Q 21 30, 28 34 T 42 34" stroke="var(--amber-warm)" stroke-width="1.2"/>
+        <path class="svg-ink-path" d="M22 22 C22 16, 26 14, 26 9 M30 22 C30 17, 34 15, 34 10" stroke="var(--sage-green)" stroke-width="1.2"/>
+      </svg>`,
+      // 03. Vini Naturali (Calice artigianale, vulcano Etna e brezza marina)
+      `<svg class="pillar-svg-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="svg-ink-path" d="M17 10 H39 L36 25 C35 31, 32 35, 28 35 C24 35, 21 31, 20 25 Z" stroke="currentColor" stroke-width="1.3"/>
+        <path class="svg-ink-path" d="M28 35 V47 M19 47 H37" stroke="currentColor" stroke-width="1.3"/>
+        <path class="svg-ink-path" d="M19 22 Q 24 19, 28 22 T 37 22" stroke="var(--amber-warm)" stroke-width="1.2"/>
+        <circle cx="33" cy="15" r="1.5" fill="var(--amber-warm)"/>
+      </svg>`
+    ]
   };
 
   let lightboxItems = [];
@@ -43,6 +153,16 @@
     } catch {
       return { open: true, text: 'Cena · 19:00–22:30' };
     }
+  }
+
+  function formatIngredientPills(ingredientsStr) {
+    const raw = ingredientsStr || 'Ingredienti di stagione · Mercato contadino di Ortigia';
+    return raw
+      .split('·')
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map((item, i) => `<span class="kps-ing-pill" style="--pill-idx:${i}">${item}</span>`)
+      .join('');
   }
 
   function buildUnifiedPhotos(data) {
@@ -109,11 +229,12 @@
     app.appendChild(buildFooter(data));
     app.appendChild(buildLightbox());
 
-    // Inizializzazioni interazioni e motion
+    // Inizializzazioni interazioni e motion (3 Layers: Primary + Secondary + Ambient)
     initNavScroll();
     initMobileNav();
-    initRevealObserver();
-    initOptimizedParallax();
+    initRevealAndSvgObserver();
+    initMultiLayerParallax();
+    initTactileFramesTilt();
     initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
     initLightbox();
@@ -211,10 +332,16 @@
     const stage = el('div', { className: 'postcard-stage' });
     stage.innerHTML = `
       <section class="postcard-hero split-hero" id="hero">
+        <!-- Filigrana SVG Mediterranea Sottile nella Hero Desktop -->
+        <svg class="hero-ambient-compass" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="130" cy="130" r="118" stroke="currentColor" stroke-width="0.75" stroke-dasharray="3 4"/>
+          <circle cx="130" cy="130" r="92" stroke="currentColor" stroke-width="0.6"/>
+          <path d="M130 12 V248 M12 130 H248" stroke="currentColor" stroke-width="0.6"/>
+        </svg>
+
         <!-- Desktop Sinistra / Mobile Cartolina Testi & SVG -->
         <div class="hero-split-text reveal-up in-view">
           
-          <!-- Pillole Superiori: Senza background e con testi scuri -->
           <div class="hero-pills-bar">
             <span class="hero-pill-clean">
               <span class="pill-dot"></span>
@@ -224,7 +351,7 @@
             <span class="hero-pill-clean">Cucina Vegetale d'Autore</span>
           </div>
 
-          <!-- Mobile Only: Outlines SVG Postali & Timbro Cartolina (Niente Immagine su Mobile) -->
+          <!-- Mobile Only: Outlines SVG Postali & Timbro Cartolina -->
           <div class="mobile-postcard-svgs" aria-hidden="true">
             <svg class="svg-postmark" viewBox="0 0 170 75" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="36" cy="38" r="32" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 2" />
@@ -232,7 +359,6 @@
               <text x="36" y="31" text-anchor="middle" font-size="5.5" font-family="var(--font-ui)" letter-spacing="1.2" fill="currentColor">GUTKOWSKINO</text>
               <text x="36" y="41" text-anchor="middle" font-size="4.5" font-family="var(--font-ui)" letter-spacing="0.8" fill="var(--amber-warm)">★ ORTIGIA ★</text>
               <text x="36" y="50" text-anchor="middle" font-size="4.2" font-family="var(--font-ui)" letter-spacing="0.6" fill="currentColor">SIRACUSA · 96100</text>
-              <!-- Onde di annullo postale -->
               <path d="M72 26 C 90 20, 110 32, 130 26 C 145 22, 155 30, 168 26" stroke="currentColor" stroke-width="0.9" />
               <path d="M72 38 C 90 32, 110 44, 130 38 C 145 34, 155 42, 168 38" stroke="currentColor" stroke-width="0.9" />
               <path d="M72 50 C 90 44, 110 56, 130 50 C 145 46, 155 54, 168 50" stroke="currentColor" stroke-width="0.9" />
@@ -247,7 +373,6 @@
             </div>
           </div>
 
-          <!-- Gerarchia Tipografica Editoriale Proporzionata -->
           <div class="hero-copy-group">
             <span class="hero-kicker">Bistrot Contemporaneo sul Lungomare</span>
             <h1 class="hero-title">
@@ -257,7 +382,6 @@
             <p class="hero-desc">${data.hero.subheading}</p>
           </div>
 
-          <!-- Azioni (CTA) -->
           <div class="hero-actions">
             <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber hero-cta-btn">
               <span>Prenota su TheFork</span>
@@ -269,7 +393,6 @@
             </a>
           </div>
 
-          <!-- Dettagli Cartolina Mobile (Indirizzo & Divisore) -->
           <div class="mobile-postcard-foot" aria-hidden="true">
             <div class="mp-lines"><span></span><span></span><span></span></div>
             <div class="mpf-address-card">
@@ -278,10 +401,8 @@
               <span class="mpf-street">Lungomare di Levante Elio Vittorini, 18</span>
               <span class="mpf-meta">Isola di Ortigia · 96100 Siracusa (SR)</span>
             </div>
-            
           </div>
 
-          <!-- Highlights Desktop Proporzionati -->
           <div class="hero-highlights">
             <div class="hero-hl-item">
               <span class="hl-num">01</span>
@@ -308,10 +429,10 @@
 
         </div>
 
-        <!-- Desktop Destra: Fotografia della Terrazza sul Mare (Nascosta su Mobile) -->
+        <!-- Desktop Destra: Fotografia della Terrazza sul Mare -->
         <div class="hero-split-visual reveal-up delay-1 in-view">
-          <div class="hero-visual-frame">
-            <img src="${heroBg}" alt="Terrazza Gutkowskino sul Mare di Levante" class="hero-visual-img" loading="eager" decoding="async">
+          <div class="hero-visual-frame" data-tilt-frame>
+            <img src="${heroBg}" id="heroVisualImg" alt="Terrazza Gutkowskino sul Mare di Levante" class="hero-visual-img" loading="eager" decoding="async">
             <div class="hero-visual-caption">
               <span class="hvc-tag">Terrazza Gutkowskino</span>
               <span class="hvc-sub">Vista Scogli & Mare di Levante · Ortigia</span>
@@ -322,23 +443,28 @@
     return stage;
   }
 
-  // ───── 3. Filosofia (Pilastri Editoriali Ariosi — Zero Box) ─────
+  // ───── 3. SEZIONE 1 POST-HERO: Filosofia (Sfondo Calce & Salvia Botanica + Outline SVG Carciofo/Arco) ─────
   function buildPhilosophy(data) {
     const d = data.manifesto;
     const section = el('section', { className: 'section-philosophy section-pad', id: 'filosofia' });
 
     const values = d.pillars.map((p, i) => `
-      <div class="value-col reveal-up delay-${(i % 3) + 1}">
-        <span class="value-col-num">0${i + 1} / RADICI</span>
+      <div class="value-col reveal-up delay-${(i % 3) + 1} svg-draw-trigger">
+        <div class="value-col-top">
+          ${MED_SVGS.pillars[i] || MED_SVGS.pillars[0]}
+          <span class="value-col-num">0${i + 1} / RADICI</span>
+        </div>
         <h3>${p.title}</h3>
         <p>${p.description}</p>
       </div>`).join('');
 
     section.innerHTML = `
+      ${MED_SVGS.watermarkBotanical}
       <div class="container">
+        ${MED_SVGS.dividerBotanical}
         <div class="philosophy-grid">
           <div class="reveal-up">
-            <span class="section-kicker">L'Anima del Bistrot</span>
+            <span class="section-kicker sage">L'Anima Botanica del Bistrot</span>
             <h2 class="heading-display">${d.heading}</h2>
             <p class="philosophy-lead">${d.lead}</p>
             <p class="philosophy-copy">${d.columnLeft}</p>
@@ -346,10 +472,10 @@
           </div>
 
           <div class="philosophy-visuals reveal-up delay-1">
-            <div class="philo-img-main" data-lightbox="${d.mainImage}">
+            <div class="philo-img-main" data-lightbox="${d.mainImage}" data-parallax-speed="-0.06" data-tilt-frame>
               <img src="${d.mainImage}" alt="Sala interna Gutkowskino" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             </div>
-            <div class="philo-img-secondary" data-lightbox="${d.secondaryImage}">
+            <div class="philo-img-secondary" data-lightbox="${d.secondaryImage}" data-parallax-speed="0.08" data-tilt-frame>
               <img src="${d.secondaryImage}" alt="Dettaglio tavola e luci" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             </div>
           </div>
@@ -362,7 +488,7 @@
     return section;
   }
 
-  // ───── 4. La Cucina: Vetrina d'Autore nel Viewport (Carousel Orizzontale a Carte) ─────
+  // ───── 4. SEZIONE 2 POST-HERO: La Cucina (Sfondo Calcarenite Dorata + Outline SVG Anfora & Agrumi) ─────
   function buildKitchenLookbook(data) {
     const d = data.kitchen;
     const dishes = d.dishes || [];
@@ -371,7 +497,6 @@
 
     const section = el('section', { className: 'section-kitchen', id: 'cucina' });
 
-    // Deck Orizzontale a Carte delle Portate (Addio listone verticale)
     const dishDeckCards = dishes.map((dish, idx) => `
       <button class="kitchen-deck-card ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button" role="tab" aria-selected="${idx === 0}">
         <div class="kdc-thumb">
@@ -386,7 +511,9 @@
     `).join('');
 
     section.innerHTML = `
+      ${MED_SVGS.watermarkGastronomic}
       <div class="container">
+        ${MED_SVGS.dividerBotanical}
         <!-- Header compatto della cucina -->
         <div class="kitchen-header-compact reveal-up">
           <div class="khc-left">
@@ -411,7 +538,7 @@
             <span class="kps-zoom-hint">Ingrandisci ↗</span>
           </div>
 
-          <div class="kps-details-card">
+          <div class="kps-details-card" id="dishDetailsCard">
             <div class="kps-top-nav">
               <span class="kps-counter" id="dishStageCounter">01 / 0${totalDishes}</span>
               <span class="kps-course-label" id="dishStageCourse">${first.course || ''}</span>
@@ -421,12 +548,16 @@
               </div>
             </div>
 
-            <h3 class="kps-dish-title" id="dishStageTitle">${first.name || ''}</h3>
-            <p class="kps-dish-desc" id="dishStageDesc">${first.description || ''}</p>
+            <div class="kps-narrative-body" id="dishNarrativeBody">
+              <h3 class="kps-dish-title" id="dishStageTitle">${first.name || ''}</h3>
+              <p class="kps-dish-desc" id="dishStageDesc">${first.description || ''}</p>
 
-            <div class="kps-ingredients" id="dishStageIngredients">
-              <span class="kps-ing-label">Materia Prima:</span>
-              <span class="kps-ing-value">${first.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>
+              <div class="kps-ingredients" id="dishStageIngredients">
+                <span class="kps-ing-label">Materia Prima del Giorno</span>
+                <div class="kps-ing-pills-wrap" id="dishStageIngPills">
+                  ${formatIngredientPills(first.ingredients)}
+                </div>
+              </div>
             </div>
 
             <div class="kps-bottom-actions">
@@ -439,10 +570,10 @@
           </div>
         </div>
 
-        <!-- Strip / Deck Orizzontale delle Portate (Zero Listone Verticale) -->
+        <!-- Strip / Deck Orizzontale delle Portate -->
         <div class="kitchen-deck-wrapper reveal-up delay-2">
           <div class="kitchen-deck-header">
-            <span>Seleziona una portata per visualizzarla</span>
+            <span>Seleziona una portata per osservare l'impiattamento</span>
             <span>Tocca le carte o naviga con le frecce</span>
           </div>
           <div class="kitchen-deck-track" id="kitchenDeckTrack" role="tablist">
@@ -453,7 +584,7 @@
     return section;
   }
 
-  // ───── 5. Galleria Azzurra con Morphing Sliding Pill ─────
+  // ───── 5. SEZIONE 3 POST-HERO: Galleria Azzurra (Sfondo Acquerello Ceruleo Ionio + Outline SVG Rosa dei Venti & Onde) ─────
   function buildUnifiedAzureGallery(data, unifiedPhotos) {
     const d = data.spaces;
     const section = el('section', { className: 'section-azure-gallery section-pad', id: 'galleria-azzurra' });
@@ -472,12 +603,14 @@
       </figure>`).join('');
 
     section.innerHTML = `
+      ${MED_SVGS.watermarkMarine}
       <div class="container">
+        ${MED_SVGS.dividerMarine}
         <div class="azure-gallery-header reveal-up">
           <div>
             <span class="section-kicker azure">Sul Lungomare di Levante · Ortigia</span>
             <h2 class="heading-display">La terrazza sul mare, <em>la sala e i piatti</em></h2>
-            <p style="max-width:56ch;margin-top:0.75rem;color:var(--brown-muted);">${d.sub}</p>
+            <p class="azure-header-sub">${d.sub}</p>
           </div>
 
           <div class="azure-filter-bar" id="azureFilters">
@@ -489,9 +622,8 @@
           </div>
         </div>
 
-        <!-- HINT TOUCH MOBILE: Addio scorrimento infinito verticale -->
         <div class="azure-mobile-hint">
-          <span>Scorri in orizzontale (16 foto)</span>
+          <span>Scorri in orizzontale (${unifiedPhotos.length} foto)</span>
           <span>Tocca per ingrandire ↗</span>
         </div>
 
@@ -502,7 +634,7 @@
     return section;
   }
 
-  // ───── 6. Recensioni: Card Singole Stilizzate a Tema ─────
+  // ───── 6. Recensioni: Card Singole Stilizzate su Sfondo Carta d'Arte ─────
   function buildReviewsSection(data) {
     const d = data.reviews;
     const section = el('section', { className: 'section-reviews section-pad', id: 'recensioni' });
@@ -514,7 +646,7 @@
       const badgeLabel = isTheFork ? 'TheFork · Verificata' : 'Google Maps · Locale';
 
       return `
-        <article class="review-card reveal-up delay-${(i % 4) + 1}">
+        <article class="review-card reveal-up delay-${(i % 2) + 1}" data-tilt-frame>
           <div class="review-card-head">
             <div class="review-card-stars">★★★★★</div>
             <span class="review-source-badge ${badgeClass}">${badgeLabel}</span>
@@ -534,6 +666,7 @@
 
     section.innerHTML = `
       <div class="container">
+        ${MED_SVGS.dividerBotanical}
         <div class="reviews-header reveal-up">
           <div>
             <span class="section-kicker azure">Le Voci degli Ospiti</span>
@@ -548,7 +681,6 @@
           </div>
         </div>
 
-        <!-- GRIGLIA CARD SINGOLE STILIZZATE A TEMA -->
         <div class="reviews-grid">
           ${cardsHtml}
         </div>
@@ -571,6 +703,7 @@
 
     section.innerHTML = `
       <div class="container">
+        ${MED_SVGS.dividerMarine}
         <div class="info-grid">
           <div class="reveal-up">
             <span class="section-kicker azure">Accoglienza & Prenotazioni</span>
@@ -674,7 +807,7 @@
   }
 
   /* ==========================================================================
-     INTERACTIONS & HARDWARE-ACCELERATED MOTION LOGIC
+     INTERACTIONS & 3-LAYER MOTION DIRECTOR LOGIC (SKILL.md)
      ========================================================================== */
 
   // Navbar Scroll Debounced
@@ -738,36 +871,56 @@
     });
   }
 
-  // Intersection Observer
-  function initRevealObserver() {
+  // Primary + Secondary Layer: Intersection Observer per Reveal e Self-Drawing SVG
+  function initRevealAndSvgObserver() {
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
+            entry.target.classList.add('in-view', 'svg-drawn');
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.12, rootMargin: '0px 0px -36px 0px' }
     );
-    document.querySelectorAll('.reveal-up').forEach(node => observer.observe(node));
+
+    document.querySelectorAll('.reveal-up, .svg-draw-trigger').forEach(node => {
+      observer.observe(node);
+    });
   }
 
-  // Parallasse Ottimizzato (Zero conflitti CSS-JS)
-  function initOptimizedParallax() {
-    const heroBg = document.getElementById('heroBg');
-    if (!heroBg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Ambient Layer: Parallasse Multi-Livello (<100px max displacement, disattivato su mobile)
+  function initMultiLayerParallax() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    const parallaxNodes = Array.from(document.querySelectorAll('[data-parallax-speed]'));
+    if (!parallaxNodes.length) return;
 
     let ticking = false;
-    const heroHeight = window.innerHeight;
 
     function updateParallax() {
-      const scrollY = window.scrollY;
-      if (scrollY <= heroHeight) {
-        const offset = scrollY * 0.16;
-        heroBg.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0) scale(1.05)`;
+      if (window.innerWidth <= 860) {
+        parallaxNodes.forEach(n => { n.style.transform = ''; });
+        ticking = false;
+        return;
       }
+
+      const viewportCenter = window.innerHeight * 0.5;
+
+      parallaxNodes.forEach(node => {
+        const rect = node.getBoundingClientRect();
+        // Anima solo gli elementi vicini o dentro il viewport
+        if (rect.bottom < -120 || rect.top > window.innerHeight + 120) return;
+
+        const speed = parseFloat(node.dataset.parallaxSpeed || '0.08');
+        const distFromCenter = (rect.top + rect.height * 0.5) - viewportCenter;
+        const clampedOffset = Math.max(-42, Math.min(42, distFromCenter * speed));
+
+        node.style.setProperty('--parallax-y', `${clampedOffset.toFixed(1)}px`);
+      });
+
       ticking = false;
     }
 
@@ -777,9 +930,46 @@
         ticking = true;
       }
     }, { passive: true });
+
+    updateParallax();
   }
 
-  // Vetrina Interattiva Piatti: Deck Orizzontale a Carte e Frecce di Navigazione
+  // Secondary Layer: Tactile 3D Perspective Tilt & Counter-Motion Shadow (Desktop Only)
+  function initTactileFramesTilt() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if (reducedMotion || !isFinePointer) return;
+
+    const frames = document.querySelectorAll('[data-tilt-frame]');
+    frames.forEach(frame => {
+      frame.addEventListener('mousemove', e => {
+        if (window.innerWidth <= 860) return;
+        const rect = frame.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+        const rotateX = (relY * -3.2).toFixed(2);
+        const rotateY = (relX * 3.2).toFixed(2);
+        // Counter-Motion: l'ombra si muove in direzione opposta all'inclinazione
+        const shadowX = (relX * -14).toFixed(1);
+        const shadowY = (relY * -14 + 16).toFixed(1);
+
+        frame.style.setProperty('--tilt-rx', `${rotateX}deg`);
+        frame.style.setProperty('--tilt-ry', `${rotateY}deg`);
+        frame.style.setProperty('--shadow-cx', `${shadowX}px`);
+        frame.style.setProperty('--shadow-cy', `${shadowY}px`);
+      });
+
+      frame.addEventListener('mouseleave', () => {
+        frame.style.setProperty('--tilt-rx', '0deg');
+        frame.style.setProperty('--tilt-ry', '0deg');
+        frame.style.setProperty('--shadow-cx', '0px');
+        frame.style.setProperty('--shadow-cy', '14px');
+      });
+    });
+  }
+
+  // 4-Act Narrative Dish Stage Carousel con Cascata Pillole Ingredienti (<200ms stagger)
   function initDishStageCarousel(dishes) {
     if (!dishes.length) return;
 
@@ -791,7 +981,8 @@
     const stageCourse = document.getElementById('dishStageCourse');
     const stageTitle = document.getElementById('dishStageTitle');
     const stageDesc = document.getElementById('dishStageDesc');
-    const stageIngredients = document.getElementById('dishStageIngredients');
+    const stageIngPills = document.getElementById('dishStageIngPills');
+    const narrativeBody = document.getElementById('dishNarrativeBody');
     const deckCards = Array.from(document.querySelectorAll('#kitchenDeckTrack .kitchen-deck-card'));
     const prevBtn = document.getElementById('dishPrevBtn');
     const nextBtn = document.getElementById('dishNextBtn');
@@ -802,37 +993,38 @@
     const total = dishes.length;
 
     function selectDish(index) {
-      current = (index + total) % total;
+      const nextIdx = (index + total) % total;
+      if (nextIdx === current && stageImgA.getAttribute('src')) return;
+      current = nextIdx;
       const d = dishes[current];
 
       deckCards.forEach((card, i) => {
         const isActive = i === current;
         card.classList.toggle('active', isActive);
         card.setAttribute('aria-selected', isActive ? 'true' : 'false');
-        if (isActive) {
+        if (isActive && window.innerWidth > 860) {
           card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
       });
 
-      // Transizione morbida testi
-      if (stageTitle) stageTitle.classList.add('fading');
-      if (stageDesc) stageDesc.style.opacity = '0.35';
+      // Act 1: Anticipation & Exit (130ms ease-in)
+      if (narrativeBody) narrativeBody.classList.add('is-transitioning');
 
       setTimeout(() => {
+        // Act 2 & 3: Action & Staggered Follow-Through
         if (stageBadge) stageBadge.textContent = d.course;
         if (stageCounter) stageCounter.textContent = `0${current + 1} / 0${total}`;
         if (stageCourse) stageCourse.textContent = d.course;
         if (stageTitle) stageTitle.textContent = d.name;
         if (stageDesc) stageDesc.textContent = d.description;
-        if (stageIngredients) {
-          stageIngredients.innerHTML = `<span class="kps-ing-label">Materia Prima:</span> <span class="kps-ing-value">${d.ingredients || 'Ingredienti di stagione dal mercato contadino di Ortigia'}</span>`;
+        if (stageIngPills) {
+          stageIngPills.innerHTML = formatIngredientPills(d.ingredients);
         }
 
-        if (stageTitle) stageTitle.classList.remove('fading');
-        if (stageDesc) stageDesc.style.opacity = '1';
-      }, 120);
+        if (narrativeBody) narrativeBody.classList.remove('is-transitioning');
+      }, 140);
 
-      // ZERO-BLINK Crossfade: prepariamo l'immagine successiva e scambiamo la classe active
+      // ZERO-BLINK Crossfade con micro-scale cinematografico
       const activeImg = stageImgA.classList.contains('active') ? stageImgA : stageImgB;
       const nextImg = activeImg === stageImgA ? stageImgB : stageImgA;
 
@@ -859,7 +1051,7 @@
     prevBtn?.addEventListener('click', () => selectDish(current - 1));
     nextBtn?.addEventListener('click', () => selectDish(current + 1));
 
-    // Supporto Touch Swipe su Mobile per navigare tra i piatti
+    // Supporto Touch Swipe su Mobile
     const stageCard = document.querySelector('.kitchen-panoramic-stage');
     if (stageCard) {
       let touchStartX = 0;
@@ -871,14 +1063,14 @@
         touchEndX = e.changedTouches[0].screenX;
         const diff = touchEndX - touchStartX;
         if (Math.abs(diff) > 40) {
-          if (diff < 0) selectDish(current + 1); // swipe a sinistra -> piatto successivo
-          else selectDish(current - 1);          // swipe a destra -> piatto precedente
+          if (diff < 0) selectDish(current + 1);
+          else selectDish(current - 1);
         }
       }, { passive: true });
     }
   }
 
-  // Galleria Azzurra con Morphing Sliding Pill nei Filtri & Stagger
+  // Galleria Azzurra con Morphing Sliding Pill & Stagger (<400ms total budget)
   function initAzureFilterPill() {
     const filterBar = document.getElementById('azureFilters');
     const pill = document.getElementById('azureFilterPill');
@@ -903,7 +1095,9 @@
 
         if (match) {
           item.classList.remove('filter-hidden');
-          item.style.transitionDelay = `${visibleIdx * 35}ms`;
+          // Rispetta il budget massimo <500ms anche con 16 elementi (max 25ms * 12 = 300ms)
+          const cappedDelay = Math.min(visibleIdx * 28, 320);
+          item.style.transitionDelay = `${cappedDelay}ms`;
           visibleIdx++;
         } else {
           item.classList.add('filter-hidden');
