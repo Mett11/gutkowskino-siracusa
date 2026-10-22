@@ -1963,57 +1963,116 @@ button {
     margin: 2.5px 0;
   }
 
-  /* 2. HERO CARTOLINA */
+  /* 2. HERO CARTOLINA — MASSIMA LEGGIBILITÀ & CONTRASTO EDITORIALE */
   .postcard-stage {
     padding: var(--frame-pad);
   }
 
   .postcard-hero {
     min-height: calc(100vh - 60px - 16px);
-    padding: 1.25rem 1rem 1.5rem;
+    padding: 1.15rem 1rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
+  /* Scrim fotografico potenziato su mobile: scurisce dolcemente il cielo e la tovaglia bianca */
+  .postcard-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(9, 15, 21, 0.75) 0%,
+      rgba(9, 15, 21, 0.48) 32%,
+      rgba(8, 14, 20, 0.72) 60%,
+      rgba(6, 11, 16, 0.94) 100%
+    );
+  }
+
+  /* Barra Superiore: Staccata dal cielo con capsula trasparente satinata */
   .postcard-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
-    font-size: 0.66rem;
-    padding-bottom: 0.75rem;
+    font-size: 0.68rem;
+    padding: 0.65rem 0.85rem;
+    background-color: rgba(10, 16, 23, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(247, 244, 236, 0.16);
+    border-radius: var(--radius-sharp);
+    margin-bottom: auto;
   }
 
   .postcard-top span {
     word-break: break-word;
-    line-height: 1.35;
+    line-height: 1.4;
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   }
 
   .postcard-location-badge {
     font-size: 0.65rem;
     padding: 0.25rem 0.6rem;
+    background-color: rgba(200, 151, 88, 0.2);
+    border-color: rgba(200, 151, 88, 0.5);
+    color: #F8D5A0;
+    font-weight: 500;
+  }
+
+  /* Box Contenuto: Placca Editoriale Satinata d'Autore */
+  .postcard-bottom {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+    padding: 1.35rem 1.15rem 1.25rem;
+    background: linear-gradient(
+      180deg,
+      rgba(13, 21, 30, 0.78) 0%,
+      rgba(9, 15, 22, 0.94) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(247, 244, 236, 0.18);
+    border-radius: var(--radius-subtle);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+    margin-top: 1.5rem;
+  }
+
+  .postcard-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: #F6CE8B;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.5rem;
   }
 
   .postcard-title {
-    font-size: clamp(2.1rem, 9.5vw, 3.2rem);
-    line-height: 1.02;
+    font-size: clamp(2rem, 8.8vw, 2.9rem);
+    line-height: 1.04;
     word-break: break-word;
+    color: #FFFFFF;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
   }
 
-  .postcard-bottom {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    padding-top: 1rem;
+  .postcard-title em {
+    color: #EBB673;
+    font-style: italic;
+    display: inline-block;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
   }
 
   .postcard-aside {
     border-left: none;
-    border-top: 1px solid rgba(247, 244, 236, 0.22);
+    border-top: 1px solid rgba(247, 244, 236, 0.18);
     padding-left: 0;
     padding-top: 1rem;
-    gap: 1rem;
+    gap: 1.15rem;
   }
 
   .postcard-desc {
-    font-size: 0.9rem;
-    line-height: 1.55;
+    font-size: 0.92rem;
+    color: rgba(247, 244, 236, 0.96);
+    line-height: 1.62;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   }
 
   .postcard-actions {
@@ -2025,6 +2084,19 @@ button {
   .postcard-actions .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .postcard-actions .btn-amber {
+    background-color: var(--amber-warm);
+    color: #0E1720;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(200, 151, 88, 0.35);
+  }
+
+  .postcard-actions .btn-ghost-light {
+    background-color: rgba(247, 244, 236, 0.08);
+    border-color: rgba(247, 244, 236, 0.3);
+    color: #FFFFFF;
   }
 
   /* 3. FILOSOFIA */
