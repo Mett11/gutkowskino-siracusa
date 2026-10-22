@@ -215,24 +215,29 @@
         <div class="postcard-scrim"></div>
 
         <div class="postcard-top">
-          <span>Lungomare di Levante Elio Vittorini, 18 · Siracusa</span>
+          <span class="postcard-address-full">Lungomare di Levante Elio Vittorini, 18 · Siracusa</span>
           <span class="postcard-location-badge">Hotel Gutkowski · Isola di Ortigia</span>
+          <div class="postcard-geo-minimal">
+            <span class="geo-dot"></span>
+            <span>Ortigia · Siracusa</span>
+          </div>
         </div>
 
         <div class="postcard-bottom">
           <div class="reveal-up in-view">
-            <span class="postcard-kicker">Bistrot di Cucina Vegetale</span>
+            <span class="postcard-kicker">Bistrot Contemporaneo</span>
             <h1 class="postcard-title">${data.hero.heading}</h1>
           </div>
           <div class="postcard-aside reveal-up delay-1 in-view">
             <p class="postcard-desc">${data.hero.subheading}</p>
             <div class="postcard-actions">
-              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber">
+              <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber hero-cta-primary">
                 <span>Prenota su TheFork</span>
                 ${ICONS.arrowUpRight}
               </a>
-              <a href="#cucina" class="btn btn-ghost-light">
-                <span>Scopri i Piatti</span>
+              <a href="#cucina" class="hero-link-secondary">
+                <span>Scopri il menu</span>
+                <span class="hero-link-arrow">↓</span>
               </a>
             </div>
           </div>

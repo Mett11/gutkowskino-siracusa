@@ -667,6 +667,10 @@ button {
   color: var(--amber-soft);
 }
 
+.postcard-geo-minimal {
+  display: none;
+}
+
 .postcard-bottom {
   position: relative;
   z-index: 2;
@@ -720,6 +724,40 @@ button {
   display: flex;
   gap: 0.85rem;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.hero-link-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  height: 44px;
+  padding: 0 1.4rem;
+  border: 1px solid rgba(247, 244, 236, 0.35);
+  border-radius: var(--radius-sharp);
+  background: rgba(247, 244, 236, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background-color 200ms ease, border-color 200ms ease, transform 180ms var(--ease-elastic);
+  text-decoration: none;
+}
+
+.hero-link-secondary:hover {
+  background: rgba(247, 244, 236, 0.18);
+  border-color: rgba(247, 244, 236, 0.6);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.hero-link-arrow {
+  display: inline-block;
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 /* ==========================================================================
@@ -1939,11 +1977,8 @@ button {
     flex-shrink: 0;
   }
 
-  .nav-cta {
-    height: 32px;
-    padding: 0 0.85rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
+  .navbar .nav-cta {
+    display: none !important;
   }
 
   .nav-toggle {
@@ -1967,163 +2002,224 @@ button {
     margin: 2.5px 0;
   }
 
-  /* 2. HERO CARTOLINA — INQUADRATURA PANORAMICA & SCRIM CONTINUO SENZA CARD */
+  /* 2. HERO CARTOLINA — EDITORIALE, ARIOSA E MEDITERRANEA (ZERO CARD SCURE) */
   .postcard-stage {
     padding: var(--frame-pad);
   }
 
   .postcard-hero {
     min-height: calc(100svh - var(--nav-h) - (var(--frame-pad) * 2));
-    padding: 1.5rem 1.25rem !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding: 1.35rem 1.25rem 2rem 1.25rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
   }
 
-  /* 2. Inquadratura Fotografica Adattiva (background-position 72% 35%) */
+  /* Inquadratura Fotografica Panoramica della Terrazza sul Mare */
   .postcard-bg {
     background-position: 72% 35% !important;
     background-size: cover !important;
   }
 
-  /* 3. Scrim Ottico Continuo a 4 Punti di Arresto */
+  /* Scrim Progressivo Soffice: Top limpido/luminoso, gradiente solo nella metà inferiore */
   .postcard-scrim {
     background: linear-gradient(
       180deg,
-      rgba(26, 19, 14, 0.70) 0%,
-      rgba(26, 19, 14, 0.18) 32%,
-      rgba(26, 19, 14, 0.35) 60%,
-      rgba(22, 16, 12, 0.94) 96%
+      rgba(14, 23, 32, 0) 0%,
+      rgba(14, 23, 32, 0) 42%,
+      rgba(12, 18, 25, 0.32) 62%,
+      rgba(10, 16, 23, 0.76) 82%,
+      rgba(10, 16, 23, 0.94) 100%
     ) !important;
   }
 
-  /* 1. Rimozione Totale delle Card Sovrapposte: Fluttuazione Diretta */
+  /* Header & Parte Superiore: Nessun indirizzo per esteso, nessun divisore o badge scuro */
+  .postcard-address-full,
+  .postcard-location-badge {
+    display: none !important;
+  }
+
   .postcard-top {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.45rem;
-    font-size: 0.68rem;
-    padding: 0 0 0.85rem 0 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 0.25rem 0 0 0 !important;
     border: none !important;
-    border-bottom: 1px solid rgba(247, 244, 236, 0.22) !important;
+    border-bottom: none !important;
     border-radius: 0 !important;
     background: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     box-shadow: none !important;
-    margin-bottom: auto;
+    margin-bottom: auto !important;
   }
 
-  .postcard-top span {
-    word-break: break-word;
-    line-height: 1.35;
-    color: var(--text-light);
-    letter-spacing: 0.12em;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75);
+  /* Micro-Badge Geografico Minimale e Discreto: Ortigia · Siracusa */
+  .postcard-geo-minimal {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-family: var(--font-ui) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: rgba(247, 244, 236, 0.9) !important;
+    background: rgba(14, 23, 32, 0.38) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(247, 244, 236, 0.18) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
   }
 
-  .postcard-location-badge {
-    font-size: 0.66rem;
-    padding: 0.25rem 0.65rem;
-    background-color: rgba(20, 32, 44, 0.75);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(200, 151, 88, 0.45);
-    color: var(--amber-soft);
-    font-weight: 500;
+  .postcard-geo-minimal .geo-dot {
+    width: 5px !important;
+    height: 5px !important;
+    border-radius: 50% !important;
+    background-color: var(--amber-warm) !important;
+    box-shadow: 0 0 6px rgba(200, 151, 88, 0.9) !important;
+    flex-shrink: 0 !important;
   }
 
+  /* Blocco Inferiore Diretto sul Piano Visivo */
   .postcard-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.15rem !important;
     background: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border: none !important;
+    border-top: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 0 !important;
-    margin-top: auto;
+    margin-top: auto !important;
   }
 
   .postcard-aside {
     background: transparent !important;
     border: none !important;
+    border-top: none !important;
+    border-left: none !important;
     box-shadow: none !important;
     padding: 0 !important;
     gap: 0 !important;
   }
 
-  /* 4. Gerarchia e Progressive Disclosure del Testo */
+  /* Paragrafo descrittivo nascosto sotto i 768px per lasciare respiro allo scatto */
   .postcard-desc {
     display: none !important;
   }
 
+  /* Eyebrow: Dicitura editoriale snella in maiuscoletto distanziato, discreta */
   .postcard-kicker {
-    display: block;
-    font-family: var(--font-ui);
-    font-size: 0.74rem !important;
-    letter-spacing: 0.16em !important;
-    text-transform: uppercase;
-    color: var(--amber-soft);
-    margin-bottom: 0.65rem;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75);
+    display: block !important;
+    font-family: var(--font-ui) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.22em !important;
+    text-transform: uppercase !important;
+    color: rgba(247, 244, 236, 0.82) !important;
+    margin-bottom: 0.55rem !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6) !important;
+    font-weight: 500 !important;
   }
 
+  /* Titolo principale: Serif d'autore in avorio + seconda riga corsivo oro caldo sabbia solare */
   .postcard-title {
-    font-size: clamp(2.35rem, 9.5vw, 2.9rem) !important;
-    line-height: 1.04 !important;
-    word-break: break-word;
-    color: var(--text-light);
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+    font-family: var(--font-display) !important;
+    font-size: clamp(2.35rem, 9.2vw, 2.9rem) !important;
+    line-height: 1.05 !important;
+    font-weight: 400 !important;
+    word-break: break-word !important;
+    color: #F7F4EC !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65) !important;
   }
 
   .postcard-title em {
-    font-style: italic;
-    color: var(--amber-warm);
-    display: inline-block;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+    display: block !important;
+    font-style: italic !important;
+    color: #F0B86E !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7) !important;
+    margin-top: 0.18rem !important;
   }
 
-  /* 5. Impaginazione e Dimensionamento dei Controlli */
+  /* Struttura Azioni (CTA): Bottone primario compatto + link testuale delicato */
   .postcard-actions {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0.65rem;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 0.85rem !important;
+    margin-top: 1.15rem !important;
   }
 
-  .postcard-actions .btn {
-    width: 100%;
-    height: 48px;
-    min-height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-ui);
-    font-size: 0.76rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    border-radius: var(--radius-sharp);
-    transition: background-color 200ms ease, transform 180ms var(--ease-elastic);
+  /* Azione Primaria: Compatta e proporzionata nei toni terra/ocra con testo scuro */
+  .postcard-actions .hero-cta-primary {
+    width: auto !important;
+    max-width: fit-content !important;
+    align-self: flex-start !important;
+    height: 46px !important;
+    padding: 0 1.6rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.45rem !important;
+    font-family: var(--font-ui) !important;
+    font-size: 0.74rem !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    background-color: var(--amber-warm) !important;
+    color: #0E1720 !important;
+    border: 1px solid var(--amber-warm) !important;
+    border-radius: var(--radius-sharp) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28) !important;
+    transition: background-color 200ms ease, transform 180ms var(--ease-elastic) !important;
   }
 
-  .postcard-actions .btn-amber {
-    background-color: var(--amber-warm);
-    color: #0E1720;
-    border: 1px solid var(--amber-warm);
-    font-weight: 600;
-    box-shadow: 0 4px 16px rgba(200, 151, 88, 0.28);
+  .postcard-actions .hero-cta-primary:active {
+    transform: scale(0.97) !important;
+    background-color: var(--amber-warm-hv) !important;
   }
 
-  .postcard-actions .btn-ghost-light {
-    background-color: rgba(247, 244, 236, 0.08);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(247, 244, 236, 0.32);
-    color: var(--text-light);
+  /* Azione Secondaria: Link testuale delicato senza box, posizionato sotto con respiro */
+  .hero-link-secondary {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0.35rem 0.2rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: rgba(247, 244, 236, 0.88) !important;
+    font-family: var(--font-ui) !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    transition: color 180ms ease, transform 180ms ease !important;
+    text-decoration: none !important;
+  }
+
+  .hero-link-secondary:active {
+    color: #F0B86E !important;
+    transform: translateY(2px) !important;
+  }
+
+  .hero-link-secondary .hero-link-arrow {
+    display: inline-block !important;
+    font-size: 0.95rem !important;
+    transition: transform 180ms ease !important;
+  }
+
+  .hero-link-secondary:active .hero-link-arrow {
+    transform: translateY(3px) !important;
   }
 
   /* 3. FILOSOFIA */
