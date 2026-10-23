@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pannello di Controllo · Gutkowskino Ortigia</title>
+
+  <!-- Google Fonts: Marcellus + Instrument Serif + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Schermata di Accesso / Login -->
+  <div id="loginScreen" class="admin-login-overlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="login-badge">Hotel Gutkowski · Ortigia</span>
+        <h1 class="login-title">Gutkowskino</h1>
+        <p class="login-sub">Pannello di Gestione della Vetrina</p>
+      </div>
+
+      <form id="loginForm" class="login-form" autocomplete="off">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label for="adminEmail">Email Amministratore</label>
+          <input type="email" id="adminEmail" placeholder="admin@gutkowskino.it" required autofocus>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label for="adminPassword">Chiave di Accesso / Password</label>
+          <input type="password" id="adminPassword" placeholder="Inserisci la password..." required>
+        </div>
+        <button type="submit" class="btn btn-amber btn-block">
+          <span>Accedi al Pannello</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p id="loginError" class="login-error-msg" style="display:none;">Email o password non corretti. Riprova.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenitore Principale Admin Dashboard -->
+  <div id="adminApp" class="admin-layout" style="display:none;">
+
+    <!-- Barra Superiore Header -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <span class="admin-topbar-brand">Gutkowskino</span>
+        <span class="admin-badge-mode" id="adminModeBadge">Dashboard Locale</span>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <a href="index.html" target="_blank" class="admin-btn-ghost">
+          <span>Vedi Sito Vetrina</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+
+        <button type="button" id="saveAllBtn" class="btn btn-amber btn-save-main">
+          <svg class="save-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span class="btn-text">Salva Tutte le Modifiche</span>
+        </button>
+
+        <button type="button" id="logoutBtn" class="admin-btn-logout" title="Disconnetti">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigazione a Schede (Tab Bar) -->
+    <nav class="admin-tabs-nav" role="tablist">
+      <button class="tab-btn active" data-tab="tab-hero" role="tab">
+        <span class="tab-icon">🌊</span>
+        <span>Hero & Copertina</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-kitchen" role="tab">
+        <span class="tab-icon">🌿</span>
+        <span>Cucina & Carosello</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-hours" role="tab">
+        <span class="tab-icon">⏱️</span>
+        <span>Orari & Servizio</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-reviews" role="tab">
+        <span class="tab-icon">★</span>
+        <span>Recensioni</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-gallery" role="tab">
+        <span class="tab-icon">🖼️</span>
+        <span>Galleria & Spazi</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-info" role="tab">
+        <span class="tab-icon">📍</span>
+        <span>Sede & Contatti</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-security" role="tab">
+        <span class="tab-icon">🔒</span>
+        <span>Sicurezza & Password</span>
+      </button>
+    </nav>
+
+    <!-- Corpo dei Pannelli -->
+    <main class="admin-content">
+
+      <!-- ========================================================
+           TAB 1: HERO & COPERTINA
+           ======================================================== -->
+      <section id="tab-hero" class="tab-pane active" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Hero Section & Immagine Principale</h2>
+              <p class="panel-desc">Gestisci l'immagine panoramica della terrazza e i testi di presentazione in testata.</p>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <!-- Immagine di Sfondo / Hero Visual -->
+            <div class="form-group">
+              <label>Immagine Panoramica Terrazza (Desktop)</label>
+              <div class="image-uploader-box" id="heroImageUploader">
+                <div class="image-preview-wrap">
+                  <img id="heroImagePreview" src="" alt="Anteprima Hero">
+                  <div class="image-overlay-info" id="heroImageMeta">Dimensione attuale</div>
+                </div>
+                <div class="uploader-controls">
+                  <p class="uploader-hint">Carica qualsiasi foto (anche da cellulare 15MB). Il compressore automatico la ottimizzerà in <strong>WebP ultra-leggero</strong>.</p>
+                  <label class="btn btn-outline file-label">
+                    <span>Scegli Nuova Foto</span>
+                    <input type="file" id="heroFileInput" accept="image/*" class="sr-only">
+                  </label>
+                  <input type="text" id="heroImageUrlInput" placeholder="Oppure inserisci URL immagine esistente..." class="form-input" style="margin-top:0.75rem;">
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="heroHeading">Titolo Principale (Supporta tag &lt;em&gt; per il corsivo oro)</label>
+                <input type="text" id="heroHeading" class="form-input">
+                <small class="form-hint">Esempio: <code>Cucina vegetale d'autore &lt;em&gt;sul mare di Levante&lt;/em&gt;</code></small>
+              </div>
+
+              <div class="form-group">
+                <label for="brandLocationTag">Etichetta Geografica (Postcard Badge)</label>
+                <input type="text" id="brandLocationTag" class="form-input">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="heroSubheading">Paragrafo Introduttivo (Subheading)</label>
+              <textarea id="heroSubheading" class="form-textarea" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           TAB 2: CUCINA & CAROSELLO PIATTI
+           ======================================================== -->
+      <section id="tab-kitchen" class="tab-pane" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Vetrina Piatti d'Autore</h2>
+              <p class="panel-desc">Modifica, aggiungi, riordina ed elimina i piatti mostrati nel palcoscenico interattivo e nelle frecce mobile.</p>
+            </div>
+            <button type="button" id="addNewDishBtn" class="btn btn-amber btn-sm">
+              <span>+ Aggiungi Piatto</span>
+            </button>
+          </div>
+
+          <div class="panel-body">
+            <div class="grid-2-col" style="margin-bottom:1.5rem;">
+              <div class="form-group">
+                <label for="kitchenHeading">Titolo Sezione Cucina</label>
+                <input type="text" id="kitchenHeading" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="kitchenNote">Nota Filosofica sul Mercato</label>
+                <input type="text" id="kitchenNote" class="form-input">
+              </div>
+            </div>
+
+            <!-- Lista Dinamica Piatti -->
+            <div id="dishesListContainer" class="dishes-list-wrap">
+              <!-- Renderizzato via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           TAB 3: ORARI & SERVIZIO
+           ======================================================== -->
+      <section id="tab-hours" class="tab-pane" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Orari di Apertura & Stato di Servizio</h2>
+              <p class="panel-desc">Configura il giorno di chiusura settimanale, le fasce orarie e visualizza l'indicatore live.</p>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="grid-2-col" style="margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label for="hoursDaysOpen">Giorni di Servizio Cena (Mostrato in scheda contatti)</label>
+                <input type="text" id="hoursDaysOpen" class="form-input" placeholder="Es. Giovedì — Martedì oppure Tutti i giorni">
+              </div>
+
+              <div class="form-group">
+                <label for="hoursDinnerDisplay">Orario Visualizzato a Schermo</label>
+                <input type="text" id="hoursDinnerDisplay" class="form-input" placeholder="Es. 19:00 — 22:30">
+              </div>
+            </div>
+
+            <div class="grid-3-col">
+              <div class="form-group">
+                <label for="hoursRestDay">Giorno di Riposo Settimanale</label>
+                <select id="hoursRestDay" class="form-select">
+                  <option value="none">Sempre Aperto (Nessun riposo)</option>
+                  <option value="1">Lunedì</option>
+                  <option value="2">Martedì</option>
+                  <option value="3">Mercoledì</option>
+                  <option value="4">Giovedì</option>
+                  <option value="5">Venerdì</option>
+                  <option value="6">Sabato</option>
+                  <option value="0">Domenica</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="hoursDinnerStart">Inizio Servizio Cena (per calcolo live)</label>
+                <input type="time" id="hoursDinnerStart" class="form-input" value="19:00">
+              </div>
+
+              <div class="form-group">
+                <label for="hoursDinnerEnd">Fine Servizio Cena (per calcolo live)</label>
+                <input type="time" id="hoursDinnerEnd" class="form-input" value="22:30">
+              </div>
+            </div>
+
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="hoursRestLabel">Dicitura Riposo Settimanale</label>
+                <input type="text" id="hoursRestLabel" class="form-input" placeholder="Riposo settimanale">
+              </div>
+
+              <div class="form-group">
+                <label for="hoursNotice">Avviso Straordinario o Chiusura Festiva (Opzionale)</label>
+                <input type="text" id="hoursNotice" class="form-input" placeholder="Es. Chiusura stagionale fino al 15 marzo, oppure Aperto eccezionalmente a pranzo...">
+              </div>
+            </div>
+
+            <!-- Anteprima Indicatore Live -->
+            <div class="hours-preview-box">
+              <span class="hpb-label">Anteprima Live Badge sul Sito:</span>
+              <div class="hpb-badge-preview">
+                <span class="status-dot-preview" id="previewStatusDot"></span>
+                <span id="previewStatusText">Cena · 19:00-22:30</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           TAB 4: RECENSIONI
+           ======================================================== -->
+      <section id="tab-reviews" class="tab-pane" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Recensioni in Evidenza</h2>
+              <p class="panel-desc">Aggiungi, modifica o rimuovi le testimonianze degli ospiti mostrate nella sezione dedicata.</p>
+            </div>
+            <button type="button" id="addNewReviewBtn" class="btn btn-amber btn-sm">
+              <span>+ Nuova Recensione</span>
+            </button>
+          </div>
+
+          <div class="panel-body">
+            <div class="grid-2-col" style="margin-bottom:1.5rem;">
+              <div class="form-group">
+                <label for="reviewsRating">Punteggio Medio (es. 4.6)</label>
+                <input type="text" id="reviewsRating" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="reviewsTotal">Numero Totale Recensioni (es. 76)</label>
+                <input type="text" id="reviewsTotal" class="form-input">
+              </div>
+            </div>
+
+            <div id="reviewsListContainer" class="reviews-list-wrap">
+              <!-- Renderizzato via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           TAB 5: GALLERIA & SPAZI
+           ======================================================== -->
+      <section id="tab-gallery" class="tab-pane" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Galleria Fotografica & Spazi</h2>
+              <p class="panel-desc">Gestisci gli scatti della terrazza, della sala e delle creazioni culinarie.</p>
+            </div>
+            <button type="button" id="addNewGalleryPhotoBtn" class="btn btn-amber btn-sm">
+              <span>+ Nuova Foto</span>
+            </button>
+          </div>
+
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="spacesSub">Sottotitolo Narrativo Galleria</label>
+              <textarea id="spacesSub" class="form-textarea" rows="2"></textarea>
+            </div>
+
+            <div id="galleryListContainer" class="gallery-grid-manager">
+              <!-- Renderizzato via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================
+           TAB 6: SEDE & CONTATTI
+           ======================================================== -->
+      <section id="tab-info" class="tab-pane" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Sede, Google Maps & Recapiti</h2>
+              <p class="panel-desc">Configura i contatti telefonici, gli indirizzi, i social e i link diretti di navigazione.</p>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="infoStreet">Indirizzo Sede</label>
+                <input type="text" id="infoStreet" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="infoDetail">Dettaglio Posizione (Hotel Gutkowski)</label>
+                <input type="text" id="infoDetail" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="infoCity">Città / Località</label>
+                <input type="text" id="infoCity" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="infoCap">CAP</label>
+                <input type="text" id="infoCap" class="form-input">
+              </div>
+            </div>
+
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="infoPhone">Telefono (Formato Chiamata tel:)</label>
+                <input type="text" id="infoPhone" class="form-input" placeholder="+390931465830">
+              </div>
+              <div class="form-group">
+                <label for="infoPhoneDisplay">Telefono (Visualizzato a Schermo)</label>
+                <input type="text" id="infoPhoneDisplay" class="form-input" placeholder="0931 465830">
+              </div>
+            </div>
+
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="bookingTheFork">Link Prenotazione TheFork</label>
+                <input type="url" id="bookingTheFork" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="bookingMaps">Link Scheda Google Maps</label>
+                <input type="url" id="bookingMaps" class="form-input">
+              </div>
+            </div>
+
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="socialInstagramUrl">Link Profilo Instagram</label>
+                <input type="url" id="socialInstagramUrl" class="form-input">
+              </div>
+              <div class="form-group">
+                <label for="infoPriceRange">Fascia di Prezzo Indicativa</label>
+                <input type="text" id="infoPriceRange" class="form-input" placeholder="30–45 € a persona">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 7: SICUREZZA & CREDENZIALI
+           ======================================================== -->
+      <section id="tab-security" class="tab-pane" role="tabpanel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Sicurezza & Credenziali Admin</h2>
+              <p class="panel-desc">Gestisci l'email di amministrazione e la chiave d'accesso per il pannello di controllo.</p>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="grid-2-col" style="gap: 2rem; align-items: start; margin-bottom: 2rem;">
+              <!-- Box 1: Modifica Email -->
+              <div style="background: rgba(69, 117, 136, 0.05); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(69, 117, 136, 0.2);">
+                <h4 style="margin: 0 0 0.5rem 0; font-family: var(--font-display); color: var(--blue-levante); font-size: 1.15rem;">Email Amministratore</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0 0 1.25rem 0; line-height: 1.6;">
+                  L'indirizzo email associato all'accesso e alla verifica token.
+                </p>
+
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                  <label for="adminEmailInput">Email di Accesso</label>
+                  <input type="email" id="adminEmailInput" class="form-input" placeholder="admin@gutkowskino.it">
+                </div>
+
+                <button type="button" id="updateEmailBtn" class="btn btn-outline-dark" style="width: 100%; justify-content: center;">
+                  <span>Aggiorna Email Admin</span>
+                </button>
+              </div>
+
+              <!-- Box 2: Modifica Password -->
+              <div style="background: rgba(198, 146, 85, 0.05); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(198, 146, 85, 0.2);">
+                <h4 style="margin: 0 0 0.5rem 0; font-family: var(--font-display); color: var(--amber-dark); font-size: 1.15rem;">Aggiornamento Password</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0 0 1.25rem 0; line-height: 1.6;">
+                  Inserisci la password attualmente in uso e scegli una nuova password sicura (minimo 8 caratteri).
+                </p>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label for="currentPasswordInput">Password Attuale</label>
+                  <input type="password" id="currentPasswordInput" class="form-input" placeholder="Inserisci la password attuale">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label for="newPasswordInput">Nuova Password</label>
+                  <input type="password" id="newPasswordInput" class="form-input" placeholder="Almeno 8 caratteri">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                  <label for="confirmPasswordInput">Conferma Nuova Password</label>
+                  <input type="password" id="confirmPasswordInput" class="form-input" placeholder="Ripeti la nuova password">
+                </div>
+
+                <button type="button" id="updatePasswordBtn" class="btn btn-amber" style="width: 100%; justify-content: center;">
+                  <span>Salva Nuova Password</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Barra Notifiche Toast Fluttuante -->
+    <div id="toastMessage" class="admin-toast" style="display:none;"></div>
+
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

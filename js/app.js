@@ -142,14 +142,34 @@
     return node;
   }
 
-  function getServiceStatus() {
+  function getServiceStatus(data) {
     try {
+      const hours = data?.hours;
+      if (hours?.statusNotice) {
+        return { open: true, text: hours.statusNotice };
+      }
+
       const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Rome' }));
       const day = now.getDay();
       const hour = now.getHours() + now.getMinutes() / 60;
-      if (day === 3) return { open: false, text: 'Mercoledì riposo' };
-      if (hour >= 19 && hour <= 22.5) return { open: true, text: 'Aperto ora · 19:00–22:30' };
-      return { open: true, text: 'Cena · 19:00–22:30' };
+
+      const restDay = hours?.restDay !== undefined && hours?.restDay !== null ? hours.restDay : 3;
+      const dayNames = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+      const startStr = hours?.dinnerStart || '19:00';
+      const endStr = hours?.dinnerEnd || '22:30';
+
+      const [sh, sm] = startStr.split(':').map(Number);
+      const [eh, em] = endStr.split(':').map(Number);
+      const startNum = sh + (sm || 0) / 60;
+      const endNum = eh + (em || 0) / 60;
+
+      if (restDay !== 'none' && restDay !== null && day === parseInt(restDay, 10)) {
+        return { open: false, text: `${dayNames[day]} riposo` };
+      }
+      if (hour >= startNum && hour <= endNum) {
+        return { open: true, text: `Aperto ora · ${startStr}–${endStr}` };
+      }
+      return { open: true, text: `Cena · ${startStr}–${endStr}` };
     } catch {
       return { open: true, text: 'Cena · 19:00–22:30' };
     }
@@ -163,6 +183,30 @@
       .filter(Boolean)
       .map((item, i) => `<span class="kps-ing-pill" style="--pill-idx:${i}">${item}</span>`)
       .join('');
+  }
+
+  function formatHeroHeading(heading) {
+    if (!heading) {
+      return '<span class="title-primary">Cucina vegetale d\'autore</span><span class="title-secondary">sul mare di Levante</span>';
+    }
+    // Normalizza tag imperfetti tipo </em o /em>
+    let clean = heading.replace(/<\/em>|<\/em|\/em>/gi, '</em>').replace(/<em[^>]*>/gi, '<em>');
+    if (clean.includes('<em>') && clean.includes('</em>')) {
+      const parts = clean.split(/<em>|<\/em>/i);
+      return `
+        ${parts[0] ? `<span class="title-primary">${parts[0].trim()}</span>` : ''}
+        ${parts[1] ? `<span class="title-secondary">${parts[1].trim()}</span>` : ''}
+        ${parts[2] ? `<span class="title-primary">${parts[2].trim()}</span>` : ''}
+      `;
+    }
+    if (clean.includes('<em>')) {
+      const [before, ...rest] = clean.split('<em>');
+      return `
+        ${before ? `<span class="title-primary">${before.trim()}</span>` : ''}
+        <span class="title-secondary">${rest.join('').replace(/<[^>]+>/g, '').trim()}</span>
+      `;
+    }
+    return `<span class="title-primary">${clean}</span>`;
   }
 
   function buildUnifiedPhotos(data) {
@@ -242,13 +286,13 @@
 
   // ───── 1. Navbar ─────
   function buildNavbar(data) {
-    const status = getServiceStatus();
+    const status = getServiceStatus(data);
     const header = el('header', { className: 'navbar', id: 'navbar' });
     header.innerHTML = `
       <div class="navbar-inner">
         <div class="nav-left">
           <a href="#" class="nav-brand">${data.brand.name}</a>
-          <span class="nav-place">Ortigia · Lungomare di Levante</span>
+          <span class="nav-place">${data.brand.locationTag || 'Ortigia · Lungomare di Levante'}</span>
         </div>
         <nav class="nav-center" id="navLinks">
           <a href="#filosofia">Filosofia</a>
@@ -276,7 +320,7 @@
 
   // ───── 1b. Mobile Drawer Fullscreen (Boutique & Sartoriale) ─────
   function buildMobileDrawer(data) {
-    const status = getServiceStatus();
+    const status = getServiceStatus(data);
     const drawer = el('div', { className: 'mobile-drawer', id: 'mobileDrawer', 'aria-hidden': 'true' });
     drawer.innerHTML = `
       <div class="mobile-drawer-header">
@@ -345,9 +389,9 @@
           <div class="hero-pills-bar">
             <span class="hero-pill-clean">
               <span class="pill-dot"></span>
-              Ortigia · Siracusa
+              ${data.brand.locationTag || data.brand.coordinates || 'Ortigia · Siracusa'}
             </span>
-            <span class="hero-pill-clean">Hotel Gutkowski</span>
+            <span class="hero-pill-clean">${data.brand.name || 'Hotel Gutkowski'}</span>
             <span class="hero-pill-clean">Cucina Vegetale d'Autore</span>
           </div>
 
@@ -376,8 +420,7 @@
           <div class="hero-copy-group">
             <span class="hero-kicker">Bistrot Contemporaneo sul Lungomare</span>
             <h1 class="hero-title">
-              <span class="title-primary">Cucina vegetale d'autore</span>
-              <span class="title-secondary">sul mare di Levante</span>
+              ${formatHeroHeading(data.hero.heading)}
             </h1>
             <p class="hero-desc">${data.hero.subheading}</p>
           </div>
@@ -396,10 +439,10 @@
           <div class="mobile-postcard-foot" aria-hidden="true">
             <div class="mp-lines"><span></span><span></span><span></span></div>
             <div class="mpf-address-card">
-              <span class="mpf-badge">Ortigia · Siracusa</span>
-              <strong class="mpf-hotel">Hotel Gutkowski</strong>
-              <span class="mpf-street">Lungomare di Levante Elio Vittorini, 18</span>
-              <span class="mpf-meta">Isola di Ortigia · 96100 Siracusa (SR)</span>
+              <span class="mpf-badge">${data.brand.coordinates || 'Ortigia · Siracusa'}</span>
+              <strong class="mpf-hotel">${data.brand.name || 'Hotel Gutkowski'}</strong>
+              <span class="mpf-street">${data.brand.locationTag || 'Lungomare di Levante Elio Vittorini, 18'}</span>
+              <span class="mpf-meta">${data.info?.address?.detail || 'Isola di Ortigia · 96100 Siracusa (SR)'}</span>
             </div>
           </div>
 
@@ -434,8 +477,8 @@
           <div class="hero-visual-frame" data-tilt-frame>
             <img src="${heroBg}" id="heroVisualImg" alt="Terrazza Gutkowskino sul Mare di Levante" class="hero-visual-img" loading="eager" decoding="async">
             <div class="hero-visual-caption">
-              <span class="hvc-tag">Terrazza Gutkowskino</span>
-              <span class="hvc-sub">Vista Scogli & Mare di Levante · Ortigia</span>
+              <span class="hvc-tag">Terrazza ${data.brand.name || 'Gutkowskino'}</span>
+              <span class="hvc-sub">${data.brand.locationTag || 'Vista Scogli & Mare di Levante · Ortigia'}</span>
             </div>
           </div>
         </div>
@@ -722,10 +765,12 @@
                 <span class="info-row-label">Orari della Cena</span>
                 <div class="info-row-value">
                   <div class="hours-list">
-                    <span>Giovedì — Martedì</span>
-                    <span>19:00 — 22:30</span>
-                    <span style="color:var(--blue-levante);">Mercoledì</span>
-                    <span style="color:var(--blue-levante);">Riposo settimanale</span>
+                    <span>${data.hours?.daysOpen || 'Giovedì — Martedì'}</span>
+                    <span>${data.hours?.dinnerDisplay || (data.hours?.dinnerStart && data.hours?.dinnerEnd ? `${data.hours.dinnerStart} — ${data.hours.dinnerEnd}` : '19:00 — 22:30')}</span>
+                    ${data.hours?.restDay !== 'none' && data.hours?.restDay !== null && data.hours?.restDay !== -1 ? `
+                    <span style="color:var(--blue-levante);">${data.hours?.restDayName || 'Mercoledì'}</span>
+                    <span style="color:var(--blue-levante);">${data.hours?.restDayLabel || 'Riposo settimanale'}</span>
+                    ` : ''}
                   </div>
                 </div>
               </div>

@@ -12,7 +12,7 @@
     "googleMapsUrl": "https://www.google.com/maps/place/Gutkowskino/@37.0641278,15.2961667,16z/data=!3m1!5s0x1313cc1dfa4a631f:0x88ec2b5bef1bce26!4m8!3m7!1s0x1313cd154c13a651:0x1213d6291007b46f!8m2!3d37.0641278!4d15.2961667!9m1!1b1!16s%2Fg%2F11rwy1bk9h"
   },
   "hero": {
-    "backgroundImage": "assets/images/hero-terrazza-reale.webp",
+    "backgroundImage": "assets/images/hero-terrazza-1792755231068.webp",
     "heading": "Cucina vegetale d'autore <em>sul mare di Levante</em>",
     "subheading": "Al piano terra dello storico Hotel Gutkowski, lungo la costa orientale di Ortigia. Pochi tavoli tra la brezza dello Ionio e la pietra bianca, dove l'ortaggio del mercato diventa alta cucina."
   },
@@ -44,13 +44,6 @@
     "maintenanceFreeDisclaimer": "La carta del giorno con le disponibilità aggiornate e i relativi prezzi è sempre consultabile sulla nostra pagina ufficiale TheFork.",
     "dishes": [
       {
-        "name": "Carciofo Arrostito su Crema di Barbabietola, Pinoli e Uvetta",
-        "course": "Secondo dell'Orto",
-        "ingredients": "Carciofo spinoso · Barbabietola rossa · Pinoli tostati · Riduzione di mandorla",
-        "description": "Carciofo intero cotto alla brace e sfogliato, adagiato su vellutata intensa di barbabietola rossa, riduzione alle mandorle, pinoli tostati e uvetta.",
-        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3b65ae14-2a51-48ab-bf93-f75fd2c90de6.jpg"
-      },
-      {
         "name": "Conchiglioni Ripieni su Emulsione Verde e Crocchetta Dorata",
         "course": "Primo Piatto",
         "ingredients": "Conchiglioni artigianali · Crema di patate novelle · Estratto verde · Crocchetta croccante",
@@ -70,6 +63,13 @@
         "ingredients": "Carnaroli Riserva · Pomodoro siccagno alla brace · Timo limonato · Zeste d'arancia",
         "description": "Riso mantecato all'olio extravergine con essenza di pomodori cotti a fuoco vivo, polvere di capperi di Pantelleria e freschezza agrumata.",
         "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/86d0ffb3-3fe2-4133-abc6-7d146853c748.jpg"
+      },
+      {
+        "name": "Carciofo Arrostito su Crema di Barbabietola, Pinoli e Uvetta",
+        "course": "Secondo dell'Orto",
+        "ingredients": "Carciofo spinoso · Barbabietola rossa · Pinoli tostati · Riduzione di mandorla",
+        "description": "Carciofoa intero cotto alla brace e sfogliato, adagiato su vellutata intensa di barbabietola rossa, riduzione alle mandorle, pinoli tostati e uvetta.",
+        "image": "assets/images/piatto-1792756616036.webp"
       },
       {
         "name": "Millefoglie Vegetale e Crema al Basilico Fresco",
@@ -116,11 +116,6 @@
         "title": "Terrazza Gutkowskino sul Mare",
         "category": "ambiente",
         "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/934d1b47-b37c-4d24-a431-1ccdd0bbf0b0.jpg"
-      },
-      {
-        "title": "Carciofo Arrostito alla Brace",
-        "category": "piatti",
-        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3b65ae14-2a51-48ab-bf93-f75fd2c90de6.jpg"
       },
       {
         "title": "Conchiglioni su Emulsione Verde",
@@ -191,6 +186,11 @@
         "title": "Dolci e Chiusure Agrumate",
         "category": "piatti",
         "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,c_fill,q_auto,f_auto/customer/20b6c5c8-f1e3-462d-87be-e8523872b76d/b55bac8c-e434-4e0f-9d5a-3e6599d2f983.jpg"
+      },
+      {
+        "title": "Carciofo Arrostito alla Brace",
+        "category": "piatti",
+        "image": "assets/images/gallery-1792756796761.webp"
       }
     ]
   },
@@ -237,5 +237,15 @@
       "instagramUrl": "https://www.instagram.com/gutkowskino_/"
     },
     "priceRange": "30–45 € a persona"
+  },
+  "hours": {
+    "daysOpen": "Giovedì — Martedì",
+    "restDay": 3,
+    "restDayName": "Mercoledì",
+    "restDayLabel": "Riposo settimanale",
+    "dinnerStart": "19:00",
+    "dinnerEnd": "22:30",
+    "dinnerDisplay": "19:00 — 22:30",
+    "statusNotice": ""
   }
 }

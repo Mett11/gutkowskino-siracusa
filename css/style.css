@@ -845,7 +845,8 @@ button {
   color: var(--text-dark);
 }
 
-.hero-title .title-secondary {
+.hero-title .title-secondary,
+.hero-title em {
   display: block;
   font-style: italic;
   color: var(--amber-warm);
