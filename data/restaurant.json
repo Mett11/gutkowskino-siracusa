@@ -12,8 +12,8 @@
     "googleMapsUrl": "https://www.google.com/maps/place/Gutkowskino/@37.0641278,15.2961667,16z/data=!3m1!5s0x1313cc1dfa4a631f:0x88ec2b5bef1bce26!4m8!3m7!1s0x1313cd154c13a651:0x1213d6291007b46f!8m2!3d37.0641278!4d15.2961667!9m1!1b1!16s%2Fg%2F11rwy1bk9h"
   },
   "hero": {
-    "backgroundImage": "assets/images/hero-terrazza-1792755231068.webp",
-    "heading": "Cucina vegetale d'autore <em>sul mare di Levante</em>",
+    "backgroundImage": "https://gutkowskino-demo.siracusalabs.app/assets/images/hero-terrazza-1792755231068.webp",
+    "heading": "Cucina vegetale d'autore <em>sul mare di Levante</em>m",
     "subheading": "Al piano terra dello storico Hotel Gutkowski, lungo la costa orientale di Ortigia. Pochi tavoli tra la brezza dello Ionio e la pietra bianca, dove l'ortaggio del mercato diventa alta cucina."
   },
   "manifesto": {
@@ -69,7 +69,7 @@
         "course": "Secondo dell'Orto",
         "ingredients": "Carciofo spinoso · Barbabietola rossa · Pinoli tostati · Riduzione di mandorla",
         "description": "Carciofoa intero cotto alla brace e sfogliato, adagiato su vellutata intensa di barbabietola rossa, riduzione alle mandorle, pinoli tostati e uvetta.",
-        "image": "assets/images/piatto-1792756616036.webp"
+        "image": "https://gutkowskino-demo.siracusalabs.app/assets/images/piatto-1792756616036.webp"
       },
       {
         "name": "Millefoglie Vegetale e Crema al Basilico Fresco",
@@ -190,7 +190,7 @@
       {
         "title": "Carciofo Arrostito alla Brace",
         "category": "piatti",
-        "image": "assets/images/gallery-1792756796761.webp"
+        "image": "https://gutkowskino-demo.siracusalabs.app/assets/images/gallery-1792756796761.webp"
       }
     ]
   },
