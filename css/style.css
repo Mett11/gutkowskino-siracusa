@@ -1489,16 +1489,18 @@ button {
 
 .kitchen-panoramic-stage {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: 1fr 1fr;
   gap: clamp(1.75rem, 3.5vw, 3rem);
-  align-items: start;
-  margin-bottom: 2.25rem;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
 }
 
 .kps-visual-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10.5;
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  align-self: stretch;
   border-radius: var(--radius-subtle);
   overflow: hidden;
   background-color: var(--bg-surface);
@@ -1578,6 +1580,8 @@ button {
 .kps-details-card {
   width: 100%;
   min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
   background: var(--bg-surface);
   border: 1px solid var(--line-medium);
   border-radius: var(--radius-subtle);
@@ -2088,6 +2092,7 @@ button {
 
   .kore-webgl-frame { aspect-ratio: 1 / 1.12; }
   .kitchen-panoramic-stage, .reviews-grid, .info-row { grid-template-columns: 1fr !important; }
+  .kps-visual-wrap { width: 100% !important; max-width: 440px !important; aspect-ratio: 1 / 1 !important; margin: 0 auto !important; }
   .kitchen-deck-wrapper, .azure-filter-pill { display: none !important; }
   .azure-mobile-hint { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 0.68rem; text-transform: uppercase; color: var(--blue-levante); margin-bottom: 0.75rem; }
 }

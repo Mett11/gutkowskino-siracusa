@@ -298,7 +298,7 @@
     initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
     initLightbox();
-    initCameraStepScroll();
+    initSectionNavDots();
   }
 
   // ───── 1. Navbar Semilla Style ─────
@@ -524,19 +524,6 @@
 
     const section = el('section', { className: 'section-kitchen', id: 'cucina' });
 
-    const dishDeckCards = dishes.map((dish, idx) => `
-      <button class="kitchen-deck-card ${idx === 0 ? 'active' : ''}" data-index="${idx}" type="button" role="tab" aria-selected="${idx === 0}">
-        <div class="kdc-thumb">
-          <img src="${dish.image}" alt="${dish.name}" loading="lazy" decoding="async">
-        </div>
-        <div class="kdc-info">
-          <span class="kdc-num">0${idx + 1}</span>
-          <span class="kdc-course">${dish.course}</span>
-          <strong class="kdc-name">${dish.name.split(' su ')[0].split(' con ')[0]}</strong>
-        </div>
-      </button>
-    `).join('');
-
     section.innerHTML = `
       ${MED_SVGS.watermarkGastronomic}
       <div class="container">
@@ -594,17 +581,6 @@
               </a>
               <span class="kps-tag-quote">100% vegetale · Spesa giornaliera a Ortigia</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Strip / Deck Orizzontale delle Portate -->
-        <div class="kitchen-deck-wrapper reveal-up delay-2">
-          <div class="kitchen-deck-header">
-            <span>Seleziona una portata per osservare l'impiattamento</span>
-            <span>Tocca le carte o naviga con le frecce</span>
-          </div>
-          <div class="kitchen-deck-track" id="kitchenDeckTrack" role="tablist">
-            ${dishDeckCards}
           </div>
         </div>
       </div>`;
@@ -1012,7 +988,6 @@
     const stageDesc = document.getElementById('dishStageDesc');
     const stageIngPills = document.getElementById('dishStageIngPills');
     const narrativeBody = document.getElementById('dishNarrativeBody');
-    const deckCards = Array.from(document.querySelectorAll('#kitchenDeckTrack .kitchen-deck-card'));
     const prevBtn = document.getElementById('dishPrevBtn');
     const nextBtn = document.getElementById('dishNextBtn');
 
@@ -1026,15 +1001,6 @@
       if (nextIdx === current && stageImgA.getAttribute('src')) return;
       current = nextIdx;
       const d = dishes[current];
-
-      deckCards.forEach((card, i) => {
-        const isActive = i === current;
-        card.classList.toggle('active', isActive);
-        card.setAttribute('aria-selected', isActive ? 'true' : 'false');
-        if (isActive && window.innerWidth > 860) {
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      });
 
       // Act 1: Anticipation & Exit (130ms ease-in)
       if (narrativeBody) narrativeBody.classList.add('is-transitioning');
@@ -1072,10 +1038,6 @@
         nextImg.onload = finishCrossfade;
       }
     }
-
-    deckCards.forEach((card, idx) => {
-      card.addEventListener('click', () => selectDish(idx));
-    });
 
     prevBtn?.addEventListener('click', () => selectDish(current - 1));
     nextBtn?.addEventListener('click', () => selectDish(current + 1));
@@ -1202,10 +1164,8 @@
     });
   }
 
-  // ───── 10. Camera Step-by-Step Scroll Controller ─────
-  function initCameraStepScroll() {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+  // ───── 10. Segnaposto delle Sezioni Laterali a Pallini (Scroll Libero Nativo) ─────
+  function initSectionNavDots() {
     const SECTION_CONFIG = [
       { id: 'hero', label: 'Home' },
       { id: 'filosofia', label: 'Filosofia' },
@@ -1216,7 +1176,6 @@
       { id: 'footer', label: 'Info' }
     ];
 
-    // Build Floating Camera Navigation Dots
     const existingDots = document.querySelector('.camera-nav-dots');
     if (existingDots) existingDots.remove();
 
@@ -1230,295 +1189,74 @@
         type: 'button'
       });
       dot.addEventListener('click', () => {
-        const sections = getSectionInfo();
-        const target = sections.find(s => s.id === dotData.id);
+        const target = document.getElementById(dotData.id);
         if (target) {
-          smoothGlideTo(target.targetTop);
+          const navbar = document.getElementById('navbar');
+          const navH = navbar ? navbar.offsetHeight : 80;
+          const top = dotData.id === 'hero' ? 0 : Math.max(0, target.offsetTop - navH);
+          window.scrollTo({ top, behavior: 'smooth' });
         }
       });
       dotsContainer.appendChild(dot);
     });
     document.body.appendChild(dotsContainer);
 
-    let isAnimating = false;
-    let lastTransitionTime = 0;
-    const COOLDOWN_MS = 620;
-    let deltaAccumulator = 0;
-    let accumResetTimer = null;
-    let currentAnimFrame = null;
-
-    function easeInOutCubic(t) {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
-
-    function smoothGlideTo(targetY, duration = 650) {
-      if (reducedMotion) {
-        window.scrollTo({ top: targetY, behavior: 'auto' });
-        updateActiveDot();
-        return;
-      }
-
-      if (currentAnimFrame) {
-        cancelAnimationFrame(currentAnimFrame);
-      }
-
-      isAnimating = true;
-      const startY = window.pageYOffset || document.documentElement.scrollTop;
-      const distance = targetY - startY;
-
-      if (Math.abs(distance) < 2) {
-        isAnimating = false;
-        return;
-      }
-
-      const startTime = performance.now();
-
-      function step(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = easeInOutCubic(progress);
-
-        window.scrollTo(0, startY + distance * eased);
-
-        if (progress < 1) {
-          currentAnimFrame = requestAnimationFrame(step);
-        } else {
-          window.scrollTo(0, targetY);
-          isAnimating = false;
-          lastTransitionTime = Date.now();
-          currentAnimFrame = null;
-          updateActiveDot();
-        }
-      }
-
-      currentAnimFrame = requestAnimationFrame(step);
-    }
-
-    // Calcola le posizioni pulite per ciascuna sezione
-    function getSectionInfo() {
-      const navbar = document.getElementById('navbar');
-      const navH = navbar ? navbar.offsetHeight : 80;
-      const vh = window.innerHeight;
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
-
-      return SECTION_CONFIG.map((sec, idx) => {
-        const node = document.getElementById(sec.id);
-        if (!node) return null;
-
-        let targetTop = 0;
-        if (idx === 0) {
-          // La Hero parte da 0 (navbar visibile, nessun salto o scomparsa della navbar)
-          targetTop = 0;
-        } else if (idx === SECTION_CONFIG.length - 1) {
-          targetTop = maxScroll;
-        } else {
-          targetTop = Math.max(0, Math.round(node.offsetTop - navH));
-        }
-
-        const nodeHeight = node.offsetHeight;
-        const maxSectionScroll = Math.min(
-          maxScroll,
-          Math.max(targetTop, Math.round(node.offsetTop + nodeHeight - vh))
-        );
-        const hasExtraContent = maxSectionScroll > targetTop + 50;
-
-        return {
-          id: sec.id,
-          label: sec.label,
-          targetTop,
-          maxSectionScroll,
-          hasExtraContent,
-          node
-        };
-      }).filter(Boolean);
-    }
-
-    function getCurrentSectionIndex(sections, currentY) {
-      const vh = window.innerHeight;
-      if (currentY + vh >= document.documentElement.scrollHeight - 50) {
-        return sections.length - 1;
-      }
-
-      let bestIdx = 0;
-      let minDistance = Infinity;
-
-      for (let i = 0; i < sections.length; i++) {
-        const sec = sections[i];
-        if (currentY >= sec.targetTop - 35 && currentY <= sec.maxSectionScroll + 35) {
-          return i;
-        }
-        const dist = Math.abs(currentY - sec.targetTop);
-        if (dist < minDistance) {
-          minDistance = dist;
-          bestIdx = i;
-        }
-      }
-      return bestIdx;
-    }
-
-    function stepToSection(direction) {
-      const sections = getSectionInfo();
-      if (!sections.length) return;
-
-      const currentY = window.pageYOffset || document.documentElement.scrollTop;
-      const currentIdx = getCurrentSectionIndex(sections, currentY);
-
-      let targetIdx = currentIdx;
-      if (direction > 0) {
-        // "ogni scroll va a una sezione successiva"
-        targetIdx = Math.min(sections.length - 1, currentIdx + 1);
-      } else {
-        // Scroll verso l'alto: se si è all'interno della sezione torna in cima, altrimenti passa alla precedente
-        if (currentY > sections[currentIdx].targetTop + 80) {
-          targetIdx = currentIdx;
-        } else {
-          targetIdx = Math.max(0, currentIdx - 1);
-        }
-      }
-
-      smoothGlideTo(sections[targetIdx].targetTop);
-    }
-
-    function shouldIgnoreEvent() {
-      if (document.getElementById('lightbox')?.classList.contains('active')) return true;
-      if (document.getElementById('mobileDrawer')?.classList.contains('open')) return true;
-      const tag = document.activeElement?.tagName?.toLowerCase();
-      if (['input', 'textarea', 'select'].includes(tag)) return true;
-      return false;
-    }
-
-    // Wheel listener: 1 scroll = sezione successiva, ma range libero per micro-movimenti se la sezione ha contenuto extra
-    window.addEventListener('wheel', e => {
-      if (shouldIgnoreEvent()) return;
-      if (reducedMotion) return;
-
-      const sections = getSectionInfo();
-      const currentY = window.pageYOffset || document.documentElement.scrollTop;
-      const currentIdx = getCurrentSectionIndex(sections, currentY);
-      const currentSec = sections[currentIdx];
-
-      const now = Date.now();
-      if (isAnimating) {
-        e.preventDefault();
-        return;
-      }
-
-      // Range libero se la sezione ha contenuto ulteriore:
-      // se l'utente fa un movimento leggero per visualizzare un dettaglio o scorrere poco dentro la sezione
-      if (currentSec && currentSec.hasExtraContent) {
-        const isInsideFreeRange = (currentY >= currentSec.targetTop - 5) && (currentY < currentSec.maxSectionScroll - 10);
-        const isGentleScroll = Math.abs(e.deltaY) < 36;
-
-        if (isGentleScroll && isInsideFreeRange && e.deltaY > 0) {
-          return; // Lascia scorrere liberamente appena un po'
-        }
-        if (isGentleScroll && (currentY > currentSec.targetTop + 10) && e.deltaY < 0) {
-          return; // Lascia scorrere liberamente indietro appena un po'
-        }
-      }
-
-      // Per qualsiasi scroll deciso o al raggiungimento del limite: passa alla sezione successiva / precedente
-      e.preventDefault();
-
-      if (now - lastTransitionTime < COOLDOWN_MS) {
-        return;
-      }
-
-      deltaAccumulator += e.deltaY;
-      clearTimeout(accumResetTimer);
-      accumResetTimer = setTimeout(() => {
-        deltaAccumulator = 0;
-      }, 120);
-
-      const THRESHOLD = 24;
-      if (Math.abs(deltaAccumulator) >= THRESHOLD) {
-        const dir = deltaAccumulator > 0 ? 1 : -1;
-        deltaAccumulator = 0;
-        lastTransitionTime = now;
-        stepToSection(dir);
-      }
-    }, { passive: false });
-
-    // Keyboard navigation: 1 tasto = 1 sezione successiva o precedente
-    window.addEventListener('keydown', e => {
-      if (shouldIgnoreEvent()) return;
-
-      if (['ArrowDown', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey)) {
-        e.preventDefault();
-        stepToSection(1);
-      } else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) {
-        e.preventDefault();
-        stepToSection(-1);
-      }
-    });
-
-    // Touch navigation su mobile
-    let touchStartY = 0;
-    let touchStartX = 0;
-    let isTouchActive = false;
-
-    window.addEventListener('touchstart', e => {
-      if (e.touches.length !== 1 || shouldIgnoreEvent()) return;
-      touchStartY = e.touches[0].clientY;
-      touchStartX = e.touches[0].clientX;
-      isTouchActive = true;
-    }, { passive: true });
-
-    window.addEventListener('touchend', e => {
-      if (!isTouchActive || isAnimating || shouldIgnoreEvent()) return;
-      isTouchActive = false;
-
-      const touchEndY = e.changedTouches[0].clientY;
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffY = touchEndY - touchStartY;
-      const diffX = touchEndX - touchStartX;
-
-      // Se swipe deciso verticale, passa alla sezione successiva / precedente
-      if (Math.abs(diffY) > 42 && Math.abs(diffY) > Math.abs(diffX) * 1.25) {
-        const now = Date.now();
-        if (now - lastTransitionTime >= COOLDOWN_MS) {
-          lastTransitionTime = now;
-          stepToSection(diffY < 0 ? 1 : -1);
-        }
-      }
-    }, { passive: true });
-
-    // Click su link di navigazione con àncora (#cucina, #filosofia, ecc.)
-    document.addEventListener('click', e => {
-      const anchor = e.target.closest('a[href^="#"]');
-      if (!anchor) return;
-      const href = anchor.getAttribute('href');
-      if (!href || href === '#' || href === '#!') return;
-      const targetId = href.replace(/^#/, '');
-      const sections = getSectionInfo();
-      const sec = sections.find(s => s.id === targetId);
-      if (sec) {
-        e.preventDefault();
-        smoothGlideTo(sec.targetTop);
-      }
-    });
-
+    // Aggiorna il segnaposto attivo durante lo scroll libero
     function updateActiveDot() {
-      const sections = getSectionInfo();
       const currentY = window.pageYOffset || document.documentElement.scrollTop;
-      const activeIdx = getCurrentSectionIndex(sections, currentY);
-      const activeId = sections[activeIdx]?.id || 'hero';
+      const vh = window.innerHeight;
+      const scrollBottom = currentY + vh;
+      const docHeight = document.documentElement.scrollHeight;
+
+      let activeId = SECTION_CONFIG[0].id;
+
+      if (scrollBottom >= docHeight - 60) {
+        activeId = SECTION_CONFIG[SECTION_CONFIG.length - 1].id;
+      } else {
+        SECTION_CONFIG.forEach(sec => {
+          const node = document.getElementById(sec.id);
+          if (node) {
+            const top = node.offsetTop;
+            const h = node.offsetHeight;
+            if (currentY >= top - vh * 0.4 && currentY < top + h - vh * 0.4) {
+              activeId = sec.id;
+            }
+          }
+        });
+      }
 
       dotsContainer.querySelectorAll('.camera-dot').forEach(dot => {
         dot.classList.toggle('active', dot.dataset.target === activeId);
       });
     }
 
-    let dotScrollTicking = false;
+    let ticking = false;
     window.addEventListener('scroll', () => {
-      if (!dotScrollTicking) {
+      if (!ticking) {
         requestAnimationFrame(() => {
           updateActiveDot();
-          dotScrollTicking = false;
+          ticking = false;
         });
-        dotScrollTicking = true;
+        ticking = true;
       }
     }, { passive: true });
+
+    // Click sui link di ancoraggio interni per scroll fluido
+    document.addEventListener('click', e => {
+      const anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#' || href === '#!') return;
+      const targetId = href.replace(/^#/, '');
+      const target = document.getElementById(targetId);
+      if (target) {
+        e.preventDefault();
+        const navbar = document.getElementById('navbar');
+        const navH = navbar ? navbar.offsetHeight : 80;
+        const top = targetId === 'hero' ? 0 : Math.max(0, target.offsetTop - navH);
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
 
     updateActiveDot();
   }
