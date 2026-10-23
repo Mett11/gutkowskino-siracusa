@@ -246,7 +246,7 @@
   async function init() {
     let data;
     try {
-      const resp = await fetch('data/restaurant.json');
+      const resp = await fetch('data/restaurant.json?_t=' + Date.now(), { cache: 'no-store' });
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       data = await resp.json();
     } catch (err) {

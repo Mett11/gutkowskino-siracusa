@@ -140,18 +140,46 @@
 
     if (loginError) loginError.style.display = 'none';
 
+    // 1. Tenta verifica live tramite endpoint POST /api/login (immediato e senza delay di build)
+    try {
+      const loginResp = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailVal, password: passVal })
+      });
+
+      if (loginResp.ok) {
+        authToken = passVal;
+        authEmail = emailVal;
+        sessionStorage.setItem('gutkowski_admin_auth', authToken);
+        sessionStorage.setItem('gutkowski_admin_email', authEmail);
+        showDashboard();
+        return;
+      } else if (loginResp.status === 401 || loginResp.status === 400) {
+        const errData = await loginResp.json().catch(() => ({}));
+        if (loginError) {
+          loginError.textContent = errData.error || 'Credenziali non valide. Riprova.';
+          loginError.style.display = 'block';
+        }
+        passwordInput.focus();
+        return;
+      }
+    } catch (apiErr) {
+      // Endpoint /api/login non disponibile (ad es. modalità statica pura o dev), procedi con fallback client-side
+    }
+
+    // 2. Fallback di verifica client-side (usando data/auth.json con cache-busting)
     try {
       const inputHash = await sha256Hex(passVal);
-      // Leggi auth.json se presente
       let expectedHash = '8675f89c67766a3ffbf3b466985068bae6d966af178040d71c21b1306c28af84'; // default gutkowski2026
       let expectedEmail = 'admin@gutkowskino.it';
 
       try {
-        const authRes = await fetch('data/auth.json?_t=' + Date.now());
+        const authRes = await fetch('data/auth.json?_t=' + Date.now(), { cache: 'no-store' });
         if (authRes.ok) {
           const authData = await authRes.json();
           if (authData.passwordHash) expectedHash = authData.passwordHash;
-          if (authData.email) expectedEmail = authData.email.toLowerCase();
+          if (authData.email) expectedEmail = authData.email.toLowerCase().trim();
         }
       } catch (err) {
         // Fallback default
@@ -168,7 +196,13 @@
         showDashboard();
       } else {
         if (loginError) {
-          loginError.textContent = 'Email o password non corretti. Riprova.';
+          if (!isEmailValid) {
+            loginError.textContent = `Email non riconosciuta (${emailVal}). L'email amministratore è differente.`;
+          } else if (!isPassValid) {
+            loginError.textContent = 'Password errata per questo account (verifica se il browser ha autocompilato una password salvata).';
+          } else {
+            loginError.textContent = 'Email o password non corretti. Riprova.';
+          }
           loginError.style.display = 'block';
         }
         passwordInput.focus();
@@ -214,7 +248,7 @@
   // ─────────────────────────────────────────────────────────────
   async function loadInitialData() {
     try {
-      const res = await fetch('data/restaurant.json?t=' + Date.now());
+      const res = await fetch('data/restaurant.json?t=' + Date.now(), { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       currentData = await res.json();
       populateFormFields(currentData);
@@ -842,14 +876,14 @@
 
         const result = await resp.json();
         if (resp.ok) {
-          showToast('Modifiche salvate su GitHub! Il sito pubblico si aggiornerà tra circa 30s.', 'success');
+          showToast('Modifiche salvate con successo su GitHub! 🚀 Cloudflare sta ricompilando il sito (visibile a tutti tra circa 30-40 secondi).', 'success');
         } else {
           throw new Error(result.error || 'Errore nel salvataggio');
         }
       }
     } catch (err) {
-      console.warn('Salvataggio:', err.message);
-      showToast('Payload generato e pronto per il salvataggio persistente', 'success');
+      console.error('Salvataggio fallito:', err);
+      showToast('Errore nel salvataggio: ' + err.message, 'error');
     } finally {
       saveBtn.disabled = false;
       saveBtn.querySelector('.btn-text').textContent = originalText;
@@ -950,7 +984,7 @@
       if (resp.ok) {
         authEmail = emailVal;
         sessionStorage.setItem('gutkowski_admin_email', authEmail);
-        showToast('Email amministratore aggiornata con successo!', 'success');
+        showToast(`Email amministratore aggiornata con successo! La nuova email di accesso è: ${emailVal}`, 'success');
       } else {
         throw new Error(resData.error || 'Impossibile aggiornare l\'email.');
       }

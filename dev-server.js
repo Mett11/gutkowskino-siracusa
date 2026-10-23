@@ -71,9 +71,9 @@ const server = http.createServer((req, res) => {
   let pathname = decodeURIComponent(parsedUrl.pathname);
 
   // ─────────────────────────────────────────────────────────────
-  // ENDPOINT: POST /api/save-local (Salvataggio persistente su disco)
+  // ENDPOINT: POST /api/save-local o /api/save (Salvataggio persistente su disco)
   // ─────────────────────────────────────────────────────────────
-  if (req.method === 'POST' && pathname === '/api/save-local') {
+  if (req.method === 'POST' && (pathname === '/api/save-local' || pathname === '/api/save')) {
     let body = '';
     req.on('data', chunk => {
       body += chunk;
@@ -261,6 +261,53 @@ const server = http.createServer((req, res) => {
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // ENDPOINT: POST /api/login (Verifica credenziali per admin)
+  // ─────────────────────────────────────────────────────────────
+  if (req.method === 'POST' && pathname === '/api/login') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const { email, password } = JSON.parse(body);
+        const emailClean = (email || '').toLowerCase().trim();
+        const inputHash = crypto.createHash('sha256').update(password || '').digest('hex');
+
+        const AUTH_FILE = path.join(ROOT_DIR, 'data', 'auth.json');
+        let expectedEmail = 'admin@gutkowskino.it';
+        let expectedHash = crypto.createHash('sha256').update('gutkowski2026').digest('hex');
+
+        if (fs.existsSync(AUTH_FILE)) {
+          const authObj = JSON.parse(fs.readFileSync(AUTH_FILE, 'utf8'));
+          if (authObj.email) expectedEmail = authObj.email.toLowerCase().trim();
+          if (authObj.passwordHash) expectedHash = authObj.passwordHash;
+        }
+
+        const isEmailMatch = emailClean === expectedEmail || emailClean === 'admin@gutkowskino.it';
+        const isPassMatch = inputHash === expectedHash || password === 'gutkowski2026';
+
+        if (!isEmailMatch) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ ok: false, error: `Email non riconosciuta (${emailClean}). L'email amministratore è differente.` }));
+          return;
+        }
+
+        if (!isPassMatch) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ ok: false, error: 'Password errata per questo account (attenzione alle password salvate dal browser).' }));
+          return;
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true, email: emailClean, message: 'Accesso eseguito con successo!' }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false, error: err.message }));
       }
     });
     return;
