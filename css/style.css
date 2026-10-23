@@ -823,8 +823,19 @@ button {
   left: clamp(1rem, 2.6vw, 3.2rem);
 }
 
-.semilla-side-right {
-  right: clamp(1rem, 2.6vw, 3.2rem);
+.semilla-hero-corner-bot-left {
+  position: absolute;
+  bottom: clamp(1.2rem, 3vh, 2.5rem);
+  left: clamp(1.5rem, 3.2vw, 3.8rem);
+  width: clamp(240px, 26vw, 360px);
+  height: auto;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.55;
+  color: var(--semilla-dark);
 }
 
 .med-vertical-svg {
@@ -833,33 +844,40 @@ button {
   overflow: visible;
 }
 
+.med-horizontal-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
 /* ───── Palcoscenico Centrale a Due Colonne ───── */
 .semilla-hero-stage {
-  max-width: 1320px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1.25fr 1fr;
   align-items: center;
   justify-items: center;
-  gap: clamp(2.5rem, 5vw, 5.5rem);
+  gap: clamp(2rem, 4.5vw, 5.5rem);
   z-index: 2;
 }
 
 .semilla-hero-col {
   width: 100%;
   display: flex;
+  align-items: center;
 }
 
-/* ───── Colonna Sinistra: Quadro Passepartout Più Grande con Sigillo ───── */
+/* ───── Colonna Sinistra: Illustrazione Fine-Art Grandangolare e Centrata ───── */
 .semilla-visual-col {
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 /* ───── Illustrazione Hero senza riquadro bianco ───── */
 .semilla-hero-art {
   width: 100%;
-  max-width: 560px;
+  max-width: clamp(580px, 48vw, 720px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -868,6 +886,7 @@ button {
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  transform: translateY(-30px);
 }
 
 .semilla-hero-art svg {
@@ -2116,7 +2135,7 @@ button {
 }
 
 @media (max-width: 860px) {
-  .semilla-side-svg { display: none !important; }
+  .semilla-side-svg, .semilla-hero-corner-bot-left { display: none !important; }
   .semilla-nav-group { display: none !important; }
   .semilla-nav-inner { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 0 1.25rem !important; }
   .semilla-nav-toggle { display: flex !important; }
@@ -2124,7 +2143,7 @@ button {
   .semilla-hero-stage { grid-template-columns: 1fr !important; gap: 2rem !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
   .semilla-visual-col, .semilla-content-col { width: 100% !important; justify-content: center !important; }
   .semilla-photo-frame { max-width: min(340px, 86vw) !important; padding: 12px !important; margin: 0 auto !important; }
-  .semilla-hero-art { max-width: min(440px, 92vw) !important; margin: 0 auto !important; }
+  .semilla-hero-art { max-width: min(480px, 92vw) !important; margin: 0 auto !important; transform: none !important; }
   .semilla-content-wrap { max-width: 100% !important; width: 100% !important; padding: 0 0.5rem !important; box-sizing: border-box !important; }
   .semilla-eyebrow { font-size: 0.72rem !important; letter-spacing: 0.18em !important; transform: none !important; word-break: break-word !important; max-width: 100% !important; margin-bottom: 0.6rem !important; }
   .semilla-title { font-size: clamp(2.3rem, 8.8vw, 3rem) !important; line-height: 1.08 !important; letter-spacing: -0.01em !important; width: 100% !important; max-width: 100% !important; word-break: break-word !important; }
@@ -2186,6 +2205,9 @@ button {
   user-select: none;
   pointer-events: none;
   transition: color 240ms ease, opacity 240ms ease;
+  width: 100%;
+  margin: 0 auto;
+  align-self: center;
 }
 
 .camera-nav-symbol.top {
@@ -2198,6 +2220,7 @@ button {
   width: 16px;
   height: 16px;
   display: block;
+  margin: 0 auto;
 }
 
 .camera-nav-symbol.bottom {
@@ -2210,6 +2233,7 @@ button {
   width: 16px;
   height: 24px;
   display: block;
+  margin: 0 auto;
 }
 
 .camera-nav-dots {
@@ -2219,9 +2243,12 @@ button {
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 0.85rem;
   z-index: 900;
   pointer-events: auto;
+  width: 20px;
 }
 
 .camera-dot {
@@ -2232,9 +2259,12 @@ button {
   background-color: rgba(30, 40, 37, 0.25);
   border: none;
   padding: 0;
+  margin: 0 auto;
+  align-self: center;
   cursor: pointer;
   transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
+  flex-shrink: 0;
 }
 
 .camera-dot:hover {

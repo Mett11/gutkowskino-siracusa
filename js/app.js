@@ -584,24 +584,26 @@
         </svg>
       </div>
 
-      <!-- Margine Destro: Outline SVG Marino Mediterraneo (Onde Ionio, Rosa dei Venti & Anfora) -->
-      <div class="semilla-side-svg semilla-side-right" aria-hidden="true">
-        <svg viewBox="0 0 54 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-vertical-svg">
-          <path d="M27 10 Q 34 50, 27 90 T 27 170 T 27 250 T 27 350" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
-          <path d="M27 14 L30 25 L41 27 L30 29 L27 40 L24 29 L13 27 L24 25 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
-          <circle cx="27" cy="27" r="14" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
-          <path d="M14 90 Q 27 78, 40 90" stroke="var(--blue-levante)" stroke-width="1.2"/>
-          <path d="M17 96 Q 27 86, 37 96" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M20 150 H34 M22 150 V158 C14 166, 12 184, 18 202 C22 214, 27 220, 27 220 C27 220, 32 214, 36 202 C42 184, 40 166, 32 158 V150" stroke="currentColor" stroke-width="1.1"/>
-          <path d="M21 155 C12 155, 8 168, 16 178" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M33 155 C42 155, 46 168, 38 178" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M17 182 Q 27 174, 37 182" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M14 260 Q 27 248, 40 260" stroke="var(--blue-levante)" stroke-width="1.2"/>
-          <path d="M17 266 Q 27 256, 37 266" stroke="currentColor" stroke-width="0.9"/>
-          <circle cx="27" cy="310" r="7" stroke="var(--amber-warm)" stroke-width="1"/>
-          <circle cx="27" cy="310" r="3.5" fill="var(--amber-warm)" opacity="0.7"/>
-          <path d="M27 300 V296 M27 324 V320 M17 310 H13 M41 310 H37" stroke="var(--amber-warm)" stroke-width="0.85"/>
-          <path d="M27 335 V350" stroke="currentColor" stroke-width="1"/>
+      <!-- Angolo Basso a Sinistra: Outline SVG Marino Mediterraneo Orizzontale (Rosa dei Venti, Onde Ionio, Anfora & Sole) -->
+      <div class="semilla-hero-corner-bot-left" aria-hidden="true">
+        <svg viewBox="0 0 360 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-horizontal-svg">
+          <g transform="translate(0, 54) rotate(-90)">
+            <path d="M27 10 Q 34 50, 27 90 T 27 170 T 27 250 T 27 350" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M27 14 L30 25 L41 27 L30 29 L27 40 L24 29 L13 27 L24 25 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
+            <circle cx="27" cy="27" r="14" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
+            <path d="M14 90 Q 27 78, 40 90" stroke="var(--blue-levante)" stroke-width="1.2"/>
+            <path d="M17 96 Q 27 86, 37 96" stroke="currentColor" stroke-width="0.9"/>
+            <path d="M20 150 H34 M22 150 V158 C14 166, 12 184, 18 202 C22 214, 27 220, 27 220 C27 220, 32 214, 36 202 C42 184, 40 166, 32 158 V150" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M21 155 C12 155, 8 168, 16 178" stroke="currentColor" stroke-width="0.9"/>
+            <path d="M33 155 C42 155, 46 168, 38 178" stroke="currentColor" stroke-width="0.9"/>
+            <path d="M17 182 Q 27 174, 37 182" stroke="var(--amber-warm)" stroke-width="0.9"/>
+            <path d="M14 260 Q 27 248, 40 260" stroke="var(--blue-levante)" stroke-width="1.2"/>
+            <path d="M17 266 Q 27 256, 37 266" stroke="currentColor" stroke-width="0.9"/>
+            <circle cx="27" cy="310" r="7" stroke="var(--amber-warm)" stroke-width="1"/>
+            <circle cx="27" cy="310" r="3.5" fill="var(--amber-warm)" opacity="0.7"/>
+            <path d="M27 300 V296 M27 324 V320 M17 310 H13 M41 310 H37" stroke="var(--amber-warm)" stroke-width="0.85"/>
+            <path d="M27 335 V350" stroke="currentColor" stroke-width="1"/>
+          </g>
         </svg>
       </div>
 
