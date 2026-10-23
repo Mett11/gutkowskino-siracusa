@@ -1206,8 +1206,7 @@
   function initCameraStepScroll() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const TARGET_IDS = ['hero', 'filosofia', 'cucina', 'galleria-azzurra', 'recensioni', 'contatti', 'footer'];
-    const DOTS_DATA = [
+    const SECTION_CONFIG = [
       { id: 'hero', label: 'Home' },
       { id: 'filosofia', label: 'Filosofia' },
       { id: 'cucina', label: 'La Cucina' },
@@ -1222,7 +1221,7 @@
     if (existingDots) existingDots.remove();
 
     const dotsContainer = el('nav', { className: 'camera-nav-dots', 'aria-label': 'Navigazione rapida sezioni' });
-    DOTS_DATA.forEach((dotData, idx) => {
+    SECTION_CONFIG.forEach((dotData, idx) => {
       const dot = el('button', {
         className: `camera-dot ${idx === 0 ? 'active' : ''}`,
         'data-target': dotData.id,
@@ -1231,9 +1230,10 @@
         type: 'button'
       });
       dot.addEventListener('click', () => {
-        const elTarget = document.getElementById(dotData.id);
-        if (elTarget) {
-          smoothGlideTo(elTarget.offsetTop);
+        const sections = getSectionInfo();
+        const target = sections.find(s => s.id === dotData.id);
+        if (target) {
+          smoothGlideTo(target.targetTop);
         }
       });
       dotsContainer.appendChild(dot);
@@ -1242,7 +1242,7 @@
 
     let isAnimating = false;
     let lastTransitionTime = 0;
-    const COOLDOWN_MS = 750;
+    const COOLDOWN_MS = 620;
     let deltaAccumulator = 0;
     let accumResetTimer = null;
     let currentAnimFrame = null;
@@ -1251,7 +1251,7 @@
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    function smoothGlideTo(targetY, duration = 720) {
+    function smoothGlideTo(targetY, duration = 650) {
       if (reducedMotion) {
         window.scrollTo({ top: targetY, behavior: 'auto' });
         updateActiveDot();
@@ -1294,65 +1294,89 @@
       currentAnimFrame = requestAnimationFrame(step);
     }
 
-    // Calcola tutte le posizioni di fermata della telecamera
-    function getCameraStops() {
+    // Calcola le posizioni pulite per ciascuna sezione
+    function getSectionInfo() {
+      const navbar = document.getElementById('navbar');
+      const navH = navbar ? navbar.offsetHeight : 80;
       const vh = window.innerHeight;
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
-      const stops = [];
 
-      TARGET_IDS.forEach(id => {
-        const node = document.getElementById(id);
-        if (!node) return;
-        const top = Math.round(node.offsetTop);
-        const h = node.offsetHeight;
-        stops.push(top);
+      return SECTION_CONFIG.map((sec, idx) => {
+        const node = document.getElementById(sec.id);
+        if (!node) return null;
 
-        // Se la sezione è più alta del viewport, aggiungi uno stop intermedio al fondo della sezione
-        if (h > vh + 80) {
-          const bottomStop = Math.round(top + h - vh);
-          if (bottomStop > top + 60 && bottomStop < maxScroll) {
-            stops.push(bottomStop);
-          }
+        let targetTop = 0;
+        if (idx === 0) {
+          // La Hero parte da 0 (navbar visibile, nessun salto o scomparsa della navbar)
+          targetTop = 0;
+        } else if (idx === SECTION_CONFIG.length - 1) {
+          targetTop = maxScroll;
+        } else {
+          targetTop = Math.max(0, Math.round(node.offsetTop - navH));
         }
-      });
 
-      stops.push(maxScroll);
+        const nodeHeight = node.offsetHeight;
+        const maxSectionScroll = Math.min(
+          maxScroll,
+          Math.max(targetTop, Math.round(node.offsetTop + nodeHeight - vh))
+        );
+        const hasExtraContent = maxSectionScroll > targetTop + 50;
 
-      // Ordina e deduplica stops vicini (< 40px)
-      stops.sort((a, b) => a - b);
-      const uniqueStops = [];
-      stops.forEach(s => {
-        const clamped = Math.max(0, Math.min(maxScroll, s));
-        if (!uniqueStops.length || (clamped - uniqueStops[uniqueStops.length - 1] > 35)) {
-          uniqueStops.push(clamped);
-        }
-      });
-
-      return uniqueStops;
+        return {
+          id: sec.id,
+          label: sec.label,
+          targetTop,
+          maxSectionScroll,
+          hasExtraContent,
+          node
+        };
+      }).filter(Boolean);
     }
 
-    function stepCamera(direction) {
-      const currentY = window.pageYOffset || document.documentElement.scrollTop;
-      const stops = getCameraStops();
+    function getCurrentSectionIndex(sections, currentY) {
+      const vh = window.innerHeight;
+      if (currentY + vh >= document.documentElement.scrollHeight - 50) {
+        return sections.length - 1;
+      }
 
-      if (direction > 0) {
-        // Avanti / Giù: trova il primo stop > currentY + 30
-        const nextStop = stops.find(s => s > currentY + 30);
-        if (nextStop !== undefined) {
-          smoothGlideTo(nextStop);
+      let bestIdx = 0;
+      let minDistance = Infinity;
+
+      for (let i = 0; i < sections.length; i++) {
+        const sec = sections[i];
+        if (currentY >= sec.targetTop - 35 && currentY <= sec.maxSectionScroll + 35) {
+          return i;
         }
-      } else {
-        // Indietro / Su: trova l'ultimo stop < currentY - 30
-        for (let i = stops.length - 1; i >= 0; i--) {
-          if (stops[i] < currentY - 30) {
-            smoothGlideTo(stops[i]);
-            return;
-          }
-        }
-        if (currentY > 10) {
-          smoothGlideTo(0);
+        const dist = Math.abs(currentY - sec.targetTop);
+        if (dist < minDistance) {
+          minDistance = dist;
+          bestIdx = i;
         }
       }
+      return bestIdx;
+    }
+
+    function stepToSection(direction) {
+      const sections = getSectionInfo();
+      if (!sections.length) return;
+
+      const currentY = window.pageYOffset || document.documentElement.scrollTop;
+      const currentIdx = getCurrentSectionIndex(sections, currentY);
+
+      let targetIdx = currentIdx;
+      if (direction > 0) {
+        // "ogni scroll va a una sezione successiva"
+        targetIdx = Math.min(sections.length - 1, currentIdx + 1);
+      } else {
+        // Scroll verso l'alto: se si è all'interno della sezione torna in cima, altrimenti passa alla precedente
+        if (currentY > sections[currentIdx].targetTop + 80) {
+          targetIdx = currentIdx;
+        } else {
+          targetIdx = Math.max(0, currentIdx - 1);
+        }
+      }
+
+      smoothGlideTo(sections[targetIdx].targetTop);
     }
 
     function shouldIgnoreEvent() {
@@ -1363,49 +1387,72 @@
       return false;
     }
 
-    // Wheel listener con blocco inerziale per touchpad e scroll continuo
+    // Wheel listener: 1 scroll = sezione successiva, ma range libero per micro-movimenti se la sezione ha contenuto extra
     window.addEventListener('wheel', e => {
       if (shouldIgnoreEvent()) return;
       if (reducedMotion) return;
 
-      // Previeni sempre lo scroll libero per garantire l'effetto telecamera
-      e.preventDefault();
+      const sections = getSectionInfo();
+      const currentY = window.pageYOffset || document.documentElement.scrollTop;
+      const currentIdx = getCurrentSectionIndex(sections, currentY);
+      const currentSec = sections[currentIdx];
 
       const now = Date.now();
-      if (isAnimating || (now - lastTransitionTime < COOLDOWN_MS)) {
+      if (isAnimating) {
+        e.preventDefault();
+        return;
+      }
+
+      // Range libero se la sezione ha contenuto ulteriore:
+      // se l'utente fa un movimento leggero per visualizzare un dettaglio o scorrere poco dentro la sezione
+      if (currentSec && currentSec.hasExtraContent) {
+        const isInsideFreeRange = (currentY >= currentSec.targetTop - 5) && (currentY < currentSec.maxSectionScroll - 10);
+        const isGentleScroll = Math.abs(e.deltaY) < 36;
+
+        if (isGentleScroll && isInsideFreeRange && e.deltaY > 0) {
+          return; // Lascia scorrere liberamente appena un po'
+        }
+        if (isGentleScroll && (currentY > currentSec.targetTop + 10) && e.deltaY < 0) {
+          return; // Lascia scorrere liberamente indietro appena un po'
+        }
+      }
+
+      // Per qualsiasi scroll deciso o al raggiungimento del limite: passa alla sezione successiva / precedente
+      e.preventDefault();
+
+      if (now - lastTransitionTime < COOLDOWN_MS) {
         return;
       }
 
       deltaAccumulator += e.deltaY;
-
       clearTimeout(accumResetTimer);
       accumResetTimer = setTimeout(() => {
         deltaAccumulator = 0;
-      }, 140);
+      }, 120);
 
-      const THRESHOLD = 30;
+      const THRESHOLD = 24;
       if (Math.abs(deltaAccumulator) >= THRESHOLD) {
         const dir = deltaAccumulator > 0 ? 1 : -1;
         deltaAccumulator = 0;
         lastTransitionTime = now;
-        stepCamera(dir);
+        stepToSection(dir);
       }
     }, { passive: false });
 
-    // Keyboard navigation
+    // Keyboard navigation: 1 tasto = 1 sezione successiva o precedente
     window.addEventListener('keydown', e => {
       if (shouldIgnoreEvent()) return;
 
       if (['ArrowDown', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey)) {
         e.preventDefault();
-        stepCamera(1);
+        stepToSection(1);
       } else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) {
         e.preventDefault();
-        stepCamera(-1);
+        stepToSection(-1);
       }
     });
 
-    // Mobile touch gestures
+    // Touch navigation su mobile
     let touchStartY = 0;
     let touchStartX = 0;
     let isTouchActive = false;
@@ -1426,48 +1473,36 @@
       const diffY = touchEndY - touchStartY;
       const diffX = touchEndX - touchStartX;
 
-      // Verifica che non sia uno swipe orizzontale (es. slider foto)
-      if (Math.abs(diffY) > 48 && Math.abs(diffY) > Math.abs(diffX) * 1.3) {
+      // Se swipe deciso verticale, passa alla sezione successiva / precedente
+      if (Math.abs(diffY) > 42 && Math.abs(diffY) > Math.abs(diffX) * 1.25) {
         const now = Date.now();
         if (now - lastTransitionTime >= COOLDOWN_MS) {
           lastTransitionTime = now;
-          stepCamera(diffY < 0 ? 1 : -1);
+          stepToSection(diffY < 0 ? 1 : -1);
         }
       }
     }, { passive: true });
 
-    // Intercetta tutti i click sui link con àncora interna per usare la camera
+    // Click su link di navigazione con àncora (#cucina, #filosofia, ecc.)
     document.addEventListener('click', e => {
       const anchor = e.target.closest('a[href^="#"]');
       if (!anchor) return;
       const href = anchor.getAttribute('href');
       if (!href || href === '#' || href === '#!') return;
-      const target = document.querySelector(href);
-      if (target) {
+      const targetId = href.replace(/^#/, '');
+      const sections = getSectionInfo();
+      const sec = sections.find(s => s.id === targetId);
+      if (sec) {
         e.preventDefault();
-        smoothGlideTo(target.offsetTop);
+        smoothGlideTo(sec.targetTop);
       }
     });
 
     function updateActiveDot() {
+      const sections = getSectionInfo();
       const currentY = window.pageYOffset || document.documentElement.scrollTop;
-      const vh = window.innerHeight;
-      let activeId = TARGET_IDS[0];
-
-      TARGET_IDS.forEach(id => {
-        const node = document.getElementById(id);
-        if (node) {
-          const top = node.offsetTop;
-          const h = node.offsetHeight;
-          if (currentY >= top - vh * 0.45 && currentY < top + h - vh * 0.45) {
-            activeId = id;
-          }
-        }
-      });
-
-      if (currentY + vh >= document.documentElement.scrollHeight - 60) {
-        activeId = TARGET_IDS[TARGET_IDS.length - 1];
-      }
+      const activeIdx = getCurrentSectionIndex(sections, currentY);
+      const activeId = sections[activeIdx]?.id || 'hero';
 
       dotsContainer.querySelectorAll('.camera-dot').forEach(dot => {
         dot.classList.toggle('active', dot.dataset.target === activeId);

@@ -76,7 +76,7 @@
   --nav-h:             70px;
   --max-w:             1360px;
   --pad-x:             clamp(1.5rem, 4.5vw, 4rem);
-  --pad-y:             clamp(4.75rem, 8.5vw, 7.5rem);
+  --pad-y:             clamp(2.5rem, 4.2vh, 4rem);
 }
 
 /* ── Reset & Baseline ── */
@@ -1433,7 +1433,7 @@ button {
   border-bottom: 1px solid var(--line-medium);
   position: relative;
   overflow: hidden;
-  padding: clamp(3.5rem, 6vh, 5.5rem) 0;
+  padding: clamp(2.5rem, 4.2vh, 4rem) 0;
 }
 
 .section-kitchen .heading-display { color: var(--text-dark); }
@@ -1799,7 +1799,7 @@ button {
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--line-blue);
-  padding: clamp(3.5rem, 6vh, 5.5rem) 0;
+  padding: clamp(2.5rem, 4.2vh, 4rem) 0;
 }
 
 .azure-gallery-header {
