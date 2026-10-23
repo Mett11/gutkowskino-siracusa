@@ -4,7 +4,7 @@
   "description": "Gutkowskino Siracusa Showcase & Admin CMS",
   "private": true,
   "scripts": {
-    "build": "exit 0",
+    "build": "node scripts/prepare-build.js",
     "deploy": "wrangler deploy",
     "start": "node dev-server.js 8080"
   }
