@@ -185,6 +185,24 @@
       .join('');
   }
 
+  function formatSemillaHeading(heading) {
+    if (!heading) {
+      return '<span class="semilla-title-line">CUCINA VEGETALE</span><span class="semilla-title-line">D\'AUTORE</span>';
+    }
+    const clean = heading.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (clean.toLowerCase().includes('cucina vegetale')) {
+      return '<span class="semilla-title-line">CUCINA VEGETALE</span><span class="semilla-title-line">D\'AUTORE</span>';
+    }
+    const words = clean.split(' ');
+    if (words.length <= 2) {
+      return `<span class="semilla-title-line">${clean.toUpperCase()}</span>`;
+    }
+    const mid = Math.ceil(words.length / 2);
+    const l1 = words.slice(0, mid).join(' ').toUpperCase();
+    const l2 = words.slice(mid).join(' ').toUpperCase();
+    return `<span class="semilla-title-line">${l1}</span><span class="semilla-title-line">${l2}</span>`;
+  }
+
   function formatHeroHeading(heading) {
     if (!heading) {
       return '<span class="title-primary">Cucina vegetale d\'autore</span><span class="title-secondary">sul mare di Levante</span>';
@@ -284,36 +302,33 @@
     initLightbox();
   }
 
-  // ───── 1. Navbar ─────
+  // ───── 1. Navbar Semilla Style ─────
   function buildNavbar(data) {
-    const status = getServiceStatus(data);
+    const brandName = (data.brand && data.brand.name ? data.brand.name : 'GUTKOWSKINO').toUpperCase();
+    const theforkUrl = (data.booking && data.booking.theforkUrl) || '#';
+
     const header = el('header', { className: 'navbar', id: 'navbar' });
     header.innerHTML = `
-      <div class="navbar-inner">
-        <div class="nav-left">
-          <a href="#" class="nav-brand">${data.brand.name}</a>
-          <span class="nav-place">${data.brand.locationTag || 'Ortigia · Lungomare di Levante'}</span>
-        </div>
-        <nav class="nav-center" id="navLinks">
-          <a href="#filosofia">Filosofia</a>
-          <a href="#cucina">La Cucina</a>
-          <a href="#galleria-azzurra">Terrazza & Galleria</a>
-          <a href="#recensioni">Recensioni</a>
-          <a href="#contatti">Contatti</a>
+      <div class="navbar-inner semilla-nav-inner">
+        <nav class="semilla-nav-group semilla-nav-left" id="navLinksLeft" aria-label="Navigazione Principale">
+          <a href="#filosofia">FILOSOFIA</a>
+          <a href="#cucina">CUCINA</a>
+          <a href="#galleria-azzurra">TERRAZZA</a>
         </nav>
-        <div class="nav-right">
-          <div class="nav-status">
-            <span class="status-dot ${status.open ? '' : 'closed'}"></span>
-            <span>${status.text}</span>
-          </div>
-          <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="nav-cta">
-            <span>Prenota</span>
-            ${ICONS.arrowUpRight}
-          </a>
-          <button class="nav-toggle" id="navToggle" aria-label="Apri menu">
-            <span></span><span></span><span></span>
-          </button>
+
+        <div class="semilla-nav-center">
+          <a href="#" class="semilla-nav-brand">${brandName}</a>
         </div>
+
+        <nav class="semilla-nav-group semilla-nav-right" id="navLinksRight" aria-label="Navigazione Secondaria">
+          <a href="#recensioni">RECENSIONI</a>
+          <a href="#contatti">CONTATTI</a>
+          <a href="${theforkUrl}" target="_blank" rel="noopener" class="semilla-nav-cta">PRENOTA</a>
+        </nav>
+
+        <button class="nav-toggle semilla-nav-toggle" id="navToggle" aria-label="Apri menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>`;
     return header;
   }
@@ -370,120 +385,78 @@
     return drawer;
   }
 
-  // ───── 2. Hero a Cartolina (Split Desktop / Cartolina SVG Mobile) ─────
+  // ───── 2. Hero Semilla Style (Minimalista, Bordo Quadro, Scritta Cursiva, Titolo Display e Tasti Ovali) ─────
   function buildPostcardHero(data) {
-    const heroBg = data.hero.backgroundImage || 'assets/images/hero-terrazza-reale.webp';
-    const stage = el('div', { className: 'postcard-stage' });
-    stage.innerHTML = `
-      <section class="postcard-hero split-hero" id="hero">
-        <!-- Filigrana SVG Mediterranea Sottile nella Hero Desktop -->
-        <svg class="hero-ambient-compass" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="130" cy="130" r="118" stroke="currentColor" stroke-width="0.75" stroke-dasharray="3 4"/>
-          <circle cx="130" cy="130" r="92" stroke="currentColor" stroke-width="0.6"/>
-          <path d="M130 12 V248 M12 130 H248" stroke="currentColor" stroke-width="0.6"/>
-        </svg>
+    let heroBg = data.hero.backgroundImage || 'assets/images/hero-terrazza-1792755231068.webp';
+    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      heroBg = heroBg.replace('https://gutkowskino-demo.siracusalabs.app/', '');
+    }
 
-        <!-- Desktop Sinistra / Mobile Cartolina Testi & SVG -->
-        <div class="hero-split-text reveal-up in-view">
-          
-          <div class="hero-pills-bar">
-            <span class="hero-pill-clean">
-              <span class="pill-dot"></span>
-              ${data.brand.locationTag || data.brand.coordinates || 'Ortigia · Siracusa'}
-            </span>
-            <span class="hero-pill-clean">${data.brand.name || 'Hotel Gutkowski'}</span>
-            <span class="hero-pill-clean">Cucina Vegetale d'Autore</span>
+    const kickerText = (data.brand && data.brand.locationTag && data.brand.locationTag.includes('·')) 
+      ? data.brand.locationTag.toUpperCase() 
+      : 'ORTIGIA · SUL MARE DI LEVANTE';
+
+    const formattedTitle = formatSemillaHeading(data.hero.heading);
+
+    const section = el('section', { className: 'semilla-hero', id: 'hero' });
+    section.innerHTML = `
+      <!-- Margine Verticale Sinistro: SOLO PIANTE -->
+      <div class="semilla-side-text semilla-side-left" aria-hidden="true">
+        <span>S</span>
+        <span>Ó</span>
+        <span>L</span>
+        <span>O</span>
+        <span class="side-space"></span>
+        <span>P</span>
+        <span>L</span>
+        <span>A</span>
+        <span>N</span>
+        <span>T</span>
+        <span>A</span>
+        <span>S</span>
+      </div>
+
+      <!-- Margine Verticale Destro: SOLO PIANTE -->
+      <div class="semilla-side-text semilla-side-right" aria-hidden="true">
+        <span>S</span>
+        <span>Ó</span>
+        <span>L</span>
+        <span>O</span>
+        <span class="side-space"></span>
+        <span>P</span>
+        <span>L</span>
+        <span>A</span>
+        <span>N</span>
+        <span>T</span>
+        <span>A</span>
+        <span>S</span>
+      </div>
+
+      <div class="semilla-hero-stage">
+        <!-- Colonna Sinistra: Foto Quadro con Passepartout Bianco -->
+        <div class="semilla-hero-col semilla-visual-col">
+          <div class="semilla-photo-frame" data-tilt-frame>
+            <img src="${heroBg}" id="heroVisualImg" alt="Gutkowskino Ortigia" class="semilla-photo-img" loading="eager" decoding="async">
           </div>
+        </div>
 
-          <!-- Mobile Only: Outlines SVG Postali & Timbro Cartolina -->
-          <div class="mobile-postcard-svgs" aria-hidden="true">
-            <svg class="svg-postmark" viewBox="0 0 170 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="36" cy="38" r="32" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 2" />
-              <circle cx="36" cy="38" r="27" stroke="currentColor" stroke-width="0.8" />
-              <text x="36" y="31" text-anchor="middle" font-size="5.5" font-family="var(--font-ui)" letter-spacing="1.2" fill="currentColor">GUTKOWSKINO</text>
-              <text x="36" y="41" text-anchor="middle" font-size="4.5" font-family="var(--font-ui)" letter-spacing="0.8" fill="var(--amber-warm)">★ ORTIGIA ★</text>
-              <text x="36" y="50" text-anchor="middle" font-size="4.2" font-family="var(--font-ui)" letter-spacing="0.6" fill="currentColor">SIRACUSA · 96100</text>
-              <path d="M72 26 C 90 20, 110 32, 130 26 C 145 22, 155 30, 168 26" stroke="currentColor" stroke-width="0.9" />
-              <path d="M72 38 C 90 32, 110 44, 130 38 C 145 34, 155 42, 168 38" stroke="currentColor" stroke-width="0.9" />
-              <path d="M72 50 C 90 44, 110 56, 130 50 C 145 46, 155 54, 168 50" stroke="currentColor" stroke-width="0.9" />
-            </svg>
-            <div class="svg-stamp-box">
-              <svg viewBox="0 0 48 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="44" height="54" stroke="currentColor" stroke-width="1" stroke-dasharray="2.5 2" rx="1" />
-                <circle cx="24" cy="22" r="7" stroke="var(--amber-warm)" stroke-width="0.9" />
-                <path d="M12 38 C 18 31, 30 31, 36 38" stroke="var(--amber-warm)" stroke-width="0.9" />
-                <text x="24" y="49" text-anchor="middle" font-size="4.8" font-family="var(--font-ui)" letter-spacing="0.8" fill="currentColor">POSTE · 1.20€</text>
-              </svg>
-            </div>
-          </div>
-
-          <div class="hero-copy-group">
-            <span class="hero-kicker">Bistrot Contemporaneo sul Lungomare</span>
-            <h1 class="hero-title">
-              ${formatHeroHeading(data.hero.heading)}
+        <!-- Colonna Destra: Eyebrow Cursivo, Titolo Display Serif e Bottone Ovale MENU -->
+        <div class="semilla-hero-col semilla-content-col">
+          <div class="semilla-content-wrap">
+            <span class="semilla-eyebrow">${kickerText}</span>
+            <h1 class="semilla-title">
+              ${formattedTitle}
             </h1>
-            <p class="hero-desc">${data.hero.subheading}</p>
-          </div>
-
-          <div class="hero-actions">
-            <a href="${data.booking.theforkUrl}" target="_blank" rel="noopener" class="btn btn-amber hero-cta-btn">
-              <span>Prenota su TheFork</span>
-              ${ICONS.arrowUpRight}
-            </a>
-            <a href="#cucina" class="hero-link-secondary">
-              <span>Scopri i piatti</span>
-              <span class="hero-link-arrow">↓</span>
-            </a>
-          </div>
-
-          <div class="mobile-postcard-foot" aria-hidden="true">
-            <div class="mp-lines"><span></span><span></span><span></span></div>
-            <div class="mpf-address-card">
-              <span class="mpf-badge">${data.brand.coordinates || 'Ortigia · Siracusa'}</span>
-              <strong class="mpf-hotel">${data.brand.name || 'Hotel Gutkowski'}</strong>
-              <span class="mpf-street">${data.brand.locationTag || 'Lungomare di Levante Elio Vittorini, 18'}</span>
-              <span class="mpf-meta">${data.info?.address?.detail || 'Isola di Ortigia · 96100 Siracusa (SR)'}</span>
-            </div>
-          </div>
-
-          <div class="hero-highlights">
-            <div class="hero-hl-item">
-              <span class="hl-num">01</span>
-              <div class="hl-content">
-                <strong>Mercato di Ortigia</strong>
-                <small>Spesa contadina quotidiana</small>
-              </div>
-            </div>
-            <div class="hero-hl-item">
-              <span class="hl-num">02</span>
-              <div class="hl-content">
-                <strong>Terrazza sul Mare</strong>
-                <small>Pochi tavoli affacciati sullo Ionio</small>
-              </div>
-            </div>
-            <div class="hero-hl-item">
-              <span class="hl-num">03</span>
-              <div class="hl-content">
-                <strong>Vini Naturali</strong>
-                <small>Etna, Val di Noto & macerati</small>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Desktop Destra: Fotografia della Terrazza sul Mare -->
-        <div class="hero-split-visual reveal-up delay-1 in-view">
-          <div class="hero-visual-frame" data-tilt-frame>
-            <img src="${heroBg}" id="heroVisualImg" alt="Terrazza Gutkowskino sul Mare di Levante" class="hero-visual-img" loading="eager" decoding="async">
-            <div class="hero-visual-caption">
-              <span class="hvc-tag">Terrazza ${data.brand.name || 'Gutkowskino'}</span>
-              <span class="hvc-sub">${data.brand.locationTag || 'Vista Scogli & Mare di Levante · Ortigia'}</span>
+            <div class="semilla-btn-wrap">
+              <a href="#cucina" class="semilla-oval-btn">
+                <span>MENU</span>
+              </a>
             </div>
           </div>
         </div>
-      </section>`;
-    return stage;
+      </div>
+    `;
+    return section;
   }
 
   // ───── 3. SEZIONE 1 POST-HERO: Filosofia (Sfondo Calce & Salvia Botanica + Outline SVG Carciofo/Arco) ─────
