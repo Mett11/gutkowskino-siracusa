@@ -37,6 +37,13 @@ function base64DecodeUtf8(str) {
   return new TextDecoder().decode(bytes);
 }
 
+function getEnvVar(env, key, fallback = '') {
+  if (env && env[key]) return env[key];
+  if (typeof process !== 'undefined' && process.env && process.env[key]) return process.env[key];
+  if (typeof globalThis !== 'undefined' && globalThis[key]) return globalThis[key];
+  return fallback;
+}
+
 // Verifica credenziali tramite env o tramite data/auth.json su GitHub
 async function verifyAuth(request, env, ghHeaders, githubRepo, githubBranch) {
   const authHeader = request.headers.get('Authorization') || '';
@@ -46,8 +53,8 @@ async function verifyAuth(request, env, ghHeaders, githubRepo, githubBranch) {
   if (!token) return { ok: false, error: 'Password o token mancante.' };
 
   const tokenHash = await sha256Hex(token);
-  const envEmail = (env.ADMIN_EMAIL || '').toLowerCase().trim();
-  const envPass = env.ADMIN_PASSWORD;
+  const envEmail = getEnvVar(env, 'ADMIN_EMAIL').toLowerCase().trim();
+  const envPass = getEnvVar(env, 'ADMIN_PASSWORD');
 
   // 1. Verifica tramite variabili d'ambiente Cloudflare
   if (envPass && token === envPass && (!envEmail || clientEmail === envEmail)) {
@@ -93,9 +100,9 @@ export default {
     // ─────────────────────────────────────────────────────────────
     if (pathname === '/api/save' && request.method === 'POST') {
       try {
-        const githubToken = env.GITHUB_TOKEN;
-        const githubRepo = env.GITHUB_REPO || 'Mett11/gutkowskino-siracusa';
-        const githubBranch = env.GITHUB_BRANCH || 'main';
+        const githubToken = getEnvVar(env, 'GITHUB_TOKEN');
+        const githubRepo = getEnvVar(env, 'GITHUB_REPO', 'Mett11/gutkowskino-siracusa');
+        const githubBranch = getEnvVar(env, 'GITHUB_BRANCH', 'main');
 
         if (!githubToken) {
           return new Response(
@@ -248,9 +255,9 @@ export default {
     // ─────────────────────────────────────────────────────────────
     if (pathname === '/api/change-password' && request.method === 'POST') {
       try {
-        const githubToken = env.GITHUB_TOKEN;
-        const githubRepo = env.GITHUB_REPO || 'Mett11/gutkowskino-siracusa';
-        const githubBranch = env.GITHUB_BRANCH || 'main';
+        const githubToken = getEnvVar(env, 'GITHUB_TOKEN');
+        const githubRepo = getEnvVar(env, 'GITHUB_REPO', 'Mett11/gutkowskino-siracusa');
+        const githubBranch = getEnvVar(env, 'GITHUB_BRANCH', 'main');
 
         if (!githubToken) {
           return new Response(JSON.stringify({ error: 'GITHUB_TOKEN mancante.' }), { status: 500, headers: CORS_HEADERS });
@@ -328,9 +335,9 @@ export default {
     // ─────────────────────────────────────────────────────────────
     if (pathname === '/api/change-email' && request.method === 'POST') {
       try {
-        const githubToken = env.GITHUB_TOKEN;
-        const githubRepo = env.GITHUB_REPO || 'Mett11/gutkowskino-siracusa';
-        const githubBranch = env.GITHUB_BRANCH || 'main';
+        const githubToken = getEnvVar(env, 'GITHUB_TOKEN');
+        const githubRepo = getEnvVar(env, 'GITHUB_REPO', 'Mett11/gutkowskino-siracusa');
+        const githubBranch = getEnvVar(env, 'GITHUB_BRANCH', 'main');
 
         if (!githubToken) {
           return new Response(JSON.stringify({ error: 'GITHUB_TOKEN mancante.' }), { status: 500, headers: CORS_HEADERS });
@@ -400,9 +407,9 @@ export default {
     // ─────────────────────────────────────────────────────────────
     if (pathname === '/api/upload' && request.method === 'POST') {
       try {
-        const githubToken = env.GITHUB_TOKEN;
-        const githubRepo = env.GITHUB_REPO || 'Mett11/gutkowskino-siracusa';
-        const githubBranch = env.GITHUB_BRANCH || 'main';
+        const githubToken = getEnvVar(env, 'GITHUB_TOKEN');
+        const githubRepo = getEnvVar(env, 'GITHUB_REPO', 'Mett11/gutkowskino-siracusa');
+        const githubBranch = getEnvVar(env, 'GITHUB_BRANCH', 'main');
 
         if (!githubToken) {
           return new Response(JSON.stringify({ error: 'GITHUB_TOKEN mancante.' }), { status: 500, headers: CORS_HEADERS });
