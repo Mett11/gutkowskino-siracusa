@@ -1,0 +1,10 @@
+{
+  "name": "gutkowskino-siracusa",
+  "version": "1.0.0",
+  "description": "Gutkowskino Siracusa Showcase & Admin CMS",
+  "private": true,
+  "scripts": {
+    "build": "exit 0",
+    "start": "node dev-server.js 8080"
+  }
+}
