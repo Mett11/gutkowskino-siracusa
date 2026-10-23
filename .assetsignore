@@ -1,0 +1,12 @@
+_worker.js
+_routes.json
+functions/
+.git/
+.gitignore
+package.json
+package-lock.json
+dev-server.js
+wrangler.json
+wrangler.jsonc
+wrangler.toml
+README.md
