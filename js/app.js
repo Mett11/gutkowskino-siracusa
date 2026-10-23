@@ -187,20 +187,18 @@
 
   function formatSemillaHeading(heading) {
     if (!heading) {
-      return '<span class="semilla-title-line">CUCINA VEGETALE</span><span class="semilla-title-line">D\'AUTORE</span>';
+      return '<span>Cucina vegetale d\'autore</span><em class="semilla-title-em">sul mare di Levante</em>';
     }
-    const clean = heading.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-    if (clean.toLowerCase().includes('cucina vegetale')) {
-      return '<span class="semilla-title-line">CUCINA VEGETALE</span><span class="semilla-title-line">D\'AUTORE</span>';
+    let clean = heading.replace(/<\/em>|<\/em|\/em>/gi, '</em>').replace(/<em[^>]*>/gi, '<em>');
+    if (clean.includes('<em>') && clean.includes('</em>')) {
+      const parts = clean.split(/<em>|<\/em>/i);
+      return `
+        <span>${parts[0].trim()}</span>
+        ${parts[1] ? `<em class="semilla-title-em">${parts[1].trim()}</em>` : ''}
+        ${parts[2] ? `<span>${parts[2].trim()}</span>` : ''}
+      `;
     }
-    const words = clean.split(' ');
-    if (words.length <= 2) {
-      return `<span class="semilla-title-line">${clean.toUpperCase()}</span>`;
-    }
-    const mid = Math.ceil(words.length / 2);
-    const l1 = words.slice(0, mid).join(' ').toUpperCase();
-    const l2 = words.slice(mid).join(' ').toUpperCase();
-    return `<span class="semilla-title-line">${l1}</span><span class="semilla-title-line">${l2}</span>`;
+    return `<span>${clean}</span>`;
   }
 
   function formatHeroHeading(heading) {
@@ -304,7 +302,7 @@
 
   // ───── 1. Navbar Semilla Style ─────
   function buildNavbar(data) {
-    const brandName = (data.brand && data.brand.name ? data.brand.name : 'GUTKOWSKINO').toUpperCase();
+    const brandName = (data.brand && data.brand.name) ? data.brand.name : 'Gutkowskino';
     const theforkUrl = (data.booking && data.booking.theforkUrl) || '#';
 
     const header = el('header', { className: 'navbar', id: 'navbar' });
@@ -317,7 +315,10 @@
         </nav>
 
         <div class="semilla-nav-center">
-          <a href="#" class="semilla-nav-brand">${brandName}</a>
+          <a href="#" class="semilla-nav-brand">
+            <img src="assets/images/hotel-gutkowski-logo.webp" class="semilla-brand-stamp" alt="Hotel Gutkowski Sigillo">
+            <span class="semilla-brand-name">${brandName}</span>
+          </a>
         </div>
 
         <nav class="semilla-nav-group semilla-nav-right" id="navLinksRight" aria-label="Navigazione Secondaria">
@@ -400,43 +401,56 @@
 
     const section = el('section', { className: 'semilla-hero', id: 'hero' });
     section.innerHTML = `
-      <!-- Margine Verticale Sinistro: SOLO PIANTE -->
-      <div class="semilla-side-text semilla-side-left" aria-hidden="true">
-        <span>S</span>
-        <span>Ó</span>
-        <span>L</span>
-        <span>O</span>
-        <span class="side-space"></span>
-        <span>P</span>
-        <span>L</span>
-        <span>A</span>
-        <span>N</span>
-        <span>T</span>
-        <span>A</span>
-        <span>S</span>
+      <!-- Margine Sinistro: Outline SVG Botanico Mediterraneo (Ramo d'Ulivo & Sole) -->
+      <div class="semilla-side-svg semilla-side-left" aria-hidden="true">
+        <svg viewBox="0 0 54 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-vertical-svg">
+          <path d="M27 10 Q 32 90, 24 180 T 28 270 T 26 350" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="27" cy="18" r="8" stroke="var(--amber-warm)" stroke-width="1.1"/>
+          <circle cx="27" cy="18" r="4" fill="var(--amber-warm)" opacity="0.6"/>
+          <path d="M27 6 V2 M27 34 V30 M15 18 H11 M39 18 H43 M18 9 L15 6 M36 27 L39 30 M36 9 L39 6 M18 27 L15 30" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M26 65 C 12 55, 6 70, 24 78 C 20 68, 22 62, 26 65 Z" stroke="currentColor" stroke-width="1" fill="none"/>
+          <circle cx="10" cy="80" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M27 110 C 42 100, 48 115, 30 125 C 34 114, 32 108, 27 110 Z" stroke="currentColor" stroke-width="1" fill="none"/>
+          <path d="M25 155 C 10 145, 5 162, 23 168 C 18 158, 21 152, 25 155 Z" stroke="currentColor" stroke-width="1" fill="none"/>
+          <circle cx="9" cy="170" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M27 205 C 44 195, 48 212, 29 218 C 34 208, 31 202, 27 205 Z" stroke="currentColor" stroke-width="1" fill="none"/>
+          <path d="M26 250 C 11 240, 7 256, 24 262 C 19 252, 22 247, 26 250 Z" stroke="currentColor" stroke-width="1" fill="none"/>
+          <circle cx="11" cy="265" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M27 295 C 43 286, 47 302, 29 308 C 33 298, 31 292, 27 295 Z" stroke="currentColor" stroke-width="1" fill="none"/>
+          <circle cx="43" cy="310" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M26 335 C 22 345, 32 355, 27 350" stroke="currentColor" stroke-width="1.1"/>
+        </svg>
       </div>
 
-      <!-- Margine Verticale Destro: SOLO PIANTE -->
-      <div class="semilla-side-text semilla-side-right" aria-hidden="true">
-        <span>S</span>
-        <span>Ó</span>
-        <span>L</span>
-        <span>O</span>
-        <span class="side-space"></span>
-        <span>P</span>
-        <span>L</span>
-        <span>A</span>
-        <span>N</span>
-        <span>T</span>
-        <span>A</span>
-        <span>S</span>
+      <!-- Margine Destro: Outline SVG Marino Mediterraneo (Onde Ionio, Rosa dei Venti & Anfora) -->
+      <div class="semilla-side-svg semilla-side-right" aria-hidden="true">
+        <svg viewBox="0 0 54 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-vertical-svg">
+          <path d="M27 10 Q 34 50, 27 90 T 27 170 T 27 250 T 27 350" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M27 14 L30 25 L41 27 L30 29 L27 40 L24 29 L13 27 L24 25 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
+          <circle cx="27" cy="27" r="14" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
+          <path d="M14 90 Q 27 78, 40 90" stroke="var(--blue-levante)" stroke-width="1.2"/>
+          <path d="M17 96 Q 27 86, 37 96" stroke="currentColor" stroke-width="0.9"/>
+          <path d="M20 150 H34 M22 150 V158 C14 166, 12 184, 18 202 C22 214, 27 220, 27 220 C27 220, 32 214, 36 202 C42 184, 40 166, 32 158 V150" stroke="currentColor" stroke-width="1.1"/>
+          <path d="M21 155 C12 155, 8 168, 16 178" stroke="currentColor" stroke-width="0.9"/>
+          <path d="M33 155 C42 155, 46 168, 38 178" stroke="currentColor" stroke-width="0.9"/>
+          <path d="M17 182 Q 27 174, 37 182" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M14 260 Q 27 248, 40 260" stroke="var(--blue-levante)" stroke-width="1.2"/>
+          <path d="M17 266 Q 27 256, 37 266" stroke="currentColor" stroke-width="0.9"/>
+          <circle cx="27" cy="310" r="7" stroke="var(--amber-warm)" stroke-width="1"/>
+          <circle cx="27" cy="310" r="3.5" fill="var(--amber-warm)" opacity="0.7"/>
+          <path d="M27 300 V296 M27 324 V320 M17 310 H13 M41 310 H37" stroke="var(--amber-warm)" stroke-width="0.85"/>
+          <path d="M27 335 V350" stroke="currentColor" stroke-width="1"/>
+        </svg>
       </div>
 
       <div class="semilla-hero-stage">
-        <!-- Colonna Sinistra: Foto Quadro con Passepartout Bianco -->
+        <!-- Colonna Sinistra: Quadro Grande Incorniciato con Sigillo Hotel Gutkowski -->
         <div class="semilla-hero-col semilla-visual-col">
           <div class="semilla-photo-frame" data-tilt-frame>
             <img src="${heroBg}" id="heroVisualImg" alt="Gutkowskino Ortigia" class="semilla-photo-img" loading="eager" decoding="async">
+            <div class="semilla-corner-stamp" aria-hidden="true" title="Hotel Gutkowski · Ortigia">
+              <img src="assets/images/hotel-gutkowski-logo.webp" alt="Sigillo Hotel Gutkowski">
+            </div>
           </div>
         </div>
 

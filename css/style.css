@@ -6,7 +6,7 @@
 
 :root {
   /* 1. Carta d'Arte, Calce Viva & Sfondi Differenziati per Sezione */
-  --semilla-bg:        #D5DFD3;       /* Salvia mediterranea chiara della referenza */
+  --semilla-bg:        #EAE0CE;       /* Salvia mediterranea chiara della referenza */
   --semilla-dark:      #1E2825;       /* Inchiostro profondo botanico Gutkowskino */
   --semilla-gold:      #9E7E4E;       /* Oro ambrato caldo per link nav */
   --semilla-frame-bg:  #FFFFFF;       /* Bianco puro passepartout per la foto */
@@ -438,7 +438,7 @@ button {
 }
 
 .navbar.scrolled {
-  background-color: rgba(213, 223, 211, 0.95);
+  background-color: rgba(234, 224, 206, 0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(30, 40, 37, 0.08);
@@ -494,20 +494,34 @@ button {
 }
 
 .semilla-nav-brand {
-  font-family: var(--font-ui), var(--font-display), Georgia, serif;
-  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--semilla-dark);
-  text-transform: uppercase;
-  line-height: 1;
-  transition: opacity 200ms ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
   text-decoration: none;
+  transition: opacity 200ms ease;
 }
 
 .semilla-nav-brand:hover {
   opacity: 0.85;
+}
+
+.semilla-brand-stamp {
+  width: 44px;
+  height: 44px;
+  border-radius: 3px;
+  object-fit: contain;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.semilla-brand-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  font-weight: 400;
+  color: var(--semilla-dark);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: none;
 }
 
 .semilla-nav-toggle {
@@ -795,49 +809,48 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(2rem, 5vh, 4.5rem) clamp(1rem, 3.5vw, 3.5rem);
+  padding: clamp(2.5rem, 5vh, 4.5rem) clamp(1rem, 3.5vw, 3.5rem);
   overflow: hidden;
 }
 
-/* ───── Margini Verticali Laterali: SOLO PIANTE ───── */
-.semilla-side-text {
+/* ───── Margini Verticali Laterali: Outline SVG Mediterranei ───── */
+.semilla-side-svg {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  width: 48px;
+  height: 360px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: clamp(0.55rem, 1.1vh, 0.95rem);
-  font-family: var(--font-ui);
-  font-size: clamp(0.72rem, 0.95vw, 0.88rem);
-  font-weight: 700;
-  color: var(--semilla-dark);
-  letter-spacing: 0.18em;
+  justify-content: center;
   user-select: none;
   pointer-events: none;
   z-index: 5;
-  opacity: 0.9;
+  opacity: 0.55;
+  color: var(--semilla-dark);
 }
 
 .semilla-side-left {
-  left: clamp(1.2rem, 3.2vw, 3.5rem);
+  left: clamp(1rem, 2.6vw, 3.2rem);
 }
 
 .semilla-side-right {
-  right: clamp(1.2rem, 3.2vw, 3.5rem);
+  right: clamp(1rem, 2.6vw, 3.2rem);
 }
 
-.semilla-side-text .side-space {
-  height: clamp(0.9rem, 1.8vh, 1.5rem);
+.med-vertical-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 /* ───── Palcoscenico Centrale a Due Colonne ───── */
 .semilla-hero-stage {
-  max-width: 1180px;
+  max-width: 1320px;
   width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
   align-items: center;
   justify-items: center;
   gap: clamp(2.5rem, 5vw, 5.5rem);
@@ -847,28 +860,28 @@ button {
 .semilla-hero-col {
   width: 100%;
   display: flex;
-  justify-content: center;
 }
 
-/* ───── Colonna Sinistra: Quadro Passepartout ───── */
+/* ───── Colonna Sinistra: Quadro Passepartout Più Grande con Sigillo ───── */
 .semilla-visual-col {
   justify-content: flex-end;
 }
 
 .semilla-photo-frame {
+  position: relative;
   width: 100%;
-  max-width: 440px;
+  max-width: 530px;
   aspect-ratio: 1 / 1;
   background-color: var(--semilla-frame-bg);
-  padding: 16px;
-  box-shadow: 0 16px 48px rgba(30, 40, 37, 0.08);
-  border-radius: 2px;
-  overflow: hidden;
+  padding: 18px;
+  box-shadow: 0 20px 60px rgba(30, 40, 37, 0.10);
+  border-radius: 3px;
+  overflow: visible;
   transition: transform 300ms var(--ease-premium), box-shadow 300ms ease;
 }
 
 .semilla-photo-frame:hover {
-  box-shadow: 0 24px 60px rgba(30, 40, 37, 0.12);
+  box-shadow: 0 26px 70px rgba(30, 40, 37, 0.14);
 }
 
 .semilla-photo-img {
@@ -876,11 +889,37 @@ button {
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 2px;
   transition: transform 700ms var(--ease-premium);
 }
 
 .semilla-photo-frame:hover .semilla-photo-img {
   transform: scale(1.025);
+}
+
+.semilla-corner-stamp {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 68px;
+  height: 68px;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transform: rotate(6deg);
+  transition: transform 300ms var(--ease-premium);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.semilla-corner-stamp img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.semilla-photo-frame:hover .semilla-corner-stamp {
+  transform: rotate(10deg) scale(1.06);
 }
 
 /* ───── Colonna Destra: Testo Editoriale & Bottone Ovale ───── */
@@ -893,20 +932,19 @@ button {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 520px;
+  max-width: 540px;
   width: 100%;
 }
 
 .semilla-eyebrow {
   display: inline-block;
-  font-family: 'Caveat', cursive, var(--font-display);
-  font-size: clamp(1.5rem, 2.4vw, 2.15rem);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--semilla-dark);
+  letter-spacing: 0.22em;
+  color: var(--amber-warm);
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  transform: rotate(-1.5deg);
+  margin-bottom: 0.85rem;
   line-height: 1.2;
 }
 
@@ -914,23 +952,30 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: var(--font-ui), var(--font-display), Georgia, serif;
-  font-size: clamp(2.6rem, 4.8vw, 4.3rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: 0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.2vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
   color: var(--semilla-dark);
-  text-transform: uppercase;
+  text-transform: none;
   margin: 0;
 }
 
-.semilla-title .semilla-title-line {
+.semilla-title span {
   display: block;
-  white-space: nowrap;
+}
+
+.semilla-title em,
+.semilla-title .semilla-title-em {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--blue-levante);
+  display: block;
 }
 
 .semilla-btn-wrap {
-  margin-top: clamp(1.8rem, 3.5vh, 2.6rem);
+  margin-top: clamp(2rem, 3.8vh, 2.8rem);
 }
 
 .semilla-oval-btn {
@@ -1414,10 +1459,10 @@ button {
    SEZIONE 2: LA CUCINA (Sfondo Calcarenite Dorata --bg-stone)
    ========================================================================== */
 .section-kitchen {
-  background-color: var(--bg-stone);
+  background-color: #D5DFD3;
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(198, 146, 85, 0.11) 0%, transparent 50%),
-    radial-gradient(circle at 90% 85%, rgba(253, 251, 247, 0.6) 0%, transparent 50%);
+    radial-gradient(circle at 12% 18%, rgba(86, 112, 89, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 90% 85%, rgba(253, 251, 247, 0.5) 0%, transparent 50%);
   color: var(--text-dark);
   border-bottom: 1px solid var(--line-medium);
   position: relative;
@@ -2036,13 +2081,20 @@ button {
 }
 
 @media (max-width: 860px) {
-  .semilla-side-text { display: none !important; }
+  .semilla-side-svg { display: none !important; }
   .semilla-nav-group { display: none !important; }
-  .semilla-nav-inner { display: flex !important; justify-content: space-between !important; align-items: center !important; }
+  .semilla-nav-inner { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 0 1.25rem !important; }
   .semilla-nav-toggle { display: flex !important; }
-  .semilla-hero-stage { grid-template-columns: 1fr !important; gap: 2.2rem !important; padding: 1.5rem 0 2.5rem !important; }
-  .semilla-visual-col, .semilla-content-col { justify-content: center !important; }
-  .semilla-photo-frame { max-width: 320px !important; padding: 12px !important; }
+  .semilla-hero { min-height: auto !important; padding: 2rem 1.25rem 3.5rem !important; width: 100% !important; overflow-x: hidden !important; }
+  .semilla-hero-stage { grid-template-columns: 1fr !important; gap: 2rem !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+  .semilla-visual-col, .semilla-content-col { width: 100% !important; justify-content: center !important; }
+  .semilla-photo-frame { max-width: min(340px, 86vw) !important; padding: 12px !important; margin: 0 auto !important; }
+  .semilla-corner-stamp { width: 52px !important; height: 52px !important; top: -10px !important; right: -10px !important; }
+  .semilla-content-wrap { max-width: 100% !important; width: 100% !important; padding: 0 0.5rem !important; box-sizing: border-box !important; }
+  .semilla-eyebrow { font-size: 0.72rem !important; letter-spacing: 0.18em !important; transform: none !important; word-break: break-word !important; max-width: 100% !important; margin-bottom: 0.6rem !important; }
+  .semilla-title { font-size: clamp(2.3rem, 8.8vw, 3rem) !important; line-height: 1.08 !important; letter-spacing: -0.01em !important; width: 100% !important; max-width: 100% !important; word-break: break-word !important; }
+  .semilla-title span, .semilla-title em { white-space: normal !important; }
+  .semilla-oval-btn { min-width: 140px !important; height: 48px !important; }
 
   :root { --frame-pad: 8px; --pad-x: 1.15rem; --pad-y: 3.5rem; }
   .navbar { height: 60px; }
