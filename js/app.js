@@ -298,6 +298,7 @@
     initDishStageCarousel(data.kitchen.dishes || []);
     initAzureFilterPill();
     initLightbox();
+    initCameraStepScroll();
   }
 
   // ───── 1. Navbar Semilla Style ─────
@@ -316,7 +317,6 @@
 
         <div class="semilla-nav-center">
           <a href="#" class="semilla-nav-brand">
-            <img src="assets/images/hotel-gutkowski-logo.webp" class="semilla-brand-stamp" alt="Hotel Gutkowski Sigillo">
             <span class="semilla-brand-name">${brandName}</span>
           </a>
         </div>
@@ -444,13 +444,10 @@
       </div>
 
       <div class="semilla-hero-stage">
-        <!-- Colonna Sinistra: Quadro Grande Incorniciato con Sigillo Hotel Gutkowski -->
+        <!-- Colonna Sinistra: Quadro Grande Incorniciato -->
         <div class="semilla-hero-col semilla-visual-col">
           <div class="semilla-photo-frame" data-tilt-frame>
             <img src="${heroBg}" id="heroVisualImg" alt="Gutkowskino Ortigia" class="semilla-photo-img" loading="eager" decoding="async">
-            <div class="semilla-corner-stamp" aria-hidden="true" title="Hotel Gutkowski · Ortigia">
-              <img src="assets/images/hotel-gutkowski-logo.webp" alt="Sigillo Hotel Gutkowski">
-            </div>
           </div>
         </div>
 
@@ -798,7 +795,7 @@
 
   // ───── 8. Footer ─────
   function buildFooter(data) {
-    const footer = el('footer', { className: 'footer' });
+    const footer = el('footer', { className: 'footer', id: 'footer' });
     footer.innerHTML = `
       <div class="container">
         <div class="footer-top">
@@ -1203,6 +1200,292 @@
       if (e.key === 'ArrowRight') showSlide(currentLbIndex + 1);
       if (e.key === 'ArrowLeft') showSlide(currentLbIndex - 1);
     });
+  }
+
+  // ───── 10. Camera Step-by-Step Scroll Controller ─────
+  function initCameraStepScroll() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const TARGET_IDS = ['hero', 'filosofia', 'cucina', 'galleria-azzurra', 'recensioni', 'contatti', 'footer'];
+    const DOTS_DATA = [
+      { id: 'hero', label: 'Home' },
+      { id: 'filosofia', label: 'Filosofia' },
+      { id: 'cucina', label: 'La Cucina' },
+      { id: 'galleria-azzurra', label: 'Terrazza' },
+      { id: 'recensioni', label: 'Recensioni' },
+      { id: 'contatti', label: 'Contatti' },
+      { id: 'footer', label: 'Info' }
+    ];
+
+    // Build Floating Camera Navigation Dots
+    const existingDots = document.querySelector('.camera-nav-dots');
+    if (existingDots) existingDots.remove();
+
+    const dotsContainer = el('nav', { className: 'camera-nav-dots', 'aria-label': 'Navigazione rapida sezioni' });
+    DOTS_DATA.forEach((dotData, idx) => {
+      const dot = el('button', {
+        className: `camera-dot ${idx === 0 ? 'active' : ''}`,
+        'data-target': dotData.id,
+        'data-tooltip': dotData.label,
+        'aria-label': `Vai alla sezione ${dotData.label}`,
+        type: 'button'
+      });
+      dot.addEventListener('click', () => {
+        const elTarget = document.getElementById(dotData.id);
+        if (elTarget) {
+          smoothGlideTo(elTarget.offsetTop);
+        }
+      });
+      dotsContainer.appendChild(dot);
+    });
+    document.body.appendChild(dotsContainer);
+
+    let isAnimating = false;
+    let lastTransitionTime = 0;
+    const COOLDOWN_MS = 750;
+    let deltaAccumulator = 0;
+    let accumResetTimer = null;
+    let currentAnimFrame = null;
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function smoothGlideTo(targetY, duration = 720) {
+      if (reducedMotion) {
+        window.scrollTo({ top: targetY, behavior: 'auto' });
+        updateActiveDot();
+        return;
+      }
+
+      if (currentAnimFrame) {
+        cancelAnimationFrame(currentAnimFrame);
+      }
+
+      isAnimating = true;
+      const startY = window.pageYOffset || document.documentElement.scrollTop;
+      const distance = targetY - startY;
+
+      if (Math.abs(distance) < 2) {
+        isAnimating = false;
+        return;
+      }
+
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeInOutCubic(progress);
+
+        window.scrollTo(0, startY + distance * eased);
+
+        if (progress < 1) {
+          currentAnimFrame = requestAnimationFrame(step);
+        } else {
+          window.scrollTo(0, targetY);
+          isAnimating = false;
+          lastTransitionTime = Date.now();
+          currentAnimFrame = null;
+          updateActiveDot();
+        }
+      }
+
+      currentAnimFrame = requestAnimationFrame(step);
+    }
+
+    // Calcola tutte le posizioni di fermata della telecamera
+    function getCameraStops() {
+      const vh = window.innerHeight;
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+      const stops = [];
+
+      TARGET_IDS.forEach(id => {
+        const node = document.getElementById(id);
+        if (!node) return;
+        const top = Math.round(node.offsetTop);
+        const h = node.offsetHeight;
+        stops.push(top);
+
+        // Se la sezione è più alta del viewport, aggiungi uno stop intermedio al fondo della sezione
+        if (h > vh + 80) {
+          const bottomStop = Math.round(top + h - vh);
+          if (bottomStop > top + 60 && bottomStop < maxScroll) {
+            stops.push(bottomStop);
+          }
+        }
+      });
+
+      stops.push(maxScroll);
+
+      // Ordina e deduplica stops vicini (< 40px)
+      stops.sort((a, b) => a - b);
+      const uniqueStops = [];
+      stops.forEach(s => {
+        const clamped = Math.max(0, Math.min(maxScroll, s));
+        if (!uniqueStops.length || (clamped - uniqueStops[uniqueStops.length - 1] > 35)) {
+          uniqueStops.push(clamped);
+        }
+      });
+
+      return uniqueStops;
+    }
+
+    function stepCamera(direction) {
+      const currentY = window.pageYOffset || document.documentElement.scrollTop;
+      const stops = getCameraStops();
+
+      if (direction > 0) {
+        // Avanti / Giù: trova il primo stop > currentY + 30
+        const nextStop = stops.find(s => s > currentY + 30);
+        if (nextStop !== undefined) {
+          smoothGlideTo(nextStop);
+        }
+      } else {
+        // Indietro / Su: trova l'ultimo stop < currentY - 30
+        for (let i = stops.length - 1; i >= 0; i--) {
+          if (stops[i] < currentY - 30) {
+            smoothGlideTo(stops[i]);
+            return;
+          }
+        }
+        if (currentY > 10) {
+          smoothGlideTo(0);
+        }
+      }
+    }
+
+    function shouldIgnoreEvent() {
+      if (document.getElementById('lightbox')?.classList.contains('active')) return true;
+      if (document.getElementById('mobileDrawer')?.classList.contains('open')) return true;
+      const tag = document.activeElement?.tagName?.toLowerCase();
+      if (['input', 'textarea', 'select'].includes(tag)) return true;
+      return false;
+    }
+
+    // Wheel listener con blocco inerziale per touchpad e scroll continuo
+    window.addEventListener('wheel', e => {
+      if (shouldIgnoreEvent()) return;
+      if (reducedMotion) return;
+
+      // Previeni sempre lo scroll libero per garantire l'effetto telecamera
+      e.preventDefault();
+
+      const now = Date.now();
+      if (isAnimating || (now - lastTransitionTime < COOLDOWN_MS)) {
+        return;
+      }
+
+      deltaAccumulator += e.deltaY;
+
+      clearTimeout(accumResetTimer);
+      accumResetTimer = setTimeout(() => {
+        deltaAccumulator = 0;
+      }, 140);
+
+      const THRESHOLD = 30;
+      if (Math.abs(deltaAccumulator) >= THRESHOLD) {
+        const dir = deltaAccumulator > 0 ? 1 : -1;
+        deltaAccumulator = 0;
+        lastTransitionTime = now;
+        stepCamera(dir);
+      }
+    }, { passive: false });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', e => {
+      if (shouldIgnoreEvent()) return;
+
+      if (['ArrowDown', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey)) {
+        e.preventDefault();
+        stepCamera(1);
+      } else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) {
+        e.preventDefault();
+        stepCamera(-1);
+      }
+    });
+
+    // Mobile touch gestures
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let isTouchActive = false;
+
+    window.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1 || shouldIgnoreEvent()) return;
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      isTouchActive = true;
+    }, { passive: true });
+
+    window.addEventListener('touchend', e => {
+      if (!isTouchActive || isAnimating || shouldIgnoreEvent()) return;
+      isTouchActive = false;
+
+      const touchEndY = e.changedTouches[0].clientY;
+      const touchEndX = e.changedTouches[0].clientX;
+      const diffY = touchEndY - touchStartY;
+      const diffX = touchEndX - touchStartX;
+
+      // Verifica che non sia uno swipe orizzontale (es. slider foto)
+      if (Math.abs(diffY) > 48 && Math.abs(diffY) > Math.abs(diffX) * 1.3) {
+        const now = Date.now();
+        if (now - lastTransitionTime >= COOLDOWN_MS) {
+          lastTransitionTime = now;
+          stepCamera(diffY < 0 ? 1 : -1);
+        }
+      }
+    }, { passive: true });
+
+    // Intercetta tutti i click sui link con àncora interna per usare la camera
+    document.addEventListener('click', e => {
+      const anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#' || href === '#!') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        smoothGlideTo(target.offsetTop);
+      }
+    });
+
+    function updateActiveDot() {
+      const currentY = window.pageYOffset || document.documentElement.scrollTop;
+      const vh = window.innerHeight;
+      let activeId = TARGET_IDS[0];
+
+      TARGET_IDS.forEach(id => {
+        const node = document.getElementById(id);
+        if (node) {
+          const top = node.offsetTop;
+          const h = node.offsetHeight;
+          if (currentY >= top - vh * 0.45 && currentY < top + h - vh * 0.45) {
+            activeId = id;
+          }
+        }
+      });
+
+      if (currentY + vh >= document.documentElement.scrollHeight - 60) {
+        activeId = TARGET_IDS[TARGET_IDS.length - 1];
+      }
+
+      dotsContainer.querySelectorAll('.camera-dot').forEach(dot => {
+        dot.classList.toggle('active', dot.dataset.target === activeId);
+      });
+    }
+
+    let dotScrollTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!dotScrollTicking) {
+        requestAnimationFrame(() => {
+          updateActiveDot();
+          dotScrollTicking = false;
+        });
+        dotScrollTicking = true;
+      }
+    }, { passive: true });
+
+    updateActiveDot();
   }
 
   if (document.readyState === 'loading') {
