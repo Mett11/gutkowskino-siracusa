@@ -20,107 +20,167 @@
 
   /* ── Collezione di Outline SVG Mediterranei a Tratto di Penna Fine-Art ── */
   const MED_SVGS = {
-    // Illustrazione Hero: Natura Morta Mediterranea (Piatto veg con carciofo e agrumi, Posate artigianali e Calice di vino)
+    // Illustrazione Hero: Riviera di Levante, Calice, Caraffa e Botanica
     heroStillLife: `
-      <svg class="semilla-hero-svg svg-draw-trigger" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Natura morta mediterranea vegetale: calice, posate e piatto d'autore">
+      <svg id="hero-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 500" fill="none" class="semilla-hero-svg w-full h-auto max-w-full drop-shadow-sm">
         <defs>
-          <linearGradient id="wineGlowHero" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--amber-warm)" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="var(--amber-warm)" stop-opacity="0.08"/>
-          </linearGradient>
+          <!-- Filtro opzionale per texture a china molto fine -->
+          <filter id="subtle-grain" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise" />
+            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.03 0" />
+            <feComposite in="SourceGraphic" in2="noise" operator="over" />
+          </filter>
         </defs>
 
-        <!-- 1. Sole / Raggiera Mediterranea in filigrana superiore -->
-        <g class="ambient-float-slow" aria-hidden="true" opacity="0.85">
-          <circle cx="260" cy="74" r="26" stroke="var(--amber-warm)" stroke-width="1.1" stroke-dasharray="3 3"/>
-          <circle cx="260" cy="74" r="13" stroke="var(--amber-warm)" stroke-width="0.8"/>
-          <path d="M260 38 V30 M260 110 V118 M216 74 H224 M296 74 H304 M229 43 L235 49 M285 99 L291 105 M291 43 L285 49 M229 99 L235 93" stroke="var(--amber-warm)" stroke-width="0.9" stroke-linecap="round"/>
+        <!-- ================= 1. SFONDO: SOLE A FILIGRANA E GABBIANI ================= -->
+        <g id="sole-e-cielo" opacity="0.75">
+          <!-- Sole Geometrico di Levante (Richiamo diretto ai rosoni delle altre sezioni) -->
+          <g stroke="#C18853">
+            <circle cx="415" cy="105" r="32" stroke-width="1.04" stroke-dasharray="3 3.5" />
+            <circle cx="415" cy="105" r="20" stroke-width="1.3" />
+            <circle cx="415" cy="105" r="6" stroke-width="1.04" fill="rgba(193, 136, 83, 0.13)" />
+            
+            <!-- Raggi geometrici cardinali e diagonali -->
+            <path d="M415 65 V53 M415 145 V157 M375 105 H363 M467 105 H455" stroke-width="1.04" stroke-linecap="round" />
+            <path d="M387 77 L377 67 M443 133 L453 143 M387 133 L377 143 M443 77 L453 67" stroke-width="1.04" stroke-dasharray="2 2" stroke-linecap="round" />
+          </g>
+
+          <!-- Gabbiani in volo sulla scogliera -->
+          <g stroke="#547587" stroke-width="1.04" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M295 122 Q304 114 312 122 Q320 114 328 122" />
+            <path d="M342 138 Q349 132 355 138 Q362 132 369 138" />
+            <path d="M460 172 Q465 168 470 172 Q475 168 480 172" />
+          </g>
         </g>
 
-        <!-- 2. Il Grande Piatto in Ceramica di Ortigia al centro -->
-        <circle class="svg-ink-path" cx="260" cy="305" r="148" stroke="var(--text-dark)" stroke-width="1.3"/>
-        <circle class="svg-ink-path" cx="260" cy="305" r="136" stroke="var(--blue-levante)" stroke-width="0.9" stroke-dasharray="5 4"/>
-        <circle class="svg-ink-path" cx="260" cy="305" r="116" stroke="var(--text-dark)" stroke-width="1.1"/>
-        <path class="svg-ink-path" d="M144 305 Q 165 292, 186 305 T 228 305 T 270 305 T 312 305 T 354 305 T 376 305" stroke="var(--blue-levante)" stroke-width="0.9"/>
-
-        <!-- 3. Vivande Vegetali nel Piatto -->
-        <!-- Carciofo Spinoso Aretuseo -->
-        <g class="svg-ink-path" id="heroArtichoke">
-          <path d="M255 385 C255 355, 258 335, 260 305" stroke="var(--text-dark)" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M260 305 C235 305, 220 275, 232 245 C244 260, 254 268, 260 268 C266 268, 276 260, 288 245 C300 275, 285 305, 260 305 Z" stroke="var(--sage-green)" stroke-width="1.3" fill="none"/>
-          <path d="M242 258 C230 234, 244 210, 260 196 C276 210, 290 234, 278 258" stroke="var(--sage-green)" stroke-width="1.2" fill="none"/>
-          <path d="M230 286 C208 276, 200 252, 214 230 C226 244, 233 260, 238 270" stroke="var(--sage-green)" stroke-width="1" fill="none"/>
-          <path d="M290 286 C312 276, 320 252, 306 230 C294 244, 287 260, 282 270" stroke="var(--sage-green)" stroke-width="1" fill="none"/>
-          <path d="M252 230 C256 220, 264 220, 268 230" stroke="var(--sage-green)" stroke-width="1"/>
-          <path d="M260 200 V235" stroke="var(--sage-green)" stroke-width="0.9" stroke-dasharray="2 3"/>
+        <!-- ================= 2. ORIZZONTE MARINO DELLO IONIO ================= -->
+        <g id="mare-ionio" stroke="#547587" opacity="0.75">
+          <!-- Linea d'orizzonte interrotta dietro il bouquet -->
+          <path d="M115 212 H242 M328 212 H520" stroke-width="1.04" stroke-dasharray="10 7" stroke-linecap="round" />
+          
+          <!-- Onde morbide a filo d'acqua (interrotte attorno agli steli) -->
+          <path d="M150 228 C175 223, 195 233, 220 228 C235 225, 245 229, 255 227" stroke-width="1.04" stroke-linecap="round" />
+          <path d="M340 240 C365 235, 385 244, 410 239 C430 235, 450 241, 475 238" stroke-width="1.04" stroke-linecap="round" />
+          <path d="M135 248 C155 244, 170 252, 190 249" stroke-width="1.04" stroke-linecap="round" />
         </g>
 
-        <!-- Limone di Siracusa IGP in sezione -->
-        <g class="svg-ink-path ambient-float-mid" id="heroLemon">
-          <circle cx="205" cy="270" r="32" stroke="var(--amber-warm)" stroke-width="1.3"/>
-          <circle cx="205" cy="270" r="26" stroke="var(--amber-warm)" stroke-width="0.8"/>
-          <path d="M205 245 V295 M180 270 H230 M188 253 L222 287 M222 253 L188 287" stroke="var(--amber-warm)" stroke-width="0.85"/>
-          <circle cx="205" cy="270" r="2.5" fill="var(--amber-warm)"/>
-          <circle cx="186" cy="305" r="2" fill="var(--amber-warm)" opacity="0.8"/>
-          <circle cx="178" cy="295" r="1.5" fill="var(--amber-warm)" opacity="0.6"/>
+        <!-- ================= 3. RINGHIERA IN FERRO BATTUTO (INTERROTTA DIETRO GLI OGGETTI) ================= -->
+        <g id="ringhiera-ferro" stroke="#85786B" opacity="0.56" stroke-linecap="round">
+          <!-- Corrimano superiore (y=276): si interrompe prima del calice e della caraffa per non tagliarli mai -->
+          <path d="M60 276 H154 M214 276 H252 M308 276 H525" stroke-width="1.3" />
+          <!-- Fascia inferiore ringhiera (y=296): anch'essa interrotta con pulizia dietro calice e caraffa -->
+          <path d="M60 296 H156 M212 296 H254 M306 296 H525" stroke-width="1.04" />
+          
+          <!-- Montanti verticali laterali (si fermano al bordo posteriore del tavolo y=366) -->
+          <path d="M90 276 V368 M135 276 V366 M460 276 V367 M505 276 V370" stroke-width="1.04" />
+          
+          <!-- Volute forgiate a mano tra i montanti -->
+          <path d="M102 286 C102 292, 122 292, 122 286 C122 280, 102 280, 102 286 Z" stroke-width="1.04" />
+          <path d="M473 286 C473 292, 493 292, 493 286 C493 280, 473 280, 473 286 Z" stroke-width="1.04" />
         </g>
 
-        <!-- Tralcio di Pomodorini Pachino -->
-        <g class="svg-ink-path" id="heroTomatoes">
-          <path d="M295 325 C310 320, 325 328, 335 342" stroke="var(--text-dark)" stroke-width="1.1"/>
-          <circle cx="312" cy="340" r="13" stroke="var(--amber-warm)" stroke-width="1.2"/>
-          <path d="M312 327 L310 323 M312 327 L315 323 M312 327 L308 327 M312 327 L316 327" stroke="var(--sage-green)" stroke-width="1"/>
-          <circle cx="334" cy="355" r="11" stroke="var(--amber-warm)" stroke-width="1.1"/>
-          <path d="M334 344 L332 340 M334 344 L337 340" stroke="var(--sage-green)" stroke-width="1"/>
+        <!-- ================= 4. IL TAVOLO CON PROFONDITÀ PROSPETTICA ================= -->
+        <g id="tavolo-bistrot">
+          <!-- Bordo posteriore del piano del tavolo (leggero, passa DIETRO gli oggetti interrompendosi) -->
+          <path d="M88 368 Q132 365, 175 364 M195 364 Q216 363, 236 363 M324 363 Q410 364, 492 368" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.65" />
+
+          <!-- Linea anteriore della tovaglia (PASSA SOTTO GLI OGGETTI a y=418, dando profondità al piano) -->
+          <path d="M58 420 Q280 410, 512 420" stroke="#564A3E" stroke-width="1.63" stroke-linecap="round" />
+          
+          <!-- Piega morbida del tessuto sul bordo anteriore -->
+          <path d="M130 423 Q280 415, 440 423" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.55" />
+
+          <!-- Caduta laterale e panneggio della tovaglia in lino verso il basso -->
+          <path d="M82 419 C82 448, 76 472, 72 490" stroke="#564A3E" stroke-width="1.3" stroke-linecap="round" />
+          <path d="M488 419 C488 448, 494 472, 498 490" stroke="#564A3E" stroke-width="1.3" stroke-linecap="round" />
+          <path d="M185 416 C184 442, 180 465, 178 484" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.45" />
+          <path d="M395 416 C396 442, 400 465, 402 484" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.45" />
         </g>
 
-        <!-- Rametto Botanico di Erbe Aromatiche -->
-        <g class="svg-ink-path" id="heroHerbs">
-          <path d="M220 345 C235 365, 260 375, 285 370" stroke="var(--sage-green)" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M232 352 C226 348, 224 342, 230 340 M245 362 C245 355, 252 352, 256 356 M264 368 C266 360, 274 362, 272 368" stroke="var(--sage-green)" stroke-width="1"/>
+        <!-- ================= 5. IL CALICE DI VINO NATURALE (A METÀ TAVOLA) ================= -->
+        <g id="calice-vino">
+          <!-- Base ellittica in prospettiva poggiata a metà del piano (y=394, ben sopra la linea tovaglia y=416) -->
+          <ellipse cx="185" cy="394" rx="17" ry="4.5" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.3" />
+          <!-- Stelo del calice -->
+          <path d="M185 342 V394" stroke="#564A3E" stroke-width="1.3" stroke-linecap="round" />
+          
+          <!-- Coppa slanciata con maschera opaca interna così nessuna linea di sfondo può mai attraversarla -->
+          <path d="M165 292 C165 344, 205 344, 205 292 Z" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.3" stroke-linejoin="round" />
+          <!-- Bordo superiore ellittico del calice -->
+          <ellipse cx="185" cy="292" rx="20" ry="4.2" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.04" />
+          <!-- Vino naturale ambrato/macerato con velatura morbida -->
+          <path d="M167 313 C169 338, 201 338, 203 313 Q185 318, 167 313 Z" fill="rgba(193, 136, 83, 0.13)" stroke="none" />
+          <path d="M167 313 Q185 318, 203 313" stroke="#C18853" stroke-width="1.04" stroke-linecap="round" />
         </g>
 
-        <!-- 4. Il Calice da Vino Naturale (Lato Sinistro) -->
-        <g class="svg-ink-path" id="heroWineGlass">
-          <ellipse cx="112" cy="405" rx="30" ry="8" stroke="var(--text-dark)" stroke-width="1.3"/>
-          <ellipse cx="112" cy="405" rx="20" ry="5" stroke="var(--text-dark)" stroke-width="0.75" stroke-dasharray="2 2"/>
-          <path d="M112 405 V275" stroke="var(--text-dark)" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M112 275 C102 275, 84 252, 84 205 C84 158, 92 142, 112 142 C132 142, 140 158, 140 205 C140 252, 122 275, 112 275 Z" stroke="var(--text-dark)" stroke-width="1.3" fill="none"/>
-          <ellipse cx="112" cy="142" rx="28" ry="7" stroke="var(--text-dark)" stroke-width="1.1"/>
-          <path d="M88 200 Q 100 194, 112 200 T 136 200 C136 240, 122 265, 112 265 C102 265, 88 240, 88 200 Z" fill="url(#wineGlowHero)" stroke="var(--amber-warm)" stroke-width="1.2"/>
-          <path d="M96 160 C93 180, 93 215, 98 235" stroke="var(--amber-warm)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="4 3"/>
+        <!-- ================= 6. CARAFFA IN CERAMICA ARTIGIANALE (A METÀ TAVOLA) ================= -->
+        <g id="caraffa-ceramica" stroke="#564A3E" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Ansa / manico laterale in terracotta -->
+          <path d="M247 316 C230 321, 226 348, 244 360" stroke="#85786B" stroke-width="1.3" fill="none" />
+
+          <!-- Corpo della caraffa posizionato nel mezzo del piano (base a y=392, sopra la linea tovaglia y=415) -->
+          <path d="M260 392 C246 392, 237 378, 242 345 C245 320, 258 310, 262 282 H298 C302 310, 315 320, 318 345 C323 378, 314 392, 300 392 Z" fill="#F5F2EB" stroke-width="1.63" />
+          
+          <!-- Imboccatura superiore della caraffa -->
+          <ellipse cx="280" cy="282" rx="18" ry="4.5" fill="#F5F2EB" stroke-width="1.3" />
+          
+          <!-- Scanalature artigianali al tornio sulla pancia della ceramica -->
+          <path d="M251 334 Q280 340, 309 334" stroke="#85786B" stroke-width="1.04" fill="none" />
+          <path d="M249 350 Q280 357, 311 350" stroke="#85786B" stroke-width="1.04" fill="none" />
         </g>
 
-        <!-- 5. Le Posate da Tavola (Lato Destro) -->
-        <!-- Forchetta da Bistrot a 4 rebbi -->
-        <g class="svg-ink-path" id="heroFork">
-          <path d="M405 160 V225 C405 240, 412 255, 412 275 V410 C412 418, 404 425, 396 422 C390 419, 392 410, 392 405 V275 C392 255, 399 240, 399 225 V160" stroke="var(--text-dark)" stroke-width="1.2" fill="none"/>
-          <path d="M399 160 V115 M401 160 V115 M403 160 V115 M405 160 V115" stroke="var(--text-dark)" stroke-width="1.1" stroke-linecap="round"/>
-          <path d="M396 158 H408" stroke="var(--text-dark)" stroke-width="1"/>
-          <circle cx="402" cy="340" r="1.8" fill="var(--amber-warm)"/>
+        <!-- ================= 7. BOUQUET BOTANICO (ANIMA VEGETALE) ================= -->
+        <g id="composizione-botanica">
+          <!-- Stelo Centrale con Bocciolo di Carciofo Spinoso / Cardo di Sicilia -->
+          <path d="M280 282 V204" stroke="#5C7456" stroke-width="1.63" stroke-linecap="round" />
+          
+          <!-- Brattee e petali geometrici del carciofo -->
+          <g stroke="#5C7456" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M280 199 C265 192, 258 174, 280 150 C302 174, 295 192, 280 199 Z" stroke-width="1.3" fill="rgba(92, 116, 86, 0.12)" />
+            <path d="M266 192 C252 180, 254 162, 270 156" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
+            <path d="M294 192 C308 180, 306 162, 290 156" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
+            <!-- Cuore spinoso superiore -->
+            <path d="M280 150 C272 136, 288 136, 280 122 C272 136, 288 136, 280 150 Z" stroke-width="1.3" fill="rgba(193, 136, 83, 0.13)" />
+            <!-- Nervature sottili -->
+            <path d="M280 199 V159" stroke-width="1.04" stroke-dasharray="2 2" />
+          </g>
+
+          <!-- Ramo d'Ulivo che si sporge verso sinistra -->
+          <g stroke="#5C7456" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M272 280 Q220 254, 185 266" stroke-width="1.3" />
+            <path d="M250 262 Q238 250, 222 256 Q236 266, 250 262 Z" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
+            <path d="M218 257 Q202 248, 192 256 Q205 264, 218 257 Z" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
+            <path d="M192 264 Q176 258, 168 268 Q182 274, 192 264 Z" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
+            <ellipse cx="230" cy="270" rx="3.5" ry="5" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" transform="rotate(20 230 270)" />
+          </g>
+
+          <!-- Finocchietto Selvatico d'Ortigia verso destra -->
+          <g stroke="#5C7456" stroke-linecap="round">
+            <path d="M288 282 Q325 244, 345 192" stroke-width="1.04" />
+            <path d="M308 254 L328 246 M312 248 L324 236" stroke-width="1.04" />
+            <path d="M322 232 L344 222 M326 224 L340 212" stroke-width="1.04" />
+            <path d="M336 208 L358 196 M340 200 L354 188" stroke-width="1.04" />
+            <circle cx="348" cy="189" r="1.5" stroke-width="1.04" fill="#C18853" />
+            <circle cx="358" cy="196" r="1" stroke-width="1.04" fill="#C18853" />
+          </g>
         </g>
 
-        <!-- Coltello da Tavola -->
-        <g class="svg-ink-path" id="heroKnife">
-          <path d="M448 245 V415 C448 422, 456 425, 462 420 C466 416, 464 408, 464 402 V245" stroke="var(--text-dark)" stroke-width="1.2" fill="none"/>
-          <path d="M444 245 H468" stroke="var(--text-dark)" stroke-width="1.2"/>
-          <path d="M448 245 V140 C448 115, 464 125, 464 150 V245" stroke="var(--text-dark)" stroke-width="1.3" fill="none"/>
-          <path d="M452 235 V150" stroke="var(--amber-warm)" stroke-width="0.85" stroke-dasharray="3 3"/>
-        </g>
-
-        <!-- 6. Rametto d'Ulivo (Sinistra) -->
-        <g class="svg-ink-path" id="heroOlive">
-          <path d="M60 280 C65 220, 85 160, 115 105" stroke="var(--sage-green)" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M72 235 C55 228, 52 215, 68 218 M84 195 C70 185, 72 172, 88 180 M98 152 C86 140, 90 128, 104 138" stroke="var(--sage-green)" stroke-width="1"/>
-          <ellipse cx="62" cy="205" rx="5" ry="7" transform="rotate(-15 62 205)" stroke="var(--text-dark)" stroke-width="1.1" fill="var(--amber-warm)" fill-opacity="0.3"/>
-        </g>
-
-        <!-- 7. Spiga di grano siciliano (In alto a destra) -->
-        <g class="svg-ink-path" id="heroWheat">
-          <path d="M350 115 Q 380 90, 420 75" stroke="var(--amber-warm)" stroke-width="1" stroke-linecap="round"/>
-          <path d="M365 105 L368 95 M380 96 L385 86 M395 88 L402 78 M410 81 L418 72" stroke="var(--amber-warm)" stroke-width="1" stroke-linecap="round"/>
+        <!-- ================= 8. AGRUME / LIMONE DI SIRACUSA A METÀ TAVOLA ================= -->
+        <g id="limone-sul-tavolo">
+          <!-- Fogliolina dell'agrume -->
+          <path d="M370 381 Q388 373, 392 383 Q380 389, 370 381 Z" stroke="#5C7456" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" stroke-linecap="round" stroke-linejoin="round" />
+          
+          <!-- Corpo del mezzo limone appoggiato a metà del tavolo (cy=385, base a y=397, ben sopra la linea tovaglia y=416) -->
+          <ellipse cx="352" cy="385" rx="20" ry="12" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.3" />
+          <ellipse cx="352" cy="385" rx="20" ry="12" fill="rgba(193, 136, 83, 0.13)" stroke="none" />
+          
+          <!-- Corona interna e spicchi -->
+          <ellipse cx="352" cy="385" rx="14" ry="8" stroke="#C18853" stroke-width="1.04" />
+          <path d="M352 377 V393 M338 385 H366" stroke="#C18853" stroke-width="1.04" />
+          <path d="M342 379.5 L362 390.5 M342 390.5 L362 379.5" stroke="#C18853" stroke-width="1.04" />
         </g>
       </svg>`,
+
 
     // Fregio divisorio botanico (Ramo d'ulivo, bocciolo di cappero e sole)
     dividerBotanical: `
@@ -546,12 +606,10 @@
       </div>
 
       <div class="semilla-hero-stage">
-        <!-- Colonna Sinistra: Quadro Grande Incorniciato con Illustrazione d'Arte Mediterranea -->
+        <!-- Colonna Sinistra: Illustrazione d'Arte Mediterranea Senza Riquadro -->
         <div class="semilla-hero-col semilla-visual-col">
-          <div class="semilla-photo-frame" data-tilt-frame>
-            <div class="semilla-art-canvas" role="img" aria-label="Natura morta mediterranea: calice da vino naturale, posate artigianali e piatto vegetale">
-              ${MED_SVGS.heroStillLife}
-            </div>
+          <div class="semilla-hero-art" data-tilt-frame>
+            ${MED_SVGS.heroStillLife}
           </div>
         </div>
 
@@ -1284,6 +1342,15 @@
     if (existingDots) existingDots.remove();
 
     const dotsContainer = el('nav', { className: 'camera-nav-dots', 'aria-label': 'Navigazione rapida sezioni' });
+
+    // Dettaglio Superiore: Mirino / Croce solare in cerchio (⊕)
+    const topSymbol = el('div', { className: 'camera-nav-symbol top', 'aria-hidden': 'true' });
+    topSymbol.innerHTML = `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M10 2.5 V17.5 M2.5 10 H17.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>`;
+    dotsContainer.appendChild(topSymbol);
+
     SECTION_CONFIG.forEach((dotData, idx) => {
       const dot = el('button', {
         className: `camera-dot ${idx === 0 ? 'active' : ''}`,
@@ -1303,6 +1370,16 @@
       });
       dotsContainer.appendChild(dot);
     });
+
+    // Dettaglio Inferiore: Asse meridiano con archi contrapposti
+    const bottomSymbol = el('div', { className: 'camera-nav-symbol bottom', 'aria-hidden': 'true' });
+    bottomSymbol.innerHTML = `<svg viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 2 V26" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M4.5 9.5 Q10 14, 15.5 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M4.5 18.5 Q10 14, 15.5 18.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>`;
+    dotsContainer.appendChild(bottomSymbol);
+
     document.body.appendChild(dotsContainer);
 
     // Aggiorna il segnaposto attivo durante lo scroll libero
