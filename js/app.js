@@ -102,6 +102,55 @@
         </svg>
       </div>`,
 
+    // Frecce Sartoriali del Carosello Galleria (Stile Bussola di Levante)
+    carouselArrowPrev: `
+      <svg class="azure-nav-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 3" opacity="0.65"/>
+        <circle cx="22" cy="22" r="16" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+        <path d="M25 15 L17 22 L25 29" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="17" cy="22" r="1.6" fill="var(--amber-warm, #C88D56)"/>
+      </svg>`,
+
+    carouselArrowNext: `
+      <svg class="azure-nav-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 3" opacity="0.65"/>
+        <circle cx="22" cy="22" r="16" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+        <path d="M19 15 L27 22 L19 29" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="27" cy="22" r="1.6" fill="var(--amber-warm, #C88D56)"/>
+      </svg>`,
+
+    // Fregi Angolari Architettonici dello Stage Galleria
+    stageCorners: `
+      <svg class="azure-stage-corner-svg tl" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 2 26 V 2 H 26" stroke="var(--semilla-dark, #2B2623)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M 7 20 V 7 H 20" stroke="var(--amber-warm, #C88D56)" stroke-width="0.85" stroke-dasharray="2 2"/>
+        <circle cx="7" cy="7" r="1.8" fill="var(--amber-warm, #C88D56)"/>
+      </svg>
+      <svg class="azure-stage-corner-svg tr" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 26 26 V 2 H 2" stroke="var(--semilla-dark, #2B2623)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M 21 20 V 7 H 8" stroke="var(--amber-warm, #C88D56)" stroke-width="0.85" stroke-dasharray="2 2"/>
+        <circle cx="21" cy="7" r="1.8" fill="var(--amber-warm, #C88D56)"/>
+      </svg>
+      <svg class="azure-stage-corner-svg bl" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 2 2 V 26 H 26" stroke="var(--semilla-dark, #2B2623)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M 7 8 V 21 H 20" stroke="var(--amber-warm, #C88D56)" stroke-width="0.85" stroke-dasharray="2 2"/>
+        <circle cx="7" cy="21" r="1.8" fill="var(--amber-warm, #C88D56)"/>
+      </svg>
+      <svg class="azure-stage-corner-svg br" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 26 2 V 26 H 2" stroke="var(--semilla-dark, #2B2623)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M 21 8 V 21 H 8" stroke="var(--amber-warm, #C88D56)" stroke-width="0.85" stroke-dasharray="2 2"/>
+        <circle cx="21" cy="21" r="1.8" fill="var(--amber-warm, #C88D56)"/>
+      </svg>`,
+
+    // Motivo Marino di raccordo tra stage e striscia miniature
+    carouselMotif: `
+      <svg viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 20 12 Q 45 4, 70 12 T 95 12" stroke="var(--blue-levante, #4E6E82)" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle cx="100" cy="12" r="3.5" stroke="var(--amber-warm, #C88D56)" stroke-width="1.2" fill="#FAF8F5"/>
+        <circle cx="100" cy="12" r="1.2" fill="var(--amber-warm, #C88D56)"/>
+        <path d="M 105 12 Q 130 4, 155 12 T 180 12" stroke="var(--blue-levante, #4E6E82)" stroke-width="1" stroke-dasharray="3 3"/>
+      </svg>`,
+
     // Filigrana Sezione 1 (Filosofia): Arco di Ortigia, Carciofo Spinoso, Fico d'India e Ulivo
     watermarkBotanical: `
       <svg class="med-bg-illustration philo-watermark svg-draw-trigger" data-parallax-speed="0.12" viewBox="0 0 420 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -334,7 +383,7 @@
     initMultiLayerParallax();
     initTactileFramesTilt();
     initDishStageCarousel(data.kitchen.dishes || []);
-    initAzureFilterPill();
+    initAzureCarousel(unifiedPhotos);
     initLightbox();
     initSectionNavDots();
     initHeroSvgInteractiveDisplacement();
@@ -635,21 +684,8 @@
 
   // ───── 5. SEZIONE 3 POST-HERO: Galleria Azzurra (Sfondo Acquerello Ceruleo Ionio + Outline SVG Rosa dei Venti & Onde) ─────
   function buildUnifiedAzureGallery(data, unifiedPhotos) {
-    const d = data.spaces;
+    const d = data.spaces || {};
     const section = el('section', { className: 'section-azure-gallery section-pad', id: 'galleria-azzurra' });
-
-    const itemsHtml = unifiedPhotos.map((item, idx) => `
-      <figure class="azure-photo-item ${idx === 0 ? 'featured-wide' : ''}"
-              data-filter-cat="${item.filterCat}"
-              data-lightbox="${item.url}">
-        <div class="azure-img-frame">
-          <img src="${item.url}" alt="${item.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-        </div>
-        <figcaption class="azure-caption">
-          <h3>${item.title}</h3>
-          <span>${item.tag}</span>
-        </figcaption>
-      </figure>`).join('');
 
     section.innerHTML = `
       ${MED_SVGS.watermarkMarine}
@@ -659,7 +695,7 @@
           <div>
             <span class="section-kicker azure">Sul Lungomare di Levante · Ortigia</span>
             <h2 class="heading-display">La terrazza sul mare, <em>la sala e i piatti</em></h2>
-            <p class="azure-header-sub">${d.sub}</p>
+            <p class="azure-header-sub">${d.sub || "Dalla terrazza con vista sullo Ionio alla sala illuminata da candele: ogni spazio è pensato per un'esperienza intima e accogliente."}</p>
           </div>
 
           <div class="azure-filter-bar" id="azureFilters">
@@ -671,13 +707,55 @@
           </div>
         </div>
 
-        <div class="azure-mobile-hint">
-          <span>Scorri in orizzontale (${unifiedPhotos.length} foto)</span>
-          <span>Tocca per ingrandire ↗</span>
-        </div>
+        <!-- CAROUSEL COMPATTO D'AUTORE -->
+        <div class="azure-carousel-wrap reveal-up delay-1">
+          
+          <!-- Stage Principale: Foto Grande in Risalto -->
+          <div class="azure-stage" id="azureStage" data-lightbox="" title="Clicca per ingrandire">
+            <div class="azure-stage-media">
+              <img id="azureStageImgA" class="azure-stage-img active" src="" alt="" decoding="async">
+              <img id="azureStageImgB" class="azure-stage-img" src="" alt="" decoding="async">
+              <div class="azure-stage-wash" aria-hidden="true"></div>
+            </div>
 
-        <div class="azure-photo-grid" id="azurePhotoGrid">
-          ${itemsHtml}
+            <!-- Fregio Angolare Architettonico SVG -->
+            <div class="azure-stage-corners" aria-hidden="true">
+              ${MED_SVGS.stageCorners}
+            </div>
+
+            <!-- Frecce di Navigazione Carosello SVG -->
+            <button class="azure-nav-btn prev" id="azurePrevBtn" aria-label="Foto precedente">
+              ${MED_SVGS.carouselArrowPrev}
+            </button>
+            <button class="azure-nav-btn next" id="azureNextBtn" aria-label="Foto successiva">
+              ${MED_SVGS.carouselArrowNext}
+            </button>
+
+            <!-- Didascalia e Metadati dello Scatto -->
+            <div class="azure-stage-caption">
+              <div class="asc-left">
+                <span class="asc-tag" id="azureStageTag">Terrazza & Mare</span>
+                <h3 class="asc-title" id="azureStageTitle">Terrazza Gutkowskino sul Mare</h3>
+              </div>
+              <div class="asc-right">
+                <span class="asc-counter" id="azureStageCounter">01 / 16</span>
+                <span class="asc-zoom-hint">Ingrandisci ↗</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fregio Marino di Raccordo SVG -->
+          <div class="azure-carousel-motif" aria-hidden="true">
+            ${MED_SVGS.carouselMotif}
+          </div>
+
+          <!-- Striscia Miniature Compatta (Filmstrip / Thumbnails) -->
+          <div class="azure-thumbs-container">
+            <button class="azure-thumbs-scroll-btn prev" id="azureThumbScrollPrev" aria-label="Scorri miniature a sinistra">‹</button>
+            <div class="azure-thumbs-track" id="azureThumbsTrack"></div>
+            <button class="azure-thumbs-scroll-btn next" id="azureThumbScrollNext" aria-label="Scorri miniature a destra">›</button>
+          </div>
+
         </div>
       </div>`;
     return section;
@@ -1107,17 +1185,34 @@
     }
   }
 
-  // Galleria Azzurra con Morphing Sliding Pill & Stagger (<400ms total budget)
-  function initAzureFilterPill() {
+  // Carosello Galleria Compatto con Miniature Multiple e Controlli SVG
+  function initAzureCarousel(allPhotos) {
+    if (!allPhotos || !allPhotos.length) return;
+
     const filterBar = document.getElementById('azureFilters');
     const pill = document.getElementById('azureFilterPill');
-    const btns = Array.from(document.querySelectorAll('#azureFilters .azure-filter-btn'));
-    const items = Array.from(document.querySelectorAll('#azurePhotoGrid .azure-photo-item'));
+    const btns = filterBar ? filterBar.querySelectorAll('.azure-filter-btn') : [];
 
-    if (!filterBar || !pill || !btns.length) return;
+    const stage = document.getElementById('azureStage');
+    const imgA = document.getElementById('azureStageImgA');
+    const imgB = document.getElementById('azureStageImgB');
+    const titleEl = document.getElementById('azureStageTitle');
+    const tagEl = document.getElementById('azureStageTag');
+    const counterEl = document.getElementById('azureStageCounter');
+    const prevBtn = document.getElementById('azurePrevBtn');
+    const nextBtn = document.getElementById('azureNextBtn');
+    const thumbsTrack = document.getElementById('azureThumbsTrack');
+    const thumbScrollPrev = document.getElementById('azureThumbScrollPrev');
+    const thumbScrollNext = document.getElementById('azureThumbScrollNext');
+
+    let activeFilter = 'all';
+    let filteredPhotos = [...allPhotos];
+    let currentIndex = 0;
+    let activeImgEl = imgA;
+    let inactiveImgEl = imgB;
 
     function movePillTo(button) {
-      if (!button || window.innerWidth <= 860) return;
+      if (!button || !pill || window.innerWidth <= 860) return;
       const barRect = filterBar.getBoundingClientRect();
       const btnRect = button.getBoundingClientRect();
       const x = btnRect.left - barRect.left;
@@ -1125,35 +1220,153 @@
       pill.style.width = `${btnRect.width}px`;
     }
 
-    function applyFilter(filter) {
-      let visibleIdx = 0;
-      items.forEach((item) => {
-        const match = filter === 'all' || item.dataset.filterCat === filter;
+    function renderThumbs() {
+      if (!thumbsTrack) return;
+      thumbsTrack.innerHTML = filteredPhotos.map((p, idx) => `
+        <button class="azure-thumb-card ${idx === currentIndex ? 'active' : ''}" data-thumb-idx="${idx}" aria-label="Foto ${idx + 1}: ${p.title}">
+          <div class="azure-thumb-img-wrap">
+            <img src="${p.url}" alt="${p.title}" loading="lazy" decoding="async">
+          </div>
+          <span class="azure-thumb-num">0${idx + 1}</span>
+        </button>
+      `).join('');
 
-        if (match) {
-          item.classList.remove('filter-hidden');
-          // Rispetta il budget massimo <500ms anche con 16 elementi (max 25ms * 12 = 300ms)
-          const cappedDelay = Math.min(visibleIdx * 28, 320);
-          item.style.transitionDelay = `${cappedDelay}ms`;
-          visibleIdx++;
-        } else {
-          item.classList.add('filter-hidden');
-          item.style.transitionDelay = '0ms';
-        }
+      thumbsTrack.querySelectorAll('.azure-thumb-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetIdx = parseInt(card.dataset.thumbIdx, 10);
+          if (targetIdx !== currentIndex) {
+            goToSlide(targetIdx);
+          }
+        });
       });
 
-      const grid = document.getElementById('azurePhotoGrid');
-      if (grid && window.innerWidth <= 860) {
-        grid.scrollTo({ left: 0, behavior: 'smooth' });
+      scrollActiveThumbIntoView();
+    }
+
+    function scrollActiveThumbIntoView() {
+      if (!thumbsTrack) return;
+      const activeThumb = thumbsTrack.querySelector(`.azure-thumb-card[data-thumb-idx="${currentIndex}"]`);
+      if (activeThumb) {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
     }
 
+    function updateActiveThumbClass() {
+      if (!thumbsTrack) return;
+      thumbsTrack.querySelectorAll('.azure-thumb-card').forEach(card => {
+        const idx = parseInt(card.dataset.thumbIdx, 10);
+        card.classList.toggle('active', idx === currentIndex);
+      });
+      scrollActiveThumbIntoView();
+    }
+
+    function updateStagePhoto(photo) {
+      if (!photo) return;
+
+      // Crossfade fluido a due layer
+      if (inactiveImgEl) {
+        inactiveImgEl.src = photo.url;
+        inactiveImgEl.alt = photo.title;
+        inactiveImgEl.classList.add('active');
+      }
+      if (activeImgEl) {
+        activeImgEl.classList.remove('active');
+      }
+
+      // Scambia riferimenti
+      const temp = activeImgEl;
+      activeImgEl = inactiveImgEl;
+      inactiveImgEl = temp;
+
+      // Aggiorna testi e contatore
+      if (titleEl) titleEl.textContent = photo.title || 'Scatto Gutkowskino';
+      if (tagEl) tagEl.textContent = photo.tag || 'Terrazza & Mare';
+      const numStr = String(currentIndex + 1).padStart(2, '0');
+      const totalStr = String(filteredPhotos.length).padStart(2, '0');
+      if (counterEl) counterEl.textContent = `${numStr} / ${totalStr}`;
+
+      // Aggiorna lightbox trigger
+      if (stage) stage.dataset.lightbox = photo.url;
+    }
+
+    function goToSlide(newIndex) {
+      if (!filteredPhotos.length) return;
+      currentIndex = (newIndex + filteredPhotos.length) % filteredPhotos.length;
+      updateStagePhoto(filteredPhotos[currentIndex]);
+      updateActiveThumbClass();
+    }
+
+    function applyCategoryFilter(filter) {
+      activeFilter = filter;
+      if (filter === 'all') {
+        filteredPhotos = [...allPhotos];
+      } else {
+        filteredPhotos = allPhotos.filter(p => p.filterCat === filter);
+      }
+      if (!filteredPhotos.length) filteredPhotos = [...allPhotos];
+      currentIndex = 0;
+      updateStagePhoto(filteredPhotos[0]);
+      renderThumbs();
+    }
+
+    // Event listeners frecce carosello
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToSlide(currentIndex - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToSlide(currentIndex + 1);
+      });
+    }
+
+    // Scroll manuale striscia miniature
+    if (thumbScrollPrev) {
+      thumbScrollPrev.addEventListener('click', () => {
+        if (thumbsTrack) thumbsTrack.scrollBy({ left: -260, behavior: 'smooth' });
+      });
+    }
+
+    if (thumbScrollNext) {
+      thumbScrollNext.addEventListener('click', () => {
+        if (thumbsTrack) thumbsTrack.scrollBy({ left: 260, behavior: 'smooth' });
+      });
+    }
+
+    // Touch swipe sullo stage
+    if (stage) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      stage.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (e) => {
+        const diffX = e.changedTouches[0].clientX - touchStartX;
+        const diffY = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX < 0) {
+            goToSlide(currentIndex + 1);
+          } else {
+            goToSlide(currentIndex - 1);
+          }
+        }
+      }, { passive: true });
+    }
+
+    // Filtri Categoria
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
         btns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         movePillTo(btn);
-        applyFilter(btn.dataset.filter);
+        applyCategoryFilter(btn.dataset.filter);
         if (window.innerWidth <= 860) {
           btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
@@ -1161,17 +1374,20 @@
     });
 
     requestAnimationFrame(() => {
-      const activeBtn = filterBar.querySelector('.azure-filter-btn.active') || btns[0];
+      const activeBtn = filterBar ? filterBar.querySelector('.azure-filter-btn.active') : null;
       if (activeBtn) movePillTo(activeBtn);
     });
 
     window.addEventListener('resize', () => {
-      const activeBtn = filterBar.querySelector('.azure-filter-btn.active');
+      const activeBtn = filterBar ? filterBar.querySelector('.azure-filter-btn.active') : null;
       if (activeBtn) movePillTo(activeBtn);
     });
+
+    // Inizializza primo stato
+    applyCategoryFilter('all');
   }
 
-  // Lightbox
+    // Lightbox
   function initLightbox() {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImage');

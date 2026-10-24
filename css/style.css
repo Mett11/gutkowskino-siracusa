@@ -1414,9 +1414,9 @@ button {
 }
 
 .philosophy-values {
-  margin-top: 4.5rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--line-sage);
+  margin-top: 3.5rem;
+  padding-top: 0;
+  border-top: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
@@ -1507,8 +1507,8 @@ button {
   align-items: flex-end;
   gap: 2rem;
   margin-bottom: 1.85rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--line-medium);
+  padding-bottom: 0.5rem;
+  border-bottom: none;
   flex-wrap: wrap;
 }
 
@@ -2683,5 +2683,369 @@ button {
 
   .hero-arch-pill {
     width: 100%;
+  }
+}
+
+
+/* ==========================================================================
+   CAROSELLO GALLERIA COMPATTO D'AUTORE (Stile Mediterraneo con Elementi SVG)
+   ========================================================================== */
+.azure-carousel-wrap {
+  position: relative;
+  max-width: 1040px;
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Stage Principale */
+.azure-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 520px;
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  background-color: #FAF8F5;
+  border: 1.2px solid rgba(78, 110, 130, 0.28);
+  box-shadow: 0 16px 44px rgba(30, 77, 107, 0.10);
+  cursor: pointer;
+  user-select: none;
+}
+
+.azure-stage-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.azure-stage-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 450ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms var(--ease-premium);
+  will-change: opacity, transform;
+}
+
+.azure-stage-img.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.azure-stage:hover .azure-stage-img.active {
+  transform: scale(1.02);
+}
+
+.azure-stage-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 20%, rgba(200, 141, 86, 0.08) 0%, transparent 65%);
+  mix-blend-mode: soft-light;
+  z-index: 2;
+}
+
+/* Fregi Angolari Architettonici SVG dello Stage */
+.azure-stage-corners {
+  position: absolute;
+  inset: 10px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.azure-stage-corner-svg {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  opacity: 0.75;
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+.azure-stage:hover .azure-stage-corner-svg {
+  opacity: 0.95;
+}
+
+.azure-stage-corner-svg.tl { top: 0; left: 0; }
+.azure-stage-corner-svg.tr { top: 0; right: 0; }
+.azure-stage-corner-svg.bl { bottom: 0; left: 0; }
+.azure-stage-corner-svg.br { bottom: 0; right: 0; }
+
+/* Frecce di Navigazione SVG del Carosello */
+.azure-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(250, 248, 245, 0.92);
+  color: var(--blue-levante);
+  border: 1px solid rgba(78, 110, 130, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  padding: 0;
+  box-shadow: 0 4px 18px rgba(30, 40, 37, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 260ms var(--ease-premium), background-color 220ms ease, color 220ms ease, box-shadow 260ms ease, border-color 220ms ease;
+}
+
+.azure-nav-btn.prev { left: 16px; }
+.azure-nav-btn.next { right: 16px; }
+
+.azure-nav-btn:hover {
+  background-color: #FAF8F5;
+  color: var(--amber-warm);
+  border-color: var(--amber-warm);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 26px rgba(30, 40, 37, 0.18);
+}
+
+.azure-nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.azure-nav-svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+/* Didascalia dello Scatto in Basso nello Stage */
+.azure-stage-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(20, 28, 26, 0.88) 0%, rgba(20, 28, 26, 0.45) 60%, transparent 100%);
+  padding: 2.2rem 2rem 1.25rem;
+  color: #FAF8F5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  z-index: 4;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.asc-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.asc-tag {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-warm);
+  font-weight: 600;
+}
+
+.asc-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.15;
+  color: #FAF8F5;
+}
+
+.asc-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-shrink: 0;
+}
+
+.asc-counter {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  color: rgba(250, 248, 245, 0.75);
+}
+
+.asc-zoom-hint {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  background: rgba(250, 248, 245, 0.15);
+  border: 1px solid rgba(250, 248, 245, 0.3);
+  color: #FAF8F5;
+  transition: background-color 200ms ease;
+}
+
+.azure-stage:hover .asc-zoom-hint {
+  background: rgba(250, 248, 245, 0.28);
+}
+
+/* Motivo Marino di Raccordo SVG */
+.azure-carousel-motif {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.25rem 0 0.5rem;
+  opacity: 0.75;
+}
+
+.azure-carousel-motif svg {
+  width: 180px;
+  height: 20px;
+}
+
+/* Striscia Miniature Compatta (Filmstrip) */
+.azure-thumbs-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.azure-thumbs-track {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.35rem 0.2rem 0.6rem;
+  flex: 1;
+}
+
+.azure-thumbs-track::-webkit-scrollbar {
+  display: none;
+}
+
+.azure-thumb-card {
+  flex: 0 0 clamp(80px, 10vw, 110px);
+  width: clamp(80px, 10vw, 110px);
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  border: 1px solid rgba(78, 110, 130, 0.22);
+  background-color: #FAF8F5;
+  padding: 3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(30, 40, 37, 0.05);
+  transition: transform 240ms var(--ease-premium), border-color 220ms ease, box-shadow 240ms ease;
+}
+
+.azure-thumb-img-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.azure-thumb-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 380ms ease, filter 220ms ease;
+  filter: saturate(0.9);
+}
+
+.azure-thumb-num {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  background: rgba(20, 28, 26, 0.75);
+  color: #FAF8F5;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.azure-thumb-card:hover:not(.active) {
+  transform: translateY(-2px);
+  border-color: rgba(78, 110, 130, 0.55);
+  box-shadow: 0 6px 16px rgba(30, 40, 37, 0.10);
+}
+
+.azure-thumb-card:hover img {
+  filter: saturate(1.1);
+}
+
+.azure-thumb-card.active {
+  border-color: var(--amber-warm);
+  outline: 2px solid var(--amber-warm);
+  outline-offset: 1px;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(200, 141, 86, 0.28);
+}
+
+.azure-thumb-card.active img {
+  filter: saturate(1.15);
+}
+
+/* Pulsanti Scroll Miniature */
+.azure-thumbs-scroll-btn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(250, 248, 245, 0.9);
+  border: 1px solid rgba(78, 110, 130, 0.25);
+  color: var(--blue-levante);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0;
+  transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.azure-thumbs-scroll-btn:hover {
+  background-color: var(--blue-levante);
+  color: #FAF8F5;
+  transform: scale(1.08);
+}
+
+@media (max-width: 860px) {
+  .azure-stage {
+    aspect-ratio: 4 / 3;
+    max-height: 380px;
+  }
+  .azure-stage-caption {
+    padding: 1.5rem 1.25rem 1rem;
+  }
+  .asc-zoom-hint {
+    display: none;
+  }
+  .azure-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .azure-nav-svg {
+    width: 26px;
+    height: 26px;
+  }
+  .azure-nav-btn.prev { left: 8px; }
+  .azure-nav-btn.next { right: 8px; }
+  .azure-thumbs-scroll-btn {
+    display: none;
   }
 }
