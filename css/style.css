@@ -2532,7 +2532,7 @@ button {
   box-shadow: 0 10px 26px rgba(78, 110, 130, 0.2);
 }
 
-/* ───── Colonna Visiva: Finestra Monumentale ad Arco con Keystone ───── */
+/* ───── Colonna Visiva: Finestra Monumentale ad Arco con Edera Botanica ───── */
 .hero-arch-visual {
   display: flex;
   align-items: center;
@@ -2541,72 +2541,39 @@ button {
   z-index: 2;
 }
 
-.hero-arch-frame-stage {
+.hero-botanical-arch-stage {
   transform: perspective(1000px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
   transform-style: preserve-3d;
   position: relative;
-  width: clamp(290px, 29vw, 420px);
+  width: clamp(340px, 36vw, 470px);
   max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), filter 400ms ease;
+  filter: drop-shadow(0 18px 44px rgba(43, 38, 35, 0.10));
 }
 
-/* Finestra ad Arco a Tutto Sesto */
-.hero-arch-window {
-  position: relative;
+.hero-botanical-arch-stage:hover {
+  filter: drop-shadow(0 26px 58px rgba(43, 38, 35, 0.16));
+}
+
+.hero-botanical-arch-img {
   width: 100%;
-  aspect-ratio: 9 / 14;
-  border-radius: 9999px 9999px 0 0; /* rounded-t-full */
-  overflow: hidden;
-  background-color: #FAF8F5;
-  box-shadow: 0 18px 48px rgba(43, 38, 35, 0.08);
-  transition: box-shadow 500ms ease;
-  z-index: 2;
-}
-
-.hero-arch-frame-stage:hover .hero-arch-window {
-  box-shadow: 0 24px 56px rgba(43, 38, 35, 0.12);
-}
-
-/* Immagine dell'Arco: NO ZOOM */
-.hero-arch-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
   display: block;
+  object-fit: contain;
   transform: none !important;
 }
 
-.hero-arch-frame-stage:hover .hero-arch-photo,
-.hero-arch-photo:hover {
-  transform: none !important;
-}
-
-/* Velatura di luce calda interna all'arco */
-.hero-arch-light-wash {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 12%, rgba(200, 141, 86, 0.12) 0%, transparent 60%);
-  mix-blend-mode: soft-light;
-}
-
-/* Contorno Vettoriale Architettonico con Chiave di Volta */
-.hero-arch-contour-svg {
-  position: absolute;
-  top: -16px;
-  left: -14px;
-  right: -14px;
-  bottom: 0;
-  width: calc(100% + 28px);
-  height: calc(100% + 16px);
-  pointer-events: none;
-  z-index: 3;
-  overflow: visible;
+.hero-arch-coords-line {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(43, 38, 35, 0.48);
 }
 
 /* ───── Dialogo Editoriale su Schermi Grandi: Parziale sovrapposizione ───── */
@@ -3047,5 +3014,170 @@ button {
   .azure-nav-btn.next { right: 8px; }
   .azure-thumbs-scroll-btn {
     display: none;
+  }
+}
+
+
+/* ==========================================================================
+   SEZIONE FILOSOFIA: EDITORIALE BOTANICA (Doppia Cornice & Edera Ortigia)
+   ========================================================================== */
+.section-philosophy {
+  position: relative;
+  background-color: #FAF8F5;
+  padding: 4.5rem 0 5.5rem;
+  overflow: hidden;
+}
+
+.philo-top-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3.5rem;
+  opacity: 0.85;
+}
+
+.philo-top-divider svg {
+  width: min(540px, 90vw);
+  height: 24px;
+}
+
+.philo-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+}
+
+.philo-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+}
+
+/* Colonna Visiva: Doppia Cornice con Edera */
+.philo-visual-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.philo-botanical-stage {
+  transform: perspective(1000px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
+  transform-style: preserve-3d;
+  position: relative;
+  width: clamp(340px, 38vw, 490px);
+  max-width: 100%;
+  user-select: none;
+  cursor: pointer;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), filter 400ms ease;
+  filter: drop-shadow(0 18px 44px rgba(43, 38, 35, 0.10));
+}
+
+.philo-botanical-stage:hover {
+  filter: drop-shadow(0 24px 54px rgba(43, 38, 35, 0.14));
+}
+
+.philo-botanical-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Colonna Testo Editoriale */
+.philo-content-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.philo-eyebrow-wrap {
+  margin-bottom: 1.15rem;
+}
+
+.philo-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: #5C7B67; /* Verde salvia botanica */
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.philo-display-headline {
+  font-family: 'Cormorant Garamond', 'Instrument Serif', Georgia, serif;
+  font-size: clamp(2.6rem, 4.4vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #2B2623;
+  margin: 0 0 1.6rem 0;
+}
+
+.philo-title-line {
+  display: block;
+}
+
+.philo-title-em {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: #4E6E82; /* Blu Ionio desaturato */
+}
+
+.philo-lead-statement {
+  font-family: 'Cormorant Garamond', 'Instrument Serif', Georgia, serif;
+  font-size: clamp(1.2rem, 1.65vw, 1.45rem);
+  line-height: 1.45;
+  font-weight: 500;
+  color: #2B2623;
+  margin-bottom: 1.6rem;
+  max-width: 58ch;
+}
+
+.philo-body-text p {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.75;
+  color: rgba(43, 38, 35, 0.82);
+  margin-bottom: 1.25rem;
+  max-width: 58ch;
+}
+
+.philo-body-text p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .philo-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    text-align: center !important;
+  }
+
+  .philo-content-col {
+    align-items: center !important;
+    text-align: center !important;
+    order: 2;
+  }
+
+  .philo-visual-col {
+    order: 1;
+  }
+
+  .philo-botanical-stage,
+  .hero-botanical-arch-stage {
+    width: min(340px, 85vw) !important;
+    margin: 0 auto !important;
+    transform: none !important;
+  }
+
+  .philo-lead-statement,
+  .philo-body-text p {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }

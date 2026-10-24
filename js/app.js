@@ -476,30 +476,19 @@
 
   // ───── 2. Hero Semilla Style (Minimalista, Bordo Quadro, Scritta Cursiva, Titolo Display e Tasti Ovali) ─────
   function buildPostcardHero(data) {
-    const kickerText = (data.brand && data.brand.locationTag && data.brand.locationTag.includes('·')) 
-      ? data.brand.locationTag.toUpperCase() 
-      : 'ORTIGIA · SUL MARE DI LEVANTE';
+    const section = el('section', { className: 'postcard-stage section-hero hero-arch-section', id: 'hero' });
 
-    const section = el('section', { className: 'semilla-hero hero-arch-section', id: 'hero' });
     section.innerHTML = `
-      <!-- Margine Sinistro: Outline SVG Marino Mediterraneo in Verticale (Onde Ionio, Rosa dei Venti, Anfora & Sole) -->
+      <!-- Glifo Laterale Verticale di Levante (Sinistra) -->
       <div class="semilla-side-svg semilla-side-left" aria-hidden="true">
         <svg viewBox="0 0 54 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-vertical-svg">
           <path d="M27 10 Q 34 50, 27 90 T 27 170 T 27 250 T 27 350" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
           <path d="M27 14 L30 25 L41 27 L30 29 L27 40 L24 29 L13 27 L24 25 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
           <circle cx="27" cy="27" r="14" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
           <path d="M14 90 Q 27 78, 40 90" stroke="var(--blue-levante)" stroke-width="1.2"/>
-          <path d="M17 96 Q 27 86, 37 96" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M20 150 H34 M22 150 V158 C14 166, 12 184, 18 202 C22 214, 27 220, 27 220 C27 220, 32 214, 36 202 C42 184, 40 166, 32 158 V150" stroke="currentColor" stroke-width="1.1"/>
-          <path d="M21 155 C12 155, 8 168, 16 178" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M33 155 C42 155, 46 168, 38 178" stroke="currentColor" stroke-width="0.9"/>
-          <path d="M17 182 Q 27 174, 37 182" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M14 260 Q 27 248, 40 260" stroke="var(--blue-levante)" stroke-width="1.2"/>
-          <path d="M17 266 Q 27 256, 37 266" stroke="currentColor" stroke-width="0.9"/>
-          <circle cx="27" cy="310" r="7" stroke="var(--amber-warm)" stroke-width="1"/>
-          <circle cx="27" cy="310" r="3.5" fill="var(--amber-warm)" opacity="0.7"/>
-          <path d="M27 300 V296 M27 324 V320 M17 310 H13 M41 310 H37" stroke="var(--amber-warm)" stroke-width="0.85"/>
-          <path d="M27 335 V350" stroke="currentColor" stroke-width="1"/>
+          <path d="M20 185 H34 M22 185 V196 C18 206, 17 222, 21 238 C23 246, 27 252, 27 256 H27 C27 252, 31 246, 33 238 C37 222, 36 206, 32 196 V185" stroke="currentColor" stroke-width="1"/>
+          <circle cx="27" cy="275" r="4" stroke="var(--amber-warm)" stroke-width="1"/>
+          <circle cx="27" cy="305" r="2.5" fill="var(--amber-warm)"/>
         </svg>
       </div>
 
@@ -508,7 +497,7 @@
         <div class="hero-arch-content">
           <div class="hero-arch-eyebrow-wrap">
             <span class="hero-arch-eyebrow-line" aria-hidden="true"></span>
-            <span class="hero-arch-eyebrow">${kickerText}</span>
+            <span class="hero-arch-eyebrow">ORTIGIA · SUL MARE DI LEVANTE</span>
           </div>
 
           <h1 class="hero-arch-headline">
@@ -517,7 +506,7 @@
               <span class="hero-arch-word hero-word-main">vegetale</span>
             </span>
             <span class="hero-arch-title-row">
-              <span class="hero-arch-word hero-word-main">d’autore</span>
+              <span class="hero-arch-word hero-word-main">d'autore</span>
             </span>
             <span class="hero-arch-title-row">
               <em class="hero-arch-word hero-word-italic">sul mare di Levante</em>
@@ -525,39 +514,37 @@
           </h1>
 
           <p class="hero-arch-manifesto">
-            Un bistrot botanico affacciato sulla scogliera di Ortigia: dove l'orto siciliano e i vini naturali incontrano l’orizzonte dorato dello Ionio.
+            Un bistrot botanico affacciato sulla scogliera di Ortigia: dove l'orto siciliano e i vini naturali incontrano l'orizzonte dorato dello Ionio.
           </p>
 
           <div class="hero-arch-actions">
             <a href="#cucina" class="hero-arch-pill hero-arch-pill-primary">
-              <span>Menu</span>
+              <span>MENU</span>
               <svg class="hero-pill-arrow" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
             <a href="#contatti" class="hero-arch-pill hero-arch-pill-secondary">
-              <span>Prenota</span>
+              <span>PRENOTA</span>
             </a>
+          </div>
+
+          <!-- Riga Coordinate & Metadati (come nel mockup allegato) -->
+          <div class="hero-arch-coords-line">
+            <span>37°01'34"N · 15°17'40"E · ORTIGIA · SIRACUSA</span>
           </div>
         </div>
 
-        <!-- Colonna Destra: Finestra Monumentale ad Arco a Tutto Sesto -->
+        <!-- Colonna Destra: Arco Monumentale Botanico con Sigillo Terrazza -->
         <div class="hero-arch-visual">
-          <div class="hero-arch-frame-stage" data-tilt-frame>
-            <!-- Finestra Fotografica ad Arco -->
-            <div class="hero-arch-window" role="img" aria-label="Terrazza di Gutkowskino affacciata sul mare di Levante a Ortigia con tavolo apparecchiato, piatto vegetale d'autore e calice di vino al tramonto">
-              <img 
-                src="${data.hero?.backgroundImage || 'assets/images/hero-finestra-arco.webp'}" 
-                alt="Bistrot Gutkowskino - Terrazza vista mare di Levante a Ortigia con piatto vegetale d'autore e calice di vino al tramonto" 
-                class="hero-arch-photo"
-                loading="eager"
-                decoding="async"
-              />
-              <div class="hero-arch-light-wash" aria-hidden="true"></div>
-            </div>
-
-            <!-- Contorno Vettoriale Architettonico con Chiave di Volta Solare -->
-            ${MED_SVGS.archKeystoneContour}
+          <div class="hero-botanical-arch-stage" data-tilt-frame data-lightbox="assets/images/hero-finestra-arco.webp" title="Clicca per ingrandire la Terrazza">
+            <img 
+              src="assets/images/hero-botanical-arch.webp" 
+              alt="Bistrot Gutkowskino - Finestra ad arco panoramica e botanica sulla terrazza di Ortigia" 
+              class="hero-botanical-arch-img"
+              loading="eager"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -567,46 +554,65 @@
 
   // ───── 3. SEZIONE 1 POST-HERO: Filosofia (Sfondo Calce & Salvia Botanica + Outline SVG Carciofo/Arco) ─────
   function buildPhilosophy(data) {
-    const d = data.manifesto;
-    const section = el('section', { className: 'section-philosophy section-pad', id: 'filosofia' });
-
-    const values = d.pillars.map((p, i) => `
-      <div class="value-col reveal-up delay-${(i % 3) + 1} svg-draw-trigger">
-        <div class="value-col-top">
-          ${MED_SVGS.pillars[i] || MED_SVGS.pillars[0]}
-          <span class="value-col-num">0${i + 1} / RADICI</span>
-        </div>
-        <h3>${p.title}</h3>
-        <p>${p.description}</p>
-      </div>`).join('');
+    const section = el('section', { className: 'section-philosophy', id: 'filosofia' });
 
     section.innerHTML = `
-      ${MED_SVGS.watermarkBotanical}
-      <div class="container">
-        ${MED_SVGS.dividerBotanical}
-        <div class="philosophy-grid">
-          <div class="reveal-up">
-            <span class="section-kicker sage">L'Anima Botanica del Bistrot</span>
-            <h2 class="heading-display">${d.heading}</h2>
-            <p class="philosophy-lead">${d.lead}</p>
-            <p class="philosophy-copy">${d.columnLeft}</p>
-            <p class="philosophy-copy">${d.columnRight}</p>
+      <!-- Divisore Architettonico Superiore (come nel mockup allegato) -->
+      <div class="philo-top-divider" aria-hidden="true">
+        <svg viewBox="0 0 540 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 12 H225" stroke="#C88D56" stroke-width="0.8" opacity="0.6"/>
+          <path d="M232 12 C245 6, 260 6, 270 6 C280 6, 295 6, 308 12 C295 18, 280 18, 270 18 C260 18, 245 18, 232 12 Z" stroke="#2B2623" stroke-width="1.1" fill="#FAF8F5"/>
+          <circle cx="270" cy="12" r="2.2" fill="#C88D56"/>
+          <circle cx="254" cy="12" r="1.3" fill="#2B2623" opacity="0.7"/>
+          <circle cx="286" cy="12" r="1.3" fill="#2B2623" opacity="0.7"/>
+          <path d="M315 12 H520" stroke="#C88D56" stroke-width="0.8" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <div class="container philo-container">
+        <div class="philo-split-grid">
+          
+          <!-- Colonna Sinistra: Composizione Botanica con Doppia Cornice -->
+          <div class="philo-visual-col reveal-up">
+            <div class="philo-botanical-stage" data-tilt-frame data-lightbox="https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3a353356-b582-4e31-8648-0eb702d983ab.png" title="Clicca per ingrandire gli spazi di Gutkowskino">
+              <img 
+                src="assets/images/philosophy-botanical-visual.webp" 
+                alt="Atmosfera e dettagli botanici del Bistrot Gutkowskino a Ortigia"
+                class="philo-botanical-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
 
-          <div class="philosophy-visuals reveal-up delay-1">
-            <div class="philo-img-main" data-lightbox="${d.mainImage}" data-parallax-speed="-0.06" data-tilt-frame>
-              <img src="${d.mainImage}" alt="Sala interna Gutkowskino" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <!-- Colonna Destra: Dialogo Editoriale e Manifesto -->
+          <div class="philo-content-col reveal-up delay-1">
+            <div class="philo-eyebrow-wrap">
+              <span class="philo-eyebrow">L'Anima Botanica del Bistrot</span>
             </div>
-            <div class="philo-img-secondary" data-lightbox="${d.secondaryImage}" data-parallax-speed="0.08" data-tilt-frame>
-              <img src="${d.secondaryImage}" alt="Dettaglio tavola e luci" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+
+            <h2 class="philo-display-headline">
+              <span class="philo-title-line">L'orto siciliano,</span>
+              <em class="philo-title-em">la pietra e lo Ionio</em>
+            </h2>
+
+            <p class="philo-lead-statement">
+              Gutkowskino è il bistrot vegetale dell'Hotel Gutkowski: una cucina contemporanea che lavora esclusivamente con il raccolto quotidiano del mercato di Ortigia e dei piccoli agricoltori aretusei.
+            </p>
+
+            <div class="philo-body-text">
+              <p>
+                Ogni portata nasce dalla lavorazione integrale del vegetale: fondi bruni di verdura ridotti lentamente, cotture alla brace, emulsioni di erbe spontanee, creme di mandorla e pistacchio, oli essenziali agli agrumi e fiori eduli.
+              </p>
+              <p>
+                In sala, le pareti a calce illuminate dalle catenarie calde e il legno vivo si aprono sulla terrazza affacciata sugli scogli del Lungomare di Levante: un dialogo naturale tra il verde dell'orto e del mare di Ortigia.
+              </p>
             </div>
           </div>
-        </div>
 
-        <div class="philosophy-values">
-          ${values}
         </div>
-      </div>`;
+      </div>
+    `;
     return section;
   }
 
