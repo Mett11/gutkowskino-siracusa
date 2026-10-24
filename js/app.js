@@ -499,7 +499,7 @@
           </div>
         </div>
 
-        <!-- Colonna Destra: Finestra Monumentale ad Arco a Tutto Sesto -->
+        <!-- Colonna Destra: Finestra Monumentale ad Arco a Tutto Sesto / Quadro d'Autore -->
         <div class="hero-arch-visual">
           <div class="hero-arch-frame-stage" data-tilt-frame>
             <!-- Finestra Fotografica ad Arco / Quadro d'Arte -->
@@ -513,18 +513,56 @@
               />
               <div class="hero-arch-light-wash" aria-hidden="true"></div>
               
-              <!-- 4 Angolari d'Atelier in Ottone per la Cornice del Quadro -->
-              <div class="painting-corner corner-tl" aria-hidden="true"></div>
-              <div class="painting-corner corner-tr" aria-hidden="true"></div>
-              <div class="painting-corner corner-bl" aria-hidden="true"></div>
-              <div class="painting-corner corner-br" aria-hidden="true"></div>
+              <!-- Filetto tratteggiato interno (identico al tratteggio ocra dell'arco) -->
+              <div class="painting-dash-inner" aria-hidden="true"></div>
+
+              <!-- 4 Angolari Architettonici: gli stessi conci e linee geometriche dell'arco -->
+              <div class="painting-corner corner-tl" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 18 V2 H18" stroke="#2B2623" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M6 14 V6 H14" stroke="#C88D56" stroke-width="0.85" stroke-dasharray="2 2"/>
+                  <circle cx="6" cy="6" r="1.5" fill="#C88D56"/>
+                </svg>
+              </div>
+              <div class="painting-corner corner-tr" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 18 V2 H6" stroke="#2B2623" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M18 14 V6 H10" stroke="#C88D56" stroke-width="0.85" stroke-dasharray="2 2"/>
+                  <circle cx="18" cy="6" r="1.5" fill="#C88D56"/>
+                </svg>
+              </div>
+              <div class="painting-corner corner-bl" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 6 V22 H18" stroke="#2B2623" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M6 10 V18 H14" stroke="#C88D56" stroke-width="0.85" stroke-dasharray="2 2"/>
+                  <circle cx="6" cy="18" r="1.5" fill="#C88D56"/>
+                </svg>
+              </div>
+              <div class="painting-corner corner-br" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 6 V22 H6" stroke="#2B2623" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M18 10 V18 H10" stroke="#C88D56" stroke-width="0.85" stroke-dasharray="2 2"/>
+                  <circle cx="18" cy="18" r="1.5" fill="#C88D56"/>
+                </svg>
+              </div>
             </div>
 
-            <!-- Targhetta Museale in Ottone del Quadro -->
+            <!-- Chiave di Volta / Cartiglio Solare che corona la cornice del quadro -->
+            <div class="hero-quadro-keystone" aria-hidden="true">
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 18 3 V 11 M 18 25 V 33 M 3 18 H 11 M 25 18 H 33" stroke="#C88D56" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M 9 9 L 13 13 M 23 23 L 27 27 M 27 9 L 23 13 M 9 27 L 13 23" stroke="#C88D56" stroke-width="0.85" stroke-linecap="round" stroke-dasharray="2 2"/>
+                <polygon points="18,7 29,18 18,29 7,18" fill="#FAF8F5" stroke="#2B2623" stroke-width="1.2"/>
+                <circle cx="18" cy="18" r="4.8" stroke="#C88D56" stroke-width="1.05" fill="none"/>
+                <circle cx="18" cy="18" r="1.8" fill="#C88D56"/>
+              </svg>
+            </div>
+
+            <!-- Cartiglio Architettonico di Base del Quadro -->
             <div class="hero-frame-plate" aria-hidden="true">
-              <span class="plate-screw"></span>
+              <span class="plate-line"></span>
               <span class="plate-text">GUTKOWSKINO · ORTIGIA</span>
-              <span class="plate-screw"></span>
+              <span class="plate-line"></span>
             </div>
 
             <!-- Contorno Vettoriale Architettonico con Chiave di Volta Solare -->
