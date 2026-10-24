@@ -22,179 +22,32 @@
   const MED_SVGS = {
     // Illustrazione Hero: Riviera di Levante, Calice, Caraffa e Botanica
     heroStillLife: `
-      <svg id="hero-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 500" fill="none" class="semilla-hero-svg w-full h-auto max-w-full drop-shadow-sm">
-        <defs>
-          <!-- Filtro opzionale per texture a china molto fine -->
-          <filter id="subtle-grain" x="0%" y="0%" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise" />
-            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.03 0" />
-            <feComposite in="SourceGraphic" in2="noise" operator="over" />
-          </filter>
-        </defs>
-
-        <!-- ================= 1. SFONDO: SOLE A FILIGRANA E GABBIANI ================= -->
-        <g id="sole-e-cielo" opacity="0.75">
-          <!-- Sole Geometrico di Levante (Richiamo diretto ai rosoni delle altre sezioni) -->
-          <g stroke="#C18853">
-            <circle cx="415" cy="105" r="32" stroke-width="1.04" stroke-dasharray="3 3.5" />
-            <circle cx="415" cy="105" r="20" stroke-width="1.3" />
-            <circle cx="415" cy="105" r="6" stroke-width="1.04" fill="rgba(193, 136, 83, 0.13)" />
-            
-            <!-- Raggi geometrici cardinali e diagonali -->
-            <path d="M415 65 V53 M415 145 V157 M375 105 H363 M467 105 H455" stroke-width="1.04" stroke-linecap="round" />
-            <path d="M387 77 L377 67 M443 133 L453 143 M387 133 L377 143 M443 77 L453 67" stroke-width="1.04" stroke-dasharray="2 2" stroke-linecap="round" />
-          </g>
-
-          <!-- Gabbiani in volo sulla scogliera -->
-          <g stroke="#547587" stroke-width="1.04" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M295 122 Q304 114 312 122 Q320 114 328 122" />
-            <path d="M342 138 Q349 132 355 138 Q362 132 369 138" />
-            <path d="M460 172 Q465 168 470 172 Q475 168 480 172" />
-          </g>
+      <svg id="hero-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none" class="semilla-hero-svg w-full h-auto max-w-full drop-shadow-sm">
+        <!-- Velature acquerello fuori registro -->
+        <g id="hero-velature" opacity="0.18">
+          <circle class="hero-wash" data-cx="424" data-cy="116" cx="424" cy="116" r="32" fill="#D69656" />
+          <path class="hero-wash" data-cx="278" data-cy="141" d="M278 102 C254 128, 250 165, 280 180 C310 165, 306 128, 278 102 Z" fill="#5C7B67" />
+          <ellipse class="hero-wash" data-cx="206" data-cy="208" cx="206" cy="208" rx="26" ry="12" transform="rotate(-18 206 208)" fill="#5C7B67" />
+          <path class="hero-wash" data-cx="176" data-cy="304" d="M151 292 C154 316, 198 316, 201 292 C186 297, 166 297, 151 292 Z" fill="#C47D4E" />
+          <ellipse class="hero-wash" data-cx="392" data-cy="368" rx="28" ry="15" fill="#E0B054" />
+          <path class="hero-wash" data-cx="442" data-cy="228" d="M362 228 Q440 216, 522 230 Q440 242, 362 228 Z" fill="#4E7991" />
         </g>
-
-        <!-- ================= 2. ORIZZONTE MARINO DELLO IONIO ================= -->
-        <g id="mare-ionio" stroke="#547587" opacity="0.75">
-          <!-- Linea d'orizzonte interrotta dietro il bouquet -->
-          <path d="M115 212 H242 M328 212 H520" stroke-width="1.04" stroke-dasharray="10 7" stroke-linecap="round" />
-          
-          <!-- Onde morbide a filo d'acqua (interrotte attorno agli steli) -->
-          <path d="M150 228 C175 223, 195 233, 220 228 C235 225, 245 229, 255 227" stroke-width="1.04" stroke-linecap="round" />
-          <path d="M340 240 C365 235, 385 244, 410 239 C430 235, 450 241, 475 238" stroke-width="1.04" stroke-linecap="round" />
-          <path d="M135 248 C155 244, 170 252, 190 249" stroke-width="1.04" stroke-linecap="round" />
-        </g>
-
-        <!-- ================= 3. RINGHIERA IN FERRO BATTUTO (INTERROTTA DIETRO GLI OGGETTI) ================= -->
-        <g id="ringhiera-ferro" stroke="#85786B" opacity="0.56" stroke-linecap="round">
-          <!-- Corrimano superiore (y=276): si interrompe prima del calice e della caraffa per non tagliarli mai -->
-          <path d="M60 276 H154 M214 276 H252 M308 276 H525" stroke-width="1.3" />
-          <!-- Fascia inferiore ringhiera (y=296): anch'essa interrotta con pulizia dietro calice e caraffa -->
-          <path d="M60 296 H156 M212 296 H254 M306 296 H525" stroke-width="1.04" />
-          
-          <!-- Montanti verticali laterali (si fermano al bordo posteriore del tavolo y=366) -->
-          <path d="M90 276 V368 M135 276 V366 M460 276 V367 M505 276 V370" stroke-width="1.04" />
-          
-          <!-- Volute forgiate a mano tra i montanti -->
-          <path d="M102 286 C102 292, 122 292, 122 286 C122 280, 102 280, 102 286 Z" stroke-width="1.04" />
-          <path d="M473 286 C473 292, 493 292, 493 286 C493 280, 473 280, 473 286 Z" stroke-width="1.04" />
-        </g>
-
-        <!-- ================= 4. IL TAVOLO CON PROFONDITÀ PROSPETTICA ================= -->
-        <g id="tavolo-bistrot">
-          <!-- Bordo posteriore del piano del tavolo (leggero, passa DIETRO gli oggetti interrompendosi) -->
-          <path d="M88 368 Q132 365, 175 364 M195 364 Q216 363, 236 363 M324 363 Q410 364, 492 368" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.65" />
-
-          <!-- Linea anteriore della tovaglia (PASSA SOTTO GLI OGGETTI a y=418, dando profondità al piano) -->
-          <path d="M58 420 Q280 410, 512 420" stroke="#564A3E" stroke-width="1.63" stroke-linecap="round" />
-          
-          <!-- Piega morbida del tessuto sul bordo anteriore -->
-          <path d="M130 423 Q280 415, 440 423" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.55" />
-
-          <!-- Caduta laterale e panneggio della tovaglia in lino verso il basso -->
-          <path d="M82 419 C82 448, 76 472, 72 490" stroke="#564A3E" stroke-width="1.3" stroke-linecap="round" />
-          <path d="M488 419 C488 448, 494 472, 498 490" stroke="#564A3E" stroke-width="1.3" stroke-linecap="round" />
-          <path d="M185 416 C184 442, 180 465, 178 484" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.45" />
-          <path d="M395 416 C396 442, 400 465, 402 484" stroke="#85786B" stroke-width="1.04" stroke-linecap="round" opacity="0.45" />
-        </g>
-
-        <!-- ================= 5. IL CALICE DI VINO NATURALE (A METÀ TAVOLA) ================= -->
-        <g id="calice-vino">
-          <!-- Base ellittica in prospettiva poggiata a metà del piano (y=394, ben sopra la linea tovaglia y=416) -->
-          <ellipse cx="185" cy="394" rx="17" ry="4.5" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.3" />
-          <!-- Stelo del calice -->
-          <path d="M185 342 V394" stroke="#564A3E" stroke-width="1.3" stroke-linecap="round" />
-          
-          <!-- Coppa slanciata con maschera opaca interna così nessuna linea di sfondo può mai attraversarla -->
-          <path d="M165 292 C165 344, 205 344, 205 292 Z" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.3" stroke-linejoin="round" />
-          <!-- Bordo superiore ellittico del calice -->
-          <ellipse cx="185" cy="292" rx="20" ry="4.2" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.04" />
-          <!-- Vino naturale ambrato/macerato con velatura morbida -->
-          <path d="M167 313 C169 338, 201 338, 203 313 Q185 318, 167 313 Z" fill="rgba(193, 136, 83, 0.13)" stroke="none" />
-          <path d="M167 313 Q185 318, 203 313" stroke="#C18853" stroke-width="1.04" stroke-linecap="round" />
-        </g>
-
-        <!-- ================= 6. CARAFFA IN CERAMICA ARTIGIANALE (A METÀ TAVOLA) ================= -->
-        <g id="caraffa-ceramica" stroke="#564A3E" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Ansa / manico laterale in terracotta -->
-          <path d="M247 316 C230 321, 226 348, 244 360" stroke="#85786B" stroke-width="1.3" fill="none" />
-
-          <!-- Corpo della caraffa posizionato nel mezzo del piano (base a y=392, sopra la linea tovaglia y=415) -->
-          <path d="M260 392 C246 392, 237 378, 242 345 C245 320, 258 310, 262 282 H298 C302 310, 315 320, 318 345 C323 378, 314 392, 300 392 Z" fill="#F5F2EB" stroke-width="1.63" />
-          
-          <!-- Imboccatura superiore della caraffa -->
-          <ellipse cx="280" cy="282" rx="18" ry="4.5" fill="#F5F2EB" stroke-width="1.3" />
-          
-          <!-- Scanalature artigianali al tornio sulla pancia della ceramica -->
-          <path d="M251 334 Q280 340, 309 334" stroke="#85786B" stroke-width="1.04" fill="none" />
-          <path d="M249 350 Q280 357, 311 350" stroke="#85786B" stroke-width="1.04" fill="none" />
-        </g>
-
-        <!-- ================= 7. BOUQUET BOTANICO (ANIMA VEGETALE) ================= -->
-        <g id="composizione-botanica">
-          <!-- Stelo Centrale con Bocciolo di Carciofo Spinoso / Cardo di Sicilia -->
-          <path d="M280 282 V204" stroke="#5C7456" stroke-width="1.63" stroke-linecap="round" />
-          
-          <!-- Brattee e petali geometrici del carciofo -->
-          <g stroke="#5C7456" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M280 199 C265 192, 258 174, 280 150 C302 174, 295 192, 280 199 Z" stroke-width="1.3" fill="rgba(92, 116, 86, 0.12)" />
-            <path d="M266 192 C252 180, 254 162, 270 156" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
-            <path d="M294 192 C308 180, 306 162, 290 156" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
-            <!-- Cuore spinoso superiore -->
-            <path d="M280 150 C272 136, 288 136, 280 122 C272 136, 288 136, 280 150 Z" stroke-width="1.3" fill="rgba(193, 136, 83, 0.13)" />
-            <!-- Nervature sottili -->
-            <path d="M280 199 V159" stroke-width="1.04" stroke-dasharray="2 2" />
-          </g>
-
-          <!-- Ramo d'Ulivo che si sporge verso sinistra -->
-          <g stroke="#5C7456" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M272 280 Q220 254, 185 266" stroke-width="1.3" />
-            <path d="M250 262 Q238 250, 222 256 Q236 266, 250 262 Z" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
-            <path d="M218 257 Q202 248, 192 256 Q205 264, 218 257 Z" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
-            <path d="M192 264 Q176 258, 168 268 Q182 274, 192 264 Z" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" />
-            <ellipse cx="230" cy="270" rx="3.5" ry="5" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" transform="rotate(20 230 270)" />
-          </g>
-
-          <!-- Finocchietto Selvatico d'Ortigia verso destra -->
-          <g stroke="#5C7456" stroke-linecap="round">
-            <path d="M288 282 Q325 244, 345 192" stroke-width="1.04" />
-            <path d="M308 254 L328 246 M312 248 L324 236" stroke-width="1.04" />
-            <path d="M322 232 L344 222 M326 224 L340 212" stroke-width="1.04" />
-            <path d="M336 208 L358 196 M340 200 L354 188" stroke-width="1.04" />
-            <circle cx="348" cy="189" r="1.5" stroke-width="1.04" fill="#C18853" />
-            <circle cx="358" cy="196" r="1" stroke-width="1.04" fill="#C18853" />
-          </g>
-        </g>
-
-        <!-- ================= 8. AGRUME / LIMONE DI SIRACUSA A METÀ TAVOLA ================= -->
-        <g id="limone-sul-tavolo">
-          <!-- Fogliolina dell'agrume -->
-          <path d="M370 381 Q388 373, 392 383 Q380 389, 370 381 Z" stroke="#5C7456" stroke-width="1.04" fill="rgba(92, 116, 86, 0.12)" stroke-linecap="round" stroke-linejoin="round" />
-          
-          <!-- Corpo del mezzo limone appoggiato a metà del tavolo (cy=385, base a y=397, ben sopra la linea tovaglia y=416) -->
-          <ellipse cx="352" cy="385" rx="20" ry="12" fill="#F5F2EB" stroke="#564A3E" stroke-width="1.3" />
-          <ellipse cx="352" cy="385" rx="20" ry="12" fill="rgba(193, 136, 83, 0.13)" stroke="none" />
-          
-          <!-- Corona interna e spicchi -->
-          <ellipse cx="352" cy="385" rx="14" ry="8" stroke="#C18853" stroke-width="1.04" />
-          <path d="M352 377 V393 M338 385 H366" stroke="#C18853" stroke-width="1.04" />
-          <path d="M342 379.5 L362 390.5 M342 390.5 L362 379.5" stroke="#C18853" stroke-width="1.04" />
-        </g>
+        <!-- Tracciato Unico Continuo (One-Line Art) - Gutkowskino Ortigia -->
+        <path id="hero-oneline-path" d="M 72 472 C 76 450, 80 432, 88 425 C 215 415, 385 415, 512 425 C 520 432, 524 450, 528 472 C 520 452, 514 415, 504 385 C 504 352, 504 322, 504 295 C 504 276, 472 276, 472 294 C 472 306, 488 308, 490 296 C 492 284, 464 282, 462 302 C 460 332, 458 362, 454 385 C 440 385, 426 385, 412 385 C 419 383, 425 374, 425 366 C 435 355, 452 355, 458 364 C 449 373, 434 372, 425 366 C 418 345, 360 345, 355 368 C 353 379, 368 385, 386 385 C 405 384, 415 376, 413 366 C 410 354, 368 354, 365 367 C 364 376, 378 380, 389 378 C 391 371, 389 361, 389 357 C 389 365, 388 373, 373 371 C 385 369, 395 368, 406 366 C 394 368, 382 374, 376 385 C 358 385, 334 385, 312 385 C 292 386, 272 386, 252 385 C 237 382, 231 365, 236 342 C 212 334, 208 282, 252 275 C 218 285, 221 329, 237 337 C 242 310, 250 286, 254 260 C 255 253, 250 251, 252 249 C 264 243, 294 243, 306 249 C 294 255, 276 255, 268 251 C 254 231, 230 217, 204 221 C 188 223, 173 217, 169 209 C 181 203, 196 211, 204 221 C 200 207, 206 191, 216 187 C 220 197, 214 211, 208 220 C 216 220, 221 232, 214 241 C 207 242, 205 230, 214 220 C 226 217, 234 201, 246 197 C 248 207, 240 219, 232 223 C 248 227, 264 239, 276 251 C 277 231, 278 217, 278 207 C 265 203, 257 195, 263 191 C 270 193, 275 199, 279 204 C 280 195, 280 187, 280 181 C 261 179, 245 163, 247 143 C 253 153, 264 165, 274 173 C 257 157, 251 133, 259 115 C 266 127, 272 145, 278 163 C 268 141, 270 111, 280 94 C 290 111, 292 141, 282 163 C 288 145, 294 127, 301 115 C 309 133, 303 157, 286 173 C 296 165, 307 153, 313 143 C 315 163, 299 179, 282 181 C 283 204, 284 229, 284 251 C 298 233, 316 211, 332 191 C 324 183, 326 173, 334 185 C 342 173, 352 163, 358 157 C 354 167, 344 179, 338 187 C 350 183, 360 181, 364 185 C 352 191, 340 193, 330 197 C 340 201, 348 201, 352 205 C 340 207, 328 205, 318 213 C 310 225, 306 239, 304 249 C 304 274, 318 301, 321 324 C 296 330, 266 330, 252 324 C 268 332, 298 332, 322 326 C 325 348, 322 376, 312 385 C 275 386, 220 385, 176 385 C 152 385, 146 379, 176 378 C 206 379, 200 385, 176 385 C 176 365, 176 345, 176 326 C 198 322, 206 288, 200 254 C 188 248, 164 248, 152 254 C 164 260, 188 260, 200 254 C 203 268, 204 280, 203 292 C 188 286, 164 286, 149 292 C 164 298, 188 298, 203 292 C 200 312, 190 325, 176 326 C 158 325, 148 310, 149 295 C 130 295, 110 295, 92 295 C 92 278, 122 278, 122 293 C 122 305, 106 307, 104 295 C 102 282, 82 284, 84 295 C 86 240, 110 175, 156 154 C 166 142, 174 146, 178 154 C 182 146, 190 140, 202 148 C 208 140, 212 132, 218 126 C 226 116, 234 120, 236 128 C 240 120, 248 114, 258 122 C 295 78, 355 76, 396 102 C 416 86, 448 96, 446 118 C 444 138, 412 144, 400 126 C 390 108, 408 88, 426 94 C 440 98, 442 120, 428 128 C 416 134, 406 122, 412 112 C 418 104, 428 110, 424 118 C 418 148, 395 195, 368 226 C 386 234, 402 218, 418 226 C 434 234, 452 218, 468 226 C 484 234, 502 222, 518 228" stroke="#354F60" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" fill="none" />
       </svg>`,
 
-
-    // Fregio divisorio botanico (Ramo d'ulivo, bocciolo di cappero e sole)
     dividerBotanical: `
       <div class="med-section-divider svg-draw-trigger" aria-hidden="true">
-        <svg viewBox="0 0 640 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="svg-ink-path" d="M20 22 H235" stroke="currentColor" stroke-width="0.85" stroke-dasharray="4 4"/>
-          <path class="svg-ink-path" d="M405 22 H620" stroke="currentColor" stroke-width="0.85" stroke-dasharray="4 4"/>
-          <path class="svg-ink-path" d="M248 22 C272 22, 286 11, 320 11 C354 11, 368 22, 392 22" stroke="currentColor" stroke-width="1.1"/>
-          <path class="svg-ink-path" d="M248 22 C272 22, 286 33, 320 33 C354 33, 368 22, 392 22" stroke="currentColor" stroke-width="1.1"/>
-          <path class="svg-ink-path" d="M276 18 C268 10, 256 12, 262 20" stroke="var(--sage-green)" stroke-width="1"/>
-          <path class="svg-ink-path" d="M364 18 C372 10, 384 12, 378 20" stroke="var(--sage-green)" stroke-width="1"/>
-          <circle class="svg-ink-path" cx="320" cy="22" r="4.5" stroke="var(--amber-warm)" stroke-width="1.2"/>
-          <circle cx="298" cy="22" r="1.8" fill="var(--amber-warm)"/>
-          <circle cx="342" cy="22" r="1.8" fill="var(--amber-warm)"/>
+        <svg viewBox="0 0 880 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="svg-ink-path" d="M30 22 H355" stroke="currentColor" stroke-width="0.85" stroke-dasharray="4 4"/>
+          <path class="svg-ink-path" d="M525 22 H850" stroke="currentColor" stroke-width="0.85" stroke-dasharray="4 4"/>
+          <path class="svg-ink-path" d="M368 22 C392 22, 406 11, 440 11 C474 11, 488 22, 512 22" stroke="currentColor" stroke-width="1.1"/>
+          <path class="svg-ink-path" d="M368 22 C392 22, 406 33, 440 33 C474 33, 488 22, 512 22" stroke="currentColor" stroke-width="1.1"/>
+          <path class="svg-ink-path" d="M396 18 C388 10, 376 12, 382 20" stroke="var(--sage-green)" stroke-width="1"/>
+          <path class="svg-ink-path" d="M484 18 C492 10, 504 12, 498 20" stroke="var(--sage-green)" stroke-width="1"/>
+          <circle class="svg-ink-path" cx="440" cy="22" r="4.5" stroke="var(--amber-warm)" stroke-width="1.2"/>
+          <circle cx="418" cy="22" r="1.8" fill="var(--amber-warm)"/>
+          <circle cx="462" cy="22" r="1.8" fill="var(--amber-warm)"/>
         </svg>
       </div>`,
 
@@ -461,6 +314,7 @@
     initAzureFilterPill();
     initLightbox();
     initSectionNavDots();
+    initHeroSvgInteractiveDisplacement();
   }
 
   // ───── 1. Navbar Semilla Style ─────
@@ -563,47 +417,24 @@
 
     const section = el('section', { className: 'semilla-hero', id: 'hero' });
     section.innerHTML = `
-      <!-- Margine Sinistro: Outline SVG Botanico Mediterraneo (Ramo d'Ulivo & Sole) -->
+      <!-- Margine Sinistro: Outline SVG Marino Mediterraneo in Verticale (Onde Ionio, Rosa dei Venti, Anfora & Sole) -->
       <div class="semilla-side-svg semilla-side-left" aria-hidden="true">
         <svg viewBox="0 0 54 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-vertical-svg">
-          <path d="M27 10 Q 32 90, 24 180 T 28 270 T 26 350" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-          <circle cx="27" cy="18" r="8" stroke="var(--amber-warm)" stroke-width="1.1"/>
-          <circle cx="27" cy="18" r="4" fill="var(--amber-warm)" opacity="0.6"/>
-          <path d="M27 6 V2 M27 34 V30 M15 18 H11 M39 18 H43 M18 9 L15 6 M36 27 L39 30 M36 9 L39 6 M18 27 L15 30" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M26 65 C 12 55, 6 70, 24 78 C 20 68, 22 62, 26 65 Z" stroke="currentColor" stroke-width="1" fill="none"/>
-          <circle cx="10" cy="80" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M27 110 C 42 100, 48 115, 30 125 C 34 114, 32 108, 27 110 Z" stroke="currentColor" stroke-width="1" fill="none"/>
-          <path d="M25 155 C 10 145, 5 162, 23 168 C 18 158, 21 152, 25 155 Z" stroke="currentColor" stroke-width="1" fill="none"/>
-          <circle cx="9" cy="170" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M27 205 C 44 195, 48 212, 29 218 C 34 208, 31 202, 27 205 Z" stroke="currentColor" stroke-width="1" fill="none"/>
-          <path d="M26 250 C 11 240, 7 256, 24 262 C 19 252, 22 247, 26 250 Z" stroke="currentColor" stroke-width="1" fill="none"/>
-          <circle cx="11" cy="265" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M27 295 C 43 286, 47 302, 29 308 C 33 298, 31 292, 27 295 Z" stroke="currentColor" stroke-width="1" fill="none"/>
-          <circle cx="43" cy="310" r="3" stroke="var(--amber-warm)" stroke-width="0.9"/>
-          <path d="M26 335 C 22 345, 32 355, 27 350" stroke="currentColor" stroke-width="1.1"/>
-        </svg>
-      </div>
-
-      <!-- Angolo Basso a Sinistra: Outline SVG Marino Mediterraneo Orizzontale (Rosa dei Venti, Onde Ionio, Anfora & Sole) -->
-      <div class="semilla-hero-corner-bot-left" aria-hidden="true">
-        <svg viewBox="0 0 360 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="med-horizontal-svg">
-          <g transform="translate(0, 54) rotate(-90)">
-            <path d="M27 10 Q 34 50, 27 90 T 27 170 T 27 250 T 27 350" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
-            <path d="M27 14 L30 25 L41 27 L30 29 L27 40 L24 29 L13 27 L24 25 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
-            <circle cx="27" cy="27" r="14" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
-            <path d="M14 90 Q 27 78, 40 90" stroke="var(--blue-levante)" stroke-width="1.2"/>
-            <path d="M17 96 Q 27 86, 37 96" stroke="currentColor" stroke-width="0.9"/>
-            <path d="M20 150 H34 M22 150 V158 C14 166, 12 184, 18 202 C22 214, 27 220, 27 220 C27 220, 32 214, 36 202 C42 184, 40 166, 32 158 V150" stroke="currentColor" stroke-width="1.1"/>
-            <path d="M21 155 C12 155, 8 168, 16 178" stroke="currentColor" stroke-width="0.9"/>
-            <path d="M33 155 C42 155, 46 168, 38 178" stroke="currentColor" stroke-width="0.9"/>
-            <path d="M17 182 Q 27 174, 37 182" stroke="var(--amber-warm)" stroke-width="0.9"/>
-            <path d="M14 260 Q 27 248, 40 260" stroke="var(--blue-levante)" stroke-width="1.2"/>
-            <path d="M17 266 Q 27 256, 37 266" stroke="currentColor" stroke-width="0.9"/>
-            <circle cx="27" cy="310" r="7" stroke="var(--amber-warm)" stroke-width="1"/>
-            <circle cx="27" cy="310" r="3.5" fill="var(--amber-warm)" opacity="0.7"/>
-            <path d="M27 300 V296 M27 324 V320 M17 310 H13 M41 310 H37" stroke="var(--amber-warm)" stroke-width="0.85"/>
-            <path d="M27 335 V350" stroke="currentColor" stroke-width="1"/>
-          </g>
+          <path d="M27 10 Q 34 50, 27 90 T 27 170 T 27 250 T 27 350" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M27 14 L30 25 L41 27 L30 29 L27 40 L24 29 L13 27 L24 25 Z" stroke="var(--amber-warm)" stroke-width="1.15"/>
+          <circle cx="27" cy="27" r="14" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
+          <path d="M14 90 Q 27 78, 40 90" stroke="var(--blue-levante)" stroke-width="1.2"/>
+          <path d="M17 96 Q 27 86, 37 96" stroke="currentColor" stroke-width="0.9"/>
+          <path d="M20 150 H34 M22 150 V158 C14 166, 12 184, 18 202 C22 214, 27 220, 27 220 C27 220, 32 214, 36 202 C42 184, 40 166, 32 158 V150" stroke="currentColor" stroke-width="1.1"/>
+          <path d="M21 155 C12 155, 8 168, 16 178" stroke="currentColor" stroke-width="0.9"/>
+          <path d="M33 155 C42 155, 46 168, 38 178" stroke="currentColor" stroke-width="0.9"/>
+          <path d="M17 182 Q 27 174, 37 182" stroke="var(--amber-warm)" stroke-width="0.9"/>
+          <path d="M14 260 Q 27 248, 40 260" stroke="var(--blue-levante)" stroke-width="1.2"/>
+          <path d="M17 266 Q 27 256, 37 266" stroke="currentColor" stroke-width="0.9"/>
+          <circle cx="27" cy="310" r="7" stroke="var(--amber-warm)" stroke-width="1"/>
+          <circle cx="27" cy="310" r="3.5" fill="var(--amber-warm)" opacity="0.7"/>
+          <path d="M27 300 V296 M27 324 V320 M17 310 H13 M41 310 H37" stroke="var(--amber-warm)" stroke-width="0.85"/>
+          <path d="M27 335 V350" stroke="currentColor" stroke-width="1"/>
         </svg>
       </div>
 
@@ -1329,6 +1160,194 @@
   }
 
   // ───── 10. Segnaposto delle Sezioni Laterali a Pallini (Scroll Libero Nativo) ─────
+  
+  /* ── Spostamento Fluido e Organico della Porzione di SVG su Hover/Mousemove ── */
+  function initHeroSvgInteractiveDisplacement() {
+    const heroArt = document.querySelector('.semilla-hero-art');
+    const heroSvg = document.getElementById('hero-svg');
+    const oneLinePath = document.getElementById('hero-oneline-path');
+    const washes = document.querySelectorAll('.hero-wash');
+
+    if (!heroArt || !heroSvg || !oneLinePath) return;
+
+    // Parse the initial path into command chunks and coordinate points
+    const rawD = oneLinePath.getAttribute('d');
+    const tokens = rawD.trim().split(/([MCQzZ])/).filter(t => t.trim().length > 0);
+    const parsedCommands = [];
+    const baseCoords = []; // flat array of [x, y] coordinates
+
+    let currentCmd = null;
+    for (let i = 0; i < tokens.length; i++) {
+      const t = tokens[i].trim();
+      if ('MCQzZ'.includes(t)) {
+        currentCmd = t;
+      } else {
+        const nums = t.split(/[\s,]+/).filter(Boolean).map(Number);
+        const startIndex = baseCoords.length / 2;
+        for (let j = 0; j < nums.length; j += 2) {
+          baseCoords.push(nums[j], nums[j + 1]);
+        }
+        parsedCommands.push({
+          cmd: currentCmd,
+          pointCount: nums.length / 2,
+          startIndex
+        });
+      }
+    }
+
+    const totalPoints = baseCoords.length / 2;
+    const currentOffsets = new Float32Array(totalPoints * 2);
+    const targetOffsets = new Float32Array(totalPoints * 2);
+
+    // Wash state tracking
+    const washStates = Array.from(washes).map(wash => ({
+      el: wash,
+      cx: parseFloat(wash.getAttribute('data-cx') || 0),
+      cy: parseFloat(wash.getAttribute('data-cy') || 0),
+      currX: 0,
+      currY: 0,
+      targetX: 0,
+      targetY: 0
+    }));
+
+    let isHovering = false;
+    let mouseSvgX = -9999;
+    let mouseSvgY = -9999;
+    let animFrameId = null;
+
+    function getSvgCoordinates(e) {
+      const rect = heroSvg.getBoundingClientRect();
+      const scaleX = 600 / rect.width;
+      const scaleY = 500 / rect.height;
+      return {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
+      };
+    }
+
+    function onPointerMove(e) {
+      isHovering = true;
+      const coords = getSvgCoordinates(e);
+      mouseSvgX = coords.x;
+      mouseSvgY = coords.y;
+
+      const RADIUS = 115;
+      const STRENGTH = 15;
+
+      // Update target displacement for points near cursor
+      for (let i = 0; i < totalPoints; i++) {
+        const bx = baseCoords[i * 2];
+        const by = baseCoords[i * 2 + 1];
+        const dx = bx - mouseSvgX;
+        const dy = by - mouseSvgY;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < RADIUS && dist > 0.001) {
+          // Smooth bell-curve falloff
+          const factor = Math.pow(1 - dist / RADIUS, 2);
+          const push = factor * STRENGTH;
+          targetOffsets[i * 2] = (dx / dist) * push;
+          targetOffsets[i * 2 + 1] = (dy / dist) * push;
+        } else {
+          targetOffsets[i * 2] = 0;
+          targetOffsets[i * 2 + 1] = 0;
+        }
+      }
+
+      // Update target displacement for watercolor washes
+      washStates.forEach(w => {
+        const dx = w.cx - mouseSvgX;
+        const dy = w.cy - mouseSvgY;
+        const dist = Math.hypot(dx, dy);
+        const WASH_RADIUS = 140;
+        if (dist < WASH_RADIUS && dist > 0.001) {
+          const factor = Math.pow(1 - dist / WASH_RADIUS, 1.8);
+          const push = factor * 18;
+          w.targetX = (dx / dist) * push;
+          w.targetY = (dy / dist) * push;
+        } else {
+          w.targetX = 0;
+          w.targetY = 0;
+        }
+      });
+
+      if (!animFrameId) {
+        animFrameId = requestAnimationFrame(animateLoop);
+      }
+    }
+
+    function onPointerLeave() {
+      isHovering = false;
+      mouseSvgX = -9999;
+      mouseSvgY = -9999;
+      for (let i = 0; i < totalPoints * 2; i++) {
+        targetOffsets[i] = 0;
+      }
+      washStates.forEach(w => {
+        w.targetX = 0;
+        w.targetY = 0;
+      });
+      if (!animFrameId) {
+        animFrameId = requestAnimationFrame(animateLoop);
+      }
+    }
+
+    function animateLoop() {
+      let maxDiff = 0;
+      const LERP = 0.12;
+
+      // Lerp one-line path points
+      for (let i = 0; i < totalPoints * 2; i++) {
+        const diff = targetOffsets[i] - currentOffsets[i];
+        currentOffsets[i] += diff * LERP;
+        const absDiff = Math.abs(diff);
+        if (absDiff > maxDiff) maxDiff = absDiff;
+      }
+
+      // Lerp washes
+      washStates.forEach(w => {
+        const dx = w.targetX - w.currX;
+        const dy = w.targetY - w.currY;
+        w.currX += dx * LERP;
+        w.currY += dy * LERP;
+        const diff = Math.max(Math.abs(dx), Math.abs(dy));
+        if (diff > maxDiff) maxDiff = diff;
+        w.el.style.transform = `translate(${w.currX.toFixed(2)}px, ${w.currY.toFixed(2)}px)`;
+      });
+
+      // Build updated path string
+      let newD = '';
+      for (let c = 0; c < parsedCommands.length; c++) {
+        const cmdObj = parsedCommands[c];
+        newD += (c === 0 ? '' : ' ') + cmdObj.cmd;
+        for (let p = 0; p < cmdObj.pointCount; p++) {
+          const ptIdx = cmdObj.startIndex + p;
+          const x = (baseCoords[ptIdx * 2] + currentOffsets[ptIdx * 2]).toFixed(1);
+          const y = (baseCoords[ptIdx * 2 + 1] + currentOffsets[ptIdx * 2 + 1]).toFixed(1);
+          newD += ` ${x} ${y}`;
+        }
+      }
+      oneLinePath.setAttribute('d', newD);
+
+      // Continue animation if still moving or settling
+      if (maxDiff > 0.05 || isHovering) {
+        animFrameId = requestAnimationFrame(animateLoop);
+      } else {
+        // Snap back cleanly to original path when settled
+        oneLinePath.setAttribute('d', rawD);
+        washStates.forEach(w => {
+          w.currX = 0;
+          w.currY = 0;
+          w.el.style.transform = '';
+        });
+        animFrameId = null;
+      }
+    }
+
+    heroArt.addEventListener('pointermove', onPointerMove, { passive: true });
+    heroArt.addEventListener('pointerleave', onPointerLeave, { passive: true });
+  }
+
   function initSectionNavDots() {
     const SECTION_CONFIG = [
       { id: 'hero', label: 'Home' },

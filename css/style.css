@@ -220,7 +220,7 @@ button {
 }
 
 .med-section-divider svg {
-  width: min(100%, 560px);
+  width: min(100%, 780px);
   height: auto;
   display: block;
 }
@@ -823,20 +823,7 @@ button {
   left: clamp(1rem, 2.6vw, 3.2rem);
 }
 
-.semilla-hero-corner-bot-left {
-  position: absolute;
-  bottom: clamp(1.2rem, 3vh, 2.5rem);
-  left: clamp(1.5rem, 3.2vw, 3.8rem);
-  width: clamp(240px, 26vw, 360px);
-  height: auto;
-  display: flex;
-  align-items: center;
-  user-select: none;
-  pointer-events: none;
-  z-index: 5;
-  opacity: 0.55;
-  color: var(--semilla-dark);
-}
+
 
 .med-vertical-svg {
   width: 100%;
@@ -1886,7 +1873,7 @@ button {
   background: linear-gradient(180deg, var(--bg-azure-wash) 0%, #ECF3F6 65%, var(--bg-cream) 100%);
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid var(--line-blue);
+  border-bottom: none !important;
   padding: clamp(2.5rem, 4.2vh, 4rem) 0;
 }
 
@@ -2135,7 +2122,7 @@ button {
 }
 
 @media (max-width: 860px) {
-  .semilla-side-svg, .semilla-hero-corner-bot-left { display: none !important; }
+  .semilla-side-svg { display: none !important; }
   .semilla-nav-group { display: none !important; }
   .semilla-nav-inner { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 0 1.25rem !important; }
   .semilla-nav-toggle { display: flex !important; }
@@ -2308,4 +2295,14 @@ button {
   .camera-nav-dots {
     display: none !important;
   }
+}
+
+.hero-wash {
+  will-change: transform;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+#hero-oneline-path {
+  will-change: d;
 }
