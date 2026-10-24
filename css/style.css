@@ -434,15 +434,13 @@ button {
   height: 80px;
   background-color: var(--semilla-bg);
   border-bottom: 1px solid transparent;
-  transition: background-color 260ms var(--ease-premium), box-shadow 260ms ease, border-color 260ms ease;
+  transition: box-shadow 260ms ease, border-color 260ms ease;
 }
 
 .navbar.scrolled {
-  background-color: rgba(234, 224, 206, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: var(--semilla-bg);
   border-bottom: 1px solid rgba(30, 40, 37, 0.08);
-  box-shadow: 0 4px 20px rgba(30, 40, 37, 0.05);
+  box-shadow: 0 4px 20px rgba(30, 40, 37, 0.04);
 }
 
 .semilla-nav-inner {
