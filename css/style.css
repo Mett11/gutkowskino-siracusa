@@ -2532,244 +2532,70 @@ button {
   box-shadow: 0 10px 26px rgba(78, 110, 130, 0.2);
 }
 
-/* Metadati e Coordinate */
-.hero-arch-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(43, 38, 35, 0.52);
-}
-
-.hero-arch-meta-dot {
-  color: #C88D56;
-}
-
-/* ───── Colonna Visiva: Finestra ad Arco con Keystone / Quadro d'Arte ───── */
+/* ───── Colonna Visiva: Finestra Monumentale ad Arco con Keystone ───── */
 .hero-arch-visual {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 2;
-  min-height: 580px; /* Previene ogni jitter verticale e mantiene bilanciato il layout */
 }
 
 .hero-arch-frame-stage {
   transform: perspective(1000px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
   transform-style: preserve-3d;
   position: relative;
-  width: clamp(290px, 28vw, 390px);
+  width: clamp(290px, 29vw, 420px);
   max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  cursor: pointer;
-  transition: 
-    width 1200ms cubic-bezier(0.22, 1, 0.36, 1), 
-    transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Espansione orizzontale maestosa ed elegante: il quadro 16:9 diventa grande e panoramico */
-.hero-arch-frame-stage:hover,
-.hero-arch-frame-stage.is-frame-mode {
-  width: clamp(480px, 50vw, 700px);
-}
-
-/* Finestra ad Arco a Tutto Sesto / Cornice Architettonica del Quadro */
+/* Finestra ad Arco a Tutto Sesto */
 .hero-arch-window {
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 14;
-  border-radius: 9999px 9999px 0 0; /* Arco a tutto sesto a riposo */
+  border-radius: 9999px 9999px 0 0; /* rounded-t-full */
   overflow: hidden;
   background-color: #FAF8F5;
-  /* Stessi elementi dell'arco: filetto sottile a china 1.2px, NESSUN BORDO NERO */
-  border: 1.2px solid rgba(43, 38, 35, 0.38);
-  box-shadow: 0 16px 44px rgba(43, 38, 35, 0.08);
-  padding: 0;
-  transition: 
-    aspect-ratio 1200ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 1200ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 1200ms ease,
-    padding 1200ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 1200ms ease,
-    box-shadow 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 18px 48px rgba(43, 38, 35, 0.08);
+  transition: box-shadow 500ms ease;
   z-index: 2;
 }
 
-/* Quando si passa col mouse: l'arco si trasforma nella cornice architettonica del quadro 16:9 */
-.hero-arch-frame-stage:hover .hero-arch-window,
-.hero-arch-frame-stage.is-frame-mode .hero-arch-window {
-  aspect-ratio: 16 / 9;
-  border-radius: 3px;
-  /* NESSUN BORDO NERO: cornice architettonica con gli stessi elementi (filo 1.2px + filetto dorato) */
-  border: 1.2px solid rgba(43, 38, 35, 0.48);
-  padding: 10px; /* Passe-partout d'atelier su fondo calce naturale */
-  background-color: #FAF8F5;
-  box-shadow: 
-    0 0 0 1px rgba(200, 141, 86, 0.4), /* Richiamo dorato/ambra dell'arco */
-    0 24px 64px rgba(43, 38, 35, 0.12),
-    0 6px 18px rgba(43, 38, 35, 0.06);
+.hero-arch-frame-stage:hover .hero-arch-window {
+  box-shadow: 0 24px 56px rgba(43, 38, 35, 0.12);
 }
 
-/* Immagine del quadro: STRICTLY NO ZOOM, movimento calmo da composizione */
+/* Immagine dell'Arco: NO ZOOM */
 .hero-arch-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center top;
   display: block;
-  border-radius: 2px;
-  transform: none !important; /* Nessun zoom */
-  transition: object-position 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform: none !important;
 }
 
 .hero-arch-frame-stage:hover .hero-arch-photo,
-.hero-arch-frame-stage.is-frame-mode .hero-arch-photo,
 .hero-arch-photo:hover {
-  transform: none !important; /* Nessun zoom */
+  transform: none !important;
 }
 
-/* Filetto tratteggiato interno (identico al tratteggio ocra dell'arco) */
-.painting-dash-inner {
-  position: absolute;
-  inset: 5px;
-  border: 0.85px dashed rgba(200, 141, 86, 0.75);
-  pointer-events: none;
-  border-radius: 2px;
-  opacity: 0;
-  transition: opacity 800ms 300ms ease;
-  z-index: 4;
-}
-
-.hero-arch-frame-stage:hover .painting-dash-inner,
-.hero-arch-frame-stage.is-frame-mode .painting-dash-inner {
-  opacity: 1;
-}
-
-/* Velatura di luce calda / Illuminazione d'esposizione d'atelier */
+/* Velatura di luce calda interna all'arco */
 .hero-arch-light-wash {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: radial-gradient(circle at 50% 12%, rgba(200, 141, 86, 0.12) 0%, transparent 60%);
   mix-blend-mode: soft-light;
-  transition: background 1200ms ease, opacity 1200ms ease;
-  z-index: 3;
 }
 
-.hero-arch-frame-stage:hover .hero-arch-light-wash,
-.hero-arch-frame-stage.is-frame-mode .hero-arch-light-wash {
-  background: radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.22) 0%, rgba(200, 141, 86, 0.06) 50%, transparent 75%);
-}
-
-/* 4 Angolari Architettonici: gli stessi conci e geometrie dell'arco */
-.painting-corner {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 5;
-  transition: opacity 700ms 300ms ease, transform 800ms 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.painting-corner.corner-tl {
-  top: 13px;
-  left: 13px;
-  transform: translate(-6px, -6px);
-}
-
-.painting-corner.corner-tr {
-  top: 13px;
-  right: 13px;
-  transform: translate(6px, -6px);
-}
-
-.painting-corner.corner-bl {
-  bottom: 13px;
-  left: 13px;
-  transform: translate(-6px, 6px);
-}
-
-.painting-corner.corner-br {
-  bottom: 13px;
-  right: 13px;
-  transform: translate(6px, 6px);
-}
-
-.hero-arch-frame-stage:hover .painting-corner,
-.hero-arch-frame-stage.is-frame-mode .painting-corner {
-  opacity: 0.95;
-  transform: translate(0, 0);
-}
-
-/* Chiave di Volta / Cartiglio Solare del Quadro */
-.hero-quadro-keystone {
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-12px) scale(0.85);
-  width: 36px;
-  height: 36px;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 6;
-  transition: opacity 700ms 350ms ease, transform 900ms 350ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-arch-frame-stage:hover .hero-quadro-keystone,
-.hero-arch-frame-stage.is-frame-mode .hero-quadro-keystone {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0) scale(1);
-}
-
-/* Targhetta Architettonica di Base (stessi elementi: filo, calce e ocra) */
-.hero-frame-plate {
-  position: absolute;
-  bottom: -18px;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  opacity: 0;
-  pointer-events: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.35rem 1.1rem;
-  background-color: #FAF8F5;
-  border: 1px solid rgba(43, 38, 35, 0.28);
-  border-radius: 9999px;
-  box-shadow: 0 4px 16px rgba(43, 38, 35, 0.08);
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.26em;
-  color: #2B2623;
-  text-transform: uppercase;
-  white-space: nowrap;
-  z-index: 6;
-  transition: opacity 700ms 350ms ease, transform 900ms 350ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-frame-plate .plate-line {
-  width: 16px;
-  height: 1px;
-  background-color: #C88D56;
-  opacity: 0.7;
-}
-
-.hero-arch-frame-stage:hover .hero-frame-plate,
-.hero-arch-frame-stage.is-frame-mode .hero-frame-plate {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Contorno Vettoriale Architettonico con Chiave di Volta dell'Arco */
+/* Contorno Vettoriale Architettonico con Chiave di Volta */
 .hero-arch-contour-svg {
   position: absolute;
   top: -16px;
@@ -2781,42 +2607,6 @@ button {
   pointer-events: none;
   z-index: 3;
   overflow: visible;
-  transition: opacity 800ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Smontaggio dell'Arco su Hover: movimento calmo, quasi da composizione */
-.svg-arch-keystone {
-  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms ease;
-}
-
-.hero-arch-frame-stage:hover .svg-arch-keystone,
-.hero-arch-frame-stage.is-frame-mode .svg-arch-keystone {
-  transform: translate(230px, -40px) scale(0.8);
-  opacity: 0;
-}
-
-.svg-arch-voussoirs {
-  transform-origin: 230px 240px;
-  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1), opacity 450ms ease;
-}
-
-.hero-arch-frame-stage:hover .svg-arch-voussoirs,
-.hero-arch-frame-stage.is-frame-mode .svg-arch-voussoirs {
-  transform: scale(1.18);
-  opacity: 0;
-}
-
-.svg-arch-path,
-.svg-arch-dash {
-  transition: transform 850ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms ease;
-}
-
-.hero-arch-frame-stage:hover .svg-arch-path,
-.hero-arch-frame-stage:hover .svg-arch-dash,
-.hero-arch-frame-stage.is-frame-mode .svg-arch-path,
-.hero-arch-frame-stage.is-frame-mode .svg-arch-dash {
-  transform: translateY(-20px) scale(0.96);
-  opacity: 0;
 }
 
 /* ───── Dialogo Editoriale su Schermi Grandi: Parziale sovrapposizione ───── */
@@ -2861,11 +2651,6 @@ button {
     margin: 0 auto;
   }
 
-  .hero-arch-frame-stage:hover,
-  .hero-arch-frame-stage.is-frame-mode {
-    width: min(560px, 94vw);
-  }
-
   .hero-arch-eyebrow-wrap {
     justify-content: center;
   }
@@ -2884,9 +2669,6 @@ button {
     width: 100%;
   }
 
-  .hero-arch-meta {
-    justify-content: center;
-  }
 }
 
 @media (max-width: 520px) {
