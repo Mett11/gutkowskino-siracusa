@@ -12,7 +12,7 @@
     "googleMapsUrl": "https://www.google.com/maps/place/Gutkowskino/@37.0641278,15.2961667,16z/data=!3m1!5s0x1313cc1dfa4a631f:0x88ec2b5bef1bce26!4m8!3m7!1s0x1313cd154c13a651:0x1213d6291007b46f!8m2!3d37.0641278!4d15.2961667!9m1!1b1!16s%2Fg%2F11rwy1bk9h"
   },
   "hero": {
-    "backgroundImage": "https://gutkowskino-demo.siracusalabs.app/assets/images/hero-terrazza-1792755231068.webp",
+    "backgroundImage": "assets/images/hero-finestra-arco.webp",
     "heading": "Cucina vegetale d'autore <em>sul mare di Levante</em>",
     "subheading": "Al piano terra dello storico Hotel Gutkowski, lungo la costa orientale di Ortigia. Pochi tavoli tra la brezza dello Ionio e la pietra bianca, dove l'ortaggio del mercato diventa alta cucina."
   },
@@ -81,34 +81,7 @@
     ]
   },
   "spaces": {
-    "sub": "Dalla terrazza con vista sullo Ionio alla sala illuminata da candele e luci calde: ogni spazio è pensato per un'esperienza intima e accogliente.",
-    "items": [
-      {
-        "title": "Il Dipinto della Terrazza sul Mare",
-        "tag": "Acquerello & Vista Ionica",
-        "image": "assets/images/hero-terrazza-dipinto.webp"
-      },
-      {
-        "title": "La Terrazza sul Lungomare",
-        "tag": "Vista Mare & Scogli",
-        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/934d1b47-b37c-4d24-a431-1ccdd0bbf0b0.jpg"
-      },
-      {
-        "title": "La Sala dell'Hotel Gutkowski",
-        "tag": "Calce Bianca & Lampadari Storici",
-        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/3a353356-b582-4e31-8648-0eb702d983ab.png"
-      },
-      {
-        "title": "Tavoli al Tramonto",
-        "tag": "Brezza Ionica",
-        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e4f4c94b-7e90-42b9-a2ec-dd7fc21cf671.jpg"
-      },
-      {
-        "title": "Catenarie e Notte ad Ortigia",
-        "tag": "Atmosfera Notturna",
-        "image": "https://cdn.thefork.com/tf-lab/image/upload/w_1400,q_auto,f_auto,q_auto,f_jpg/restaurant/20b6c5c8-f1e3-462d-87be-e8523872b76d/e61bc9bb-e460-49a5-85f6-b1d5526b5faf.jpg"
-      }
-    ]
+    "sub": "Dalla terrazza con vista sullo Ionio alla sala illuminata da candele e luci calde: ogni spazio è pensato per un'esperienza intima e accogliente."
   },
   "gallery": {
     "photos": [

@@ -281,37 +281,20 @@
   }
 
   function buildUnifiedPhotos(data) {
-    const raw = [];
-
-    (data.spaces?.items || []).forEach(s => {
-      const isTerrace = /Terrazza|Mare|Calici|Tramonto|Scogli/i.test(s.title + ' ' + s.tag);
-      raw.push({
-        url: s.image,
-        title: s.title,
-        tag: s.tag,
-        filterCat: isTerrace ? 'terrazza' : 'sala'
-      });
-    });
-
-    (data.gallery?.photos || []).forEach(p => {
+    // Fonte unica e veritiera: tutte le foto gestite nel pannello Admin (data.gallery.photos)
+    const photos = data.gallery?.photos || [];
+    return photos.map(p => {
       let filterCat = 'piatti';
       if (p.category === 'ambiente') {
         filterCat = /Terrazza|Mare|Calici|Lungomare|Scogliera/i.test(p.title) ? 'terrazza' : 'sala';
       }
-      raw.push({
+      return {
         url: p.image,
-        title: p.title,
-        tag: filterCat === 'terrazza' ? 'Terrazza & Mare' : filterCat === 'sala' ? 'Sala & Tavola' : 'Dalla Cucina',
+        title: p.title || 'Scatto Gutkowskino',
+        tag: filterCat === 'terrazza' ? 'Terrazza & Mare' : (filterCat === 'sala' ? 'Sala & Tavola' : 'Dalla Cucina'),
         filterCat
-      });
-    });
-
-    const seen = new Set();
-    return raw.filter(item => {
-      if (!item.url || seen.has(item.url)) return false;
-      seen.add(item.url);
-      return true;
-    });
+      };
+    }).filter(item => Boolean(item.url));
   }
 
   async function init() {
@@ -521,7 +504,7 @@
             <!-- Finestra Fotografica ad Arco -->
             <div class="hero-arch-window" role="img" aria-label="Terrazza di Gutkowskino affacciata sul mare di Levante a Ortigia con tavolo apparecchiato, piatto vegetale d'autore e calice di vino al tramonto">
               <img 
-                src="assets/images/hero-finestra-arco.webp" 
+                src="${data.hero?.backgroundImage || 'assets/images/hero-finestra-arco.webp'}" 
                 alt="Bistrot Gutkowskino - Terrazza vista mare di Levante a Ortigia con piatto vegetale d'autore e calice di vino al tramonto" 
                 class="hero-arch-photo"
                 loading="eager"
