@@ -338,6 +338,7 @@
     initLightbox();
     initSectionNavDots();
     initHeroSvgInteractiveDisplacement();
+    initHeroArchQuadroTransform();
   }
 
   // ───── 1. Navbar Semilla Style ─────
@@ -501,7 +502,7 @@
         <!-- Colonna Destra: Finestra Monumentale ad Arco a Tutto Sesto -->
         <div class="hero-arch-visual">
           <div class="hero-arch-frame-stage" data-tilt-frame>
-            <!-- Finestra Fotografica ad Arco -->
+            <!-- Finestra Fotografica ad Arco / Quadro d'Arte -->
             <div class="hero-arch-window" role="img" aria-label="Terrazza di Gutkowskino affacciata sul mare di Levante a Ortigia con tavolo apparecchiato, piatto vegetale d'autore e calice di vino al tramonto">
               <img 
                 src="${data.hero?.backgroundImage || 'assets/images/hero-finestra-arco.webp'}" 
@@ -511,6 +512,19 @@
                 decoding="async"
               />
               <div class="hero-arch-light-wash" aria-hidden="true"></div>
+              
+              <!-- 4 Angolari d'Atelier in Ottone per la Cornice del Quadro -->
+              <div class="painting-corner corner-tl" aria-hidden="true"></div>
+              <div class="painting-corner corner-tr" aria-hidden="true"></div>
+              <div class="painting-corner corner-bl" aria-hidden="true"></div>
+              <div class="painting-corner corner-br" aria-hidden="true"></div>
+            </div>
+
+            <!-- Targhetta Museale in Ottone del Quadro -->
+            <div class="hero-frame-plate" aria-hidden="true">
+              <span class="plate-screw"></span>
+              <span class="plate-text">GUTKOWSKINO · ORTIGIA</span>
+              <span class="plate-screw"></span>
             </div>
 
             <!-- Contorno Vettoriale Architettonico con Chiave di Volta Solare -->
@@ -1528,4 +1542,16 @@
   } else {
     init();
   }
+
+  // Click/Tap toggle per la trasformazione Arco -> Quadro 16:9 su dispositivi touch
+  function initHeroArchQuadroTransform() {
+    const stage = document.querySelector('.hero-arch-frame-stage');
+    if (!stage) return;
+    stage.addEventListener('click', (e) => {
+      // Toggle solo se non si è cliccato un link interno
+      if (e.target.closest('a')) return;
+      stage.classList.toggle('is-frame-mode');
+    });
+  }
+
 })();
