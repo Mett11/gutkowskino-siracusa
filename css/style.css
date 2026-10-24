@@ -5,33 +5,33 @@
    ========================================================================== */
 
 :root {
-  /* 1. Carta d'Arte, Calce Viva & Sfondi Differenziati per Sezione */
-  --semilla-bg:        #EAE0CE;       /* Salvia mediterranea chiara della referenza */
-  --semilla-dark:      #1E2825;       /* Inchiostro profondo botanico Gutkowskino */
-  --semilla-gold:      #9E7E4E;       /* Oro ambrato caldo per link nav */
-  --semilla-frame-bg:  #FFFFFF;       /* Bianco puro passepartout per la foto */
-  --bg-cream:          #FAF6EE;
-  --bg-cream-warm:     #F3EADF;
+  /* 1. Calce Naturale, Corda & Tavolozza Gutkowskino Ortigia */
+  --semilla-bg:        #FAF8F5;       /* Calce naturale dorata (#FAF8F5 / #F5F2EB) */
+  --semilla-dark:      #2B2623;       /* Bistro scuro / carbone caldo (#2B2623) */
+  --semilla-gold:      #C88D56;       /* Ocra calda solare (#C88D56) */
+  --semilla-frame-bg:  #FFFFFF;       /* Bianco puro passepartout */
+  --bg-cream:          #FAF8F5;
+  --bg-cream-warm:     #F5F2EB;
   --bg-surface:        #FDFBF7;
-  --bg-canvas:         #FAF6EE;
-  --bg-stone:          #EAE0CE;       /* Calcarenite dorata per La Cucina */
+  --bg-canvas:         #FAF8F5;
+  --bg-stone:          #F0EAE1;       /* Calcarenite corda per La Cucina */
   --bg-sage-wash:      #F3F1E8;       /* Velatura botanica per La Filosofia */
-  --bg-azure-wash:     #E3EEF2;       /* Acquerello Ceruleo per Terrazza & Galleria */
+  --bg-azure-wash:     #EBF2F5;       /* Acquerello Ceruleo per Terrazza & Galleria */
 
-  /* 2. Blu Ionio & Pigmenti Acquerello Mare di Levante */
-  --blue-night:        #1E2825;
-  --blue-night-mid:    #273430;
-  --blue-night-light:  #344440;
-  --blue-levante:      #457588;
-  --blue-levante-deep: #325867;
-  --blue-azure-bg:     #E2EDF1;
-  --blue-sky:          #92BFCE;
+  /* 2. Blu Ionio Desaturato & Pigmenti Acquerello Mare di Levante */
+  --blue-night:        #2B2623;
+  --blue-night-mid:    #35302C;
+  --blue-night-light:  #423C38;
+  --blue-levante:      #4E6E82;       /* Blu Ionio desaturato (#4E6E82) */
+  --blue-levante-deep: #3D5768;
+  --blue-azure-bg:     #E8F0F3;
+  --blue-sky:          #7A9BB0;
 
-  /* 3. Ambra Calda, Rattan & Terracotta Dorata del Terrazzo */
-  --amber-warm:        #C69255;
-  --amber-warm-hv:     #D6A265;
-  --amber-soft:        #E0BA85;
-  --amber-glow:        rgba(198, 146, 85, 0.18);
+  /* 3. Ocra Calda, Terracotta & Raggi Solari */
+  --amber-warm:        #C88D56;       /* Ocra calda solare (#C88D56) */
+  --amber-warm-hv:     #D79C64;
+  --amber-soft:        #E2B285;
+  --amber-glow:        rgba(200, 141, 86, 0.20);
 
   /* 4. Foglia di Pianta Grassa, Ulivo & Salvia */
   --sage-green:        #567059;
@@ -2305,4 +2305,345 @@ button {
 
 #hero-oneline-path {
   will-change: d;
+}
+
+/* ==========================================================================
+   MONUMENTAL ARCHED WINDOW HERO ("FINESTRA AD ARCO")
+   Design System: Calce Naturale (#FAF8F5 / #F5F2EB), Bistro Carbone (#2B2623),
+   Blu Ionio (#4E6E82), Ocra Calda (#C88D56).
+   ========================================================================== */
+
+.hero-arch-section {
+  position: relative;
+  background-color: #FAF8F5;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2.5rem, 5.5vh, 4.5rem) clamp(1.5rem, 4vw, 4.5rem);
+  overflow: hidden;
+}
+
+/* Container monumentale con asimmetria bilanciata */
+.hero-arch-container {
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 6rem);
+  z-index: 2;
+  position: relative;
+}
+
+/* ───── Colonna Editoriale Sinistra ───── */
+.hero-arch-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  z-index: 4;
+}
+
+/* Eyebrow con filetto architettonico */
+.hero-arch-eyebrow-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero-arch-eyebrow-line {
+  width: 32px;
+  height: 1px;
+  background-color: #C88D56;
+  opacity: 0.7;
+}
+
+.hero-arch-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: #C88D56;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Titolo Monumentale ad Alto Contrasto */
+.hero-arch-headline {
+  font-family: 'Cormorant Garamond', 'Instrument Serif', Georgia, serif;
+  font-size: clamp(3.2rem, 5.6vw, 5.4rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: #2B2623;
+  margin: 0 0 1.6rem 0;
+  text-transform: none;
+}
+
+.hero-arch-title-row {
+  display: block;
+}
+
+.hero-arch-word {
+  display: inline-block;
+}
+
+.hero-word-main {
+  color: #2B2623;
+}
+
+.hero-word-italic {
+  font-style: italic;
+  font-family: 'Cormorant Garamond', 'Instrument Serif', Georgia, serif;
+  color: #4E6E82;
+  font-weight: 400;
+}
+
+/* Micro-Manifesto Letterario */
+.hero-arch-manifesto {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.65;
+  color: rgba(43, 38, 35, 0.78);
+  max-width: 480px;
+  margin: 0 0 2.2rem 0;
+  border-left: 2px solid rgba(200, 141, 86, 0.4);
+  padding-left: 1.1rem;
+}
+
+/* Pulsanti d'Azione a Forma di Pillola Essenziale */
+.hero-arch-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.hero-arch-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 2.2rem;
+  border-radius: 9999px; /* rounded-full */
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.hero-arch-pill-primary {
+  background-color: transparent;
+  color: #2B2623;
+  border: 1.5px solid #2B2623;
+}
+
+.hero-arch-pill-primary:hover {
+  background-color: #2B2623;
+  color: #FAF8F5;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(43, 38, 35, 0.16);
+}
+
+.hero-pill-arrow {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-arch-pill-primary:hover .hero-pill-arrow {
+  transform: translateX(3px);
+}
+
+.hero-arch-pill-secondary {
+  background-color: transparent;
+  color: #4E6E82;
+  border: 1.5px solid rgba(78, 110, 130, 0.42);
+}
+
+.hero-arch-pill-secondary:hover {
+  background-color: #4E6E82;
+  color: #FAF8F5;
+  border-color: #4E6E82;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(78, 110, 130, 0.2);
+}
+
+/* Metadati e Coordinate */
+.hero-arch-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(43, 38, 35, 0.52);
+}
+
+.hero-arch-meta-dot {
+  color: #C88D56;
+}
+
+/* ───── Colonna Visiva: Finestra ad Arco con Keystone ───── */
+.hero-arch-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-arch-frame-stage {
+  transform: perspective(1000px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
+  transform-style: preserve-3d;
+  position: relative;
+  width: clamp(290px, 29vw, 420px);
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Finestra ad Arco a Tutto Sesto */
+.hero-arch-window {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  border-radius: 9999px 9999px 0 0; /* rounded-t-full */
+  overflow: hidden;
+  background-color: #F5F2EB;
+  box-shadow: 0 18px 48px rgba(43, 38, 35, 0.08);
+  transition: box-shadow 600ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+}
+
+.hero-arch-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-arch-frame-stage:hover .hero-arch-photo {
+  transform: scale(1.04);
+}
+
+.hero-arch-frame-stage:hover .hero-arch-window {
+  box-shadow: 0 26px 64px rgba(43, 38, 35, 0.13);
+}
+
+/* Velatura di luce calda interna all'arco */
+.hero-arch-light-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 12%, rgba(200, 141, 86, 0.12) 0%, transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+/* Contorno Vettoriale Architettonico con Chiave di Volta */
+.hero-arch-contour-svg {
+  position: absolute;
+  top: -16px;
+  left: -14px;
+  right: -14px;
+  bottom: 0;
+  width: calc(100% + 28px);
+  height: calc(100% + 16px);
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+}
+
+/* ───── Dialogo Editoriale su Schermi Grandi: Parziale sovrapposizione ───── */
+@media (min-width: 1200px) {
+  .hero-arch-headline {
+    margin-right: -42px;
+    position: relative;
+    z-index: 5;
+  }
+}
+
+/* ───── Responsive Mobile & Tablet ───── */
+@media (max-width: 992px) {
+  .hero-arch-section {
+    padding: clamp(2rem, 4vh, 3.5rem) clamp(1rem, 3vw, 2rem);
+    min-height: auto;
+  }
+
+  .hero-arch-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .hero-arch-content {
+    align-items: center;
+    text-align: center;
+    order: 2;
+  }
+
+  .hero-arch-visual {
+    order: 1;
+  }
+
+  .hero-arch-frame-stage {
+    transform: none !important;
+    width: min(300px, 76vw);
+    margin: 0 auto;
+  }
+
+  .hero-arch-eyebrow-wrap {
+    justify-content: center;
+  }
+
+  .hero-arch-manifesto {
+    border-left: none;
+    border-top: 1px solid rgba(200, 141, 86, 0.35);
+    border-bottom: 1px solid rgba(200, 141, 86, 0.35);
+    padding: 0.85rem 0.5rem;
+    margin: 0 auto 1.8rem;
+    text-align: center;
+  }
+
+  .hero-arch-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-arch-meta {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-arch-headline {
+    font-size: clamp(2.4rem, 10vw, 3.2rem);
+  }
+
+  .hero-arch-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hero-arch-pill {
+    width: 100%;
+  }
 }

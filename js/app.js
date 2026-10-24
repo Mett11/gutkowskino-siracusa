@@ -20,6 +20,46 @@
 
   /* ── Collezione di Outline SVG Mediterranei a Tratto di Penna Fine-Art ── */
   const MED_SVGS = {
+    // Contorno Architettonico ad Arco con Chiave di Volta Solare
+    archKeystoneContour: `
+      <svg class="hero-arch-contour-svg" viewBox="0 0 460 680" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Contorno arco esterno (stroke 1.2px) -->
+        <path class="svg-arch-path" d="M 6 670 V 240 A 224 224 0 0 1 454 240 V 670" stroke="var(--semilla-dark, #2B2623)" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+        <path class="svg-arch-dash" d="M 6 670 V 240 A 224 224 0 0 1 454 240 V 670" stroke="var(--amber-warm, #C88D56)" stroke-width="0.75" stroke-dasharray="3 3.5" opacity="0.6"/>
+        
+        <!-- Conci radiali architettonici a tutto sesto -->
+        <g class="svg-arch-voussoirs" stroke="var(--amber-warm, #C88D56)" stroke-width="0.9" opacity="0.75">
+          <line x1="423.9" y1="128.0" x2="432.6" y2="123.0"/>
+          <line x1="387.7" y1="82.3" x2="394.8" y2="75.2"/>
+          <line x1="341.5" y1="46.9" x2="346.5" y2="38.2"/>
+          <line x1="287.7" y1="24.3" x2="290.3" y2="14.6"/>
+          <line x1="172.3" y1="24.3" x2="169.7" y2="14.6"/>
+          <line x1="118.5" y1="46.9" x2="113.5" y2="38.2"/>
+          <line x1="72.3" y1="82.3" x2="65.2" y2="75.2"/>
+          <line x1="36.1" y1="128.0" x2="27.4" y2="123.0"/>
+        </g>
+
+        <!-- Chiave di Volta Architettonica Solare (Apex: 230, 16) -->
+        <g class="svg-arch-keystone" transform="translate(230, 16)">
+          <!-- Raggi cardinali della chiave di volta -->
+          <path d="M 0 -15 V -7 M 0 7 V 15 M -15 0 H -7 M 7 0 H 15" stroke="var(--amber-warm, #C88D56)" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M -9 -9 L -5 -5 M 5 5 L 9 9 M 9 -9 L 5 -5 M -5 5 L -9 9" stroke="var(--amber-warm, #C88D56)" stroke-width="0.85" stroke-linecap="round" stroke-dasharray="2 2"/>
+          <!-- Cartiglio a rombo smussato -->
+          <polygon points="0,-11 11,0 0,11 -11,0" fill="#FAF8F5" stroke="var(--semilla-dark, #2B2623)" stroke-width="1.2"/>
+          <!-- Mirino e centro solare -->
+          <circle cx="0" cy="0" r="4.8" stroke="var(--amber-warm, #C88D56)" stroke-width="1.05" fill="none"/>
+          <circle cx="0" cy="0" r="1.8" fill="var(--amber-warm, #C88D56)"/>
+        </g>
+
+        <!-- Zoccolo / Plinto di base architettonico -->
+        <g class="svg-arch-plinth" stroke="var(--semilla-dark, #2B2623)">
+          <line x1="-2" y1="670" x2="14" y2="670" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="6" cy="658" r="2" fill="var(--amber-warm, #C88D56)" stroke="none" opacity="0.6"/>
+          <line x1="446" y1="670" x2="462" y2="670" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="454" cy="658" r="2" fill="var(--amber-warm, #C88D56)" stroke="none" opacity="0.6"/>
+        </g>
+      </svg>`,
+
     // Illustrazione Hero: Riviera di Levante, Calice, Caraffa e Botanica
     heroStillLife: `
       <svg id="hero-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none" class="semilla-hero-svg w-full h-auto max-w-full drop-shadow-sm">
@@ -404,18 +444,11 @@
 
   // ───── 2. Hero Semilla Style (Minimalista, Bordo Quadro, Scritta Cursiva, Titolo Display e Tasti Ovali) ─────
   function buildPostcardHero(data) {
-    let heroBg = data.hero.backgroundImage || 'assets/images/hero-terrazza-1792755231068.webp';
-    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-      heroBg = heroBg.replace('https://gutkowskino-demo.siracusalabs.app/', '');
-    }
-
     const kickerText = (data.brand && data.brand.locationTag && data.brand.locationTag.includes('·')) 
       ? data.brand.locationTag.toUpperCase() 
       : 'ORTIGIA · SUL MARE DI LEVANTE';
 
-    const formattedTitle = formatSemillaHeading(data.hero.heading);
-
-    const section = el('section', { className: 'semilla-hero', id: 'hero' });
+    const section = el('section', { className: 'semilla-hero hero-arch-section', id: 'hero' });
     section.innerHTML = `
       <!-- Margine Sinistro: Outline SVG Marino Mediterraneo in Verticale (Onde Ionio, Rosa dei Venti, Anfora & Sole) -->
       <div class="semilla-side-svg semilla-side-left" aria-hidden="true">
@@ -438,26 +471,67 @@
         </svg>
       </div>
 
-      <div class="semilla-hero-stage">
-        <!-- Colonna Sinistra: Illustrazione d'Arte Mediterranea Senza Riquadro -->
-        <div class="semilla-hero-col semilla-visual-col">
-          <div class="semilla-hero-art" data-tilt-frame>
-            ${MED_SVGS.heroStillLife}
+      <div class="hero-arch-container">
+        <!-- Colonna Sinistra: Dialogo Editoriale Monumentale -->
+        <div class="hero-arch-content">
+          <div class="hero-arch-eyebrow-wrap">
+            <span class="hero-arch-eyebrow-line" aria-hidden="true"></span>
+            <span class="hero-arch-eyebrow">${kickerText}</span>
+          </div>
+
+          <h1 class="hero-arch-headline">
+            <span class="hero-arch-title-row">
+              <span class="hero-arch-word hero-word-main">Cucina</span>
+              <span class="hero-arch-word hero-word-main">vegetale</span>
+            </span>
+            <span class="hero-arch-title-row">
+              <span class="hero-arch-word hero-word-main">d’autore</span>
+            </span>
+            <span class="hero-arch-title-row">
+              <em class="hero-arch-word hero-word-italic">sul mare di Levante</em>
+            </span>
+          </h1>
+
+          <p class="hero-arch-manifesto">
+            Un bistrot botanico affacciato sulla scogliera di Ortigia: dove l'orto siciliano e i vini naturali incontrano l’orizzonte dorato dello Ionio.
+          </p>
+
+          <div class="hero-arch-actions">
+            <a href="#cucina" class="hero-arch-pill hero-arch-pill-primary">
+              <span>Menu</span>
+              <svg class="hero-pill-arrow" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#contatti" class="hero-arch-pill hero-arch-pill-secondary">
+              <span>Prenota</span>
+            </a>
+          </div>
+
+          <div class="hero-arch-meta">
+            <span class="hero-arch-coords">37°03'34"N · 15°17'40"E</span>
+            <span class="hero-arch-meta-dot">·</span>
+            <span class="hero-arch-badge">Ortigia · Siracusa</span>
           </div>
         </div>
 
-        <!-- Colonna Destra: Eyebrow Cursivo, Titolo Display Serif e Bottone Ovale MENU -->
-        <div class="semilla-hero-col semilla-content-col">
-          <div class="semilla-content-wrap">
-            <span class="semilla-eyebrow">${kickerText}</span>
-            <h1 class="semilla-title">
-              ${formattedTitle}
-            </h1>
-            <div class="semilla-btn-wrap">
-              <a href="#cucina" class="semilla-oval-btn">
-                <span>MENU</span>
-              </a>
+        <!-- Colonna Destra: Finestra Monumentale ad Arco a Tutto Sesto -->
+        <div class="hero-arch-visual">
+          <div class="hero-arch-frame-stage" data-tilt-frame>
+            <!-- Finestra Fotografica ad Arco -->
+            <div class="hero-arch-window" role="img" aria-label="Terrazza di Gutkowskino affacciata sul mare di Levante a Ortigia con tavolo apparecchiato, piatto vegetale d'autore e calice di vino al tramonto">
+              <img 
+                src="assets/images/hero-finestra-arco.webp" 
+                alt="Bistrot Gutkowskino - Terrazza vista mare di Levante a Ortigia con piatto vegetale d'autore e calice di vino al tramonto" 
+                class="hero-arch-photo"
+                loading="eager"
+                decoding="async"
+              />
+              <div class="hero-arch-light-wash" aria-hidden="true"></div>
             </div>
+
+            <!-- Contorno Vettoriale Architettonico con Chiave di Volta Solare -->
+            ${MED_SVGS.archKeystoneContour}
           </div>
         </div>
       </div>
