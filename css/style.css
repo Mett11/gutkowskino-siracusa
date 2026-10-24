@@ -1899,10 +1899,10 @@ button {
   display: inline-flex;
   gap: 0.35rem;
   padding: 4px;
-  background-color: rgba(253, 251, 247, 0.85);
+  background-color: rgba(253, 251, 247, 0.88);
   border: 1px solid var(--line-blue);
-  border-radius: var(--radius-sharp);
-  flex-wrap: wrap;
+  border-radius: 9999px;
+  flex-wrap: nowrap;
 }
 
 .azure-filter-pill {
@@ -1912,7 +1912,7 @@ button {
   height: calc(100% - 8px);
   width: 0;
   background-color: var(--blue-levante);
-  border-radius: var(--radius-sharp);
+  border-radius: 9999px;
   pointer-events: none;
   z-index: 1;
   transition: transform 300ms var(--ease-emphasized), width 300ms var(--ease-emphasized);
@@ -1929,12 +1929,15 @@ button {
   color: var(--text-dark);
   background: transparent;
   border: none;
-  border-radius: var(--radius-sharp);
+  border-radius: 9999px;
   white-space: nowrap;
-  transition: color 200ms ease;
+  transition: color 200ms ease, background-color 200ms ease;
+  cursor: pointer;
 }
 
-.azure-filter-btn.active { color: var(--text-light); }
+.azure-filter-btn.active {
+  color: #FAF8F5;
+}
 .azure-mobile-hint { display: none; }
 
 .azure-photo-grid {
@@ -2166,7 +2169,57 @@ button {
   .kitchen-panoramic-stage, .reviews-grid, .info-row { grid-template-columns: 1fr !important; }
   .kps-dish-title, .kps-dish-desc, .kps-ingredients { min-height: auto !important; }
   .kps-visual-wrap { width: 100% !important; max-width: 440px !important; aspect-ratio: 1 / 1 !important; margin: 0 auto !important; }
-  .kitchen-deck-wrapper, .azure-filter-pill { display: none !important; }
+  .kitchen-deck-wrapper { display: none !important; }
+
+  .azure-gallery-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 1.25rem !important;
+  }
+
+  .azure-filter-bar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 5px !important;
+    gap: 0.35rem !important;
+    border-radius: 9999px !important;
+    background-color: rgba(253, 251, 247, 0.95) !important;
+    border: 1px solid rgba(78, 110, 130, 0.25) !important;
+    box-sizing: border-box !important;
+  }
+
+  .azure-filter-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .azure-filter-pill {
+    display: none !important;
+  }
+
+  .azure-filter-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    padding: 0.6rem 1.15rem !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.12em !important;
+    border-radius: 9999px !important;
+    color: var(--text-dark, #2B2623) !important;
+    background-color: transparent !important;
+    transition: all 220ms ease !important;
+  }
+
+  .azure-filter-btn.active {
+    background-color: var(--blue-levante, #4E6E82) !important;
+    color: #FAF8F5 !important;
+    box-shadow: 0 4px 14px rgba(78, 110, 130, 0.28) !important;
+    font-weight: 500 !important;
+  }
   .azure-mobile-hint { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 0.68rem; text-transform: uppercase; color: var(--blue-levante); margin-bottom: 0.75rem; }
 }
 

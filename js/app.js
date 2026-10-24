@@ -1177,6 +1177,9 @@
         btn.classList.add('active');
         movePillTo(btn);
         applyFilter(btn.dataset.filter);
+        if (window.innerWidth <= 860) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       });
     });
 
